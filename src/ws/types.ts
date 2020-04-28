@@ -4,6 +4,8 @@ export enum WSActionTypes {
   'WS_CREATE_ROOM'= 'WS_CREATE_ROOM',
   'WS_CREATE_ROOM_FAILED'= 'WS_CREATE_ROOM_FAILED',
   'WS_CREATED_ROOM'= 'WS_CREATED_ROOM',
+  'WS_JOIN_ROOM'= 'WS_JOIN_ROOM',
+  'WS_JOIN_ROOM_FAILED'= 'WS_JOIN_ROOM_FAILED',
   'WS_JOINED_ROOM'= 'WS_JOINED_ROOM',
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
 }
@@ -34,4 +36,19 @@ interface WSLeaveRoom {
   type: WSActionTypes.WS_LEAVE_ROOM;
 }
 
-export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom | WSCreateRoomFailed | WSLeaveRoom;
+export interface WSJoinRoom {
+  type: WSActionTypes.WS_JOIN_ROOM;
+  id: string;
+}
+
+export interface WSJoinedRoom {
+  type: WSActionTypes.WS_JOINED_ROOM;
+  id: string;
+}
+
+interface WSJoinRoomFailed {
+  type: WSActionTypes.WS_JOIN_ROOM_FAILED;
+  message: string;
+}
+
+export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed;
