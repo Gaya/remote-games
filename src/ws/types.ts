@@ -18,7 +18,7 @@ interface WSCreateRoom {
   type: WSActionTypes.WS_CREATE_ROOM;
 }
 
-interface WSCreatedRoom {
+export interface WSCreatedRoom {
   type: WSActionTypes.WS_CREATED_ROOM;
   id: string;
 }

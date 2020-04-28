@@ -1,5 +1,6 @@
 export enum RoomActionType {
   'CREATE_ROOM' = 'CREATE_ROOM',
+  'CREATE_ROOM_FAILED' = 'CREATE_ROOM_FAILED',
   'JOIN_ROOM' = 'JOIN_ROOM',
 }
 
@@ -25,4 +26,14 @@ export function joinRoom(id: string): RoomJoinAction {
   };
 }
 
-export type RoomActions = RoomCreateAction | RoomJoinAction;
+interface RoomCreateFailedAction {
+  type: RoomActionType.CREATE_ROOM_FAILED;
+}
+
+export function createRoomFailed(): RoomCreateFailedAction {
+  return {
+    type: RoomActionType.CREATE_ROOM_FAILED,
+  };
+}
+
+export type RoomActions = RoomCreateAction | RoomJoinAction | RoomCreateFailedAction;

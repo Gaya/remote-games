@@ -3,6 +3,11 @@ import { AppActions, AppActionType } from './actions';
 
 function reducer(state: AppState, action: AppActions): AppState {
   switch (action.type) {
+    case AppActionType.JOIN_ROOM:
+      return {
+        ...state,
+        activeRoom: action.id,
+      };
     case AppActionType.OPEN_WS:
       return {
         ...state,

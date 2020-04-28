@@ -3,7 +3,8 @@ export enum AppActionType {
   RETRY_WS = 'RETRY_WS',
   OPEN_WS = 'OPEN_WS',
   FAILED_WS = 'FAILED_WS',
-  UPDATE_NICKNAME = 'UPDATE_NICKNAME'
+  UPDATE_NICKNAME = 'UPDATE_NICKNAME',
+  JOIN_ROOM = 'JOIN_ROOM',
 }
 
 interface AppInit {
@@ -58,4 +59,16 @@ export function updateNickname(nickname: string): AppUpdateNickname {
   };
 }
 
-export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname;
+interface AppJoinRoom {
+  type: AppActionType.JOIN_ROOM;
+  id: string;
+}
+
+export function joinRoom(id: string): AppJoinRoom {
+  return {
+    type: AppActionType.JOIN_ROOM,
+    id,
+  };
+}
+
+export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname | AppJoinRoom;

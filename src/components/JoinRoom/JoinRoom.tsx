@@ -10,11 +10,11 @@ import {
   Intent
 } from '@blueprintjs/core';
 
-import './Room.css';
+import './JoinRoom.css';
 
 import useStore from './store/useStore';
 
-const Room: React.FunctionComponent = () => {
+const JoinRoom: React.FunctionComponent = () => {
   const [state, onCreateRoom, onJoinRoom] = useStore();
 
   const { isCreating, isJoining } = state;
@@ -34,7 +34,7 @@ const Room: React.FunctionComponent = () => {
           rightIcon="insert"
           disabled={isBusy}
           intent={Intent.SUCCESS}
-          text="Create new Room"
+          text="Create new JoinRoom"
           onClick={() => onCreateRoom()}
         />
 
@@ -63,4 +63,4 @@ const Room: React.FunctionComponent = () => {
   );
 };
 
-export default Room;
+export default JoinRoom;

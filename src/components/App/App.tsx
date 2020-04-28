@@ -6,7 +6,8 @@ import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 import { Button, NonIdealState, Spinner } from '@blueprintjs/core';
 
-import Room from '../Rooms/Room';
+import JoinRoom from '../JoinRoom/JoinRoom';
+import Lobby from '../Lobby/Lobby';
 
 import useStore from './store/useStore';
 
@@ -34,7 +35,8 @@ const App: React.FunctionComponent = () => {
 
   return (
     <div className="App">
-      {!isInRoom && <Room />}
+      {!isInRoom && <JoinRoom />}
+      {isInRoom && <Lobby id={activeRoom} />}
     </div>
   );
 }

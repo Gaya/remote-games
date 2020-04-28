@@ -1,11 +1,14 @@
-import createLogMiddleware from '../../../stores/createLogMiddleware';
+import { Dispatch } from 'react';
 
-import { RoomActions, RoomActionType } from './actions';
+import createLogMiddleware from '../../../stores/createLogMiddleware';
 import { sendWSMessage } from '../../../ws/websockets';
 import { WSActionTypes } from '../../../ws/types';
 import { ofType } from '../../../ws/utils';
 
-function createRoom(action: RoomActions) {
+import { createRoomFailed, RoomActions, RoomActionType } from './actions';
+import { RoomState } from './types';
+
+function createRoom(action: RoomActions, state: RoomState, dispatch: Dispatch<RoomActions>) {
   if (action.type !== RoomActionType.CREATE_ROOM) return;
 
   const webSocketMessages$ = sendWSMessage({
@@ -15,7 +18,9 @@ function createRoom(action: RoomActions) {
   const subscription = webSocketMessages$.pipe(
     ofType(WSActionTypes.WS_CREATED_ROOM, WSActionTypes.WS_CREATE_ROOM_FAILED),
   ).subscribe((msg) => {
-    console.log(msg);
+    if (msg.type === WSActionTypes.WS_CREATE_ROOM_FAILED) {
+      dispatch(createRoomFailed());
+    }
 
     subscription.unsubscribe();
   });

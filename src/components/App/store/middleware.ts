@@ -1,33 +1,14 @@
-import { Dispatch } from 'react';
-
-import websocketMessageObservable from '../../../ws/websockets';
-import { WSActionTypes } from '../../../ws/types';
+import openWebSocketConnection from '../../../ws/websockets';
 import createLogMiddleware from '../../../stores/createLogMiddleware';
-import { ofType } from '../../../ws/utils';
 
-import { AppActions, AppActionType, failedWS, openWS } from './actions';
+import { AppActions, AppActionType } from './actions';
 import { AppState } from './types';
 
-function connectToWS(action: AppActions, state: AppState, dispatch: Dispatch<AppActions>) {
+function connectToWS(action: AppActions, state: AppState) {
   if (action.type !== AppActionType.INIT && action.type !== AppActionType.RETRY_WS) return;
 
-  const webSocketMessage$ = websocketMessageObservable();
-
-  const subscription = webSocketMessage$
-    .pipe(
-      ofType(WSActionTypes.WS_OPEN_CONNECTION, WSActionTypes.WS_FAILED_CONNECTION)
-    )
-    .subscribe((msg) => {
-      if (msg.type === WSActionTypes.WS_OPEN_CONNECTION) {
-        dispatch(openWS());
-      }
-
-      if (msg.type === WSActionTypes.WS_FAILED_CONNECTION) {
-        dispatch(failedWS());
-      }
-
-      subscription.unsubscribe();
-    });
+  // create websocket connection
+  openWebSocketConnection();
 }
 
 const middleware = [createLogMiddleware('App'), connectToWS];

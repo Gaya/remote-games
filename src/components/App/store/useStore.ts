@@ -6,6 +6,7 @@ import reducer from './reducer';
 import { AppState } from './types';
 import { initApp, retryWS } from './actions';
 import middleware from './middleware';
+import listeners from './listeners';
 
 const defaultState = {
   nickname: '',
@@ -14,7 +15,12 @@ const defaultState = {
   hasConnectionError: false,
 };
 
-const appStore = createStore(reducer, defaultState, middleware);
+const appStore = createStore(
+  reducer,
+  defaultState,
+  middleware,
+  listeners,
+);
 
 function useStore(): [AppState, () => void] {
   const { dispatch, useStoreState } = appStore;

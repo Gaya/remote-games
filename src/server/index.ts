@@ -1,4 +1,5 @@
 import WS from 'ws';
+import shortid from 'shortid';
 
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 
@@ -12,9 +13,7 @@ function log(...msg: any) {
 }
 
 function createRoom(): string {
-  const roomId = 'hallo_met_ad';
-
-  return roomId;
+  return shortid.generate();
 }
 
 wss.on('connection', function connection(ws) {
