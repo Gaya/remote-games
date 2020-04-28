@@ -3,13 +3,10 @@ import { filter } from 'rxjs/operators';
 
 import websocketMessageObservable from '../../ws/websockets';
 import { WSActionTypes } from '../../ws/types';
+import createLogMiddleware from '../createLogMiddleware';
 
 import { AppActions, AppActionType, failedWS, openWS } from './actions';
 import { AppState } from './types';
-
-function logMiddleware(state: AppState, action: AppActions) {
-  console.log(state, action);
-}
 
 function connectToWS(state: AppState, action: AppActions, dispatch: Dispatch<AppActions>) {
   if (action.type !== AppActionType.INIT && action.type !== AppActionType.RETRY_WS) return;
@@ -33,6 +30,6 @@ function connectToWS(state: AppState, action: AppActions, dispatch: Dispatch<App
     });
 }
 
-const middleware = [logMiddleware, connectToWS];
+const middleware = [createLogMiddleware('App'), connectToWS];
 
 export default middleware;
