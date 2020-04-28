@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from 'react';
 
+import createStore from '../../../stores/createStore';
+
 import reducer from './reducer';
 import { AppState } from './types';
 import { initApp, retryWS } from './actions';
 import middleware from './middleware';
-import createStore from '../createStore';
 
 const defaultState = {
   nickname: '',
@@ -15,7 +16,7 @@ const defaultState = {
 
 const appStore = createStore(reducer, defaultState, middleware);
 
-function useApp(): [AppState, () => void] {
+function useStore(): [AppState, () => void] {
   const { dispatch, useStoreState } = appStore;
 
   const state = useStoreState();
@@ -32,4 +33,4 @@ function useApp(): [AppState, () => void] {
   return [state, retryConnect];
 }
 
-export default useApp;
+export default useStore;

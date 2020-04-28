@@ -11,6 +11,12 @@ function log(...msg: any) {
   console.info(...msg);
 }
 
+function createRoom(): string {
+  const roomId = 'hallo_met_ad';
+
+  return roomId;
+}
+
 wss.on('connection', function connection(ws) {
   function sendMessage(message: WS_MESSAGE) {
     const msg = JSON.stringify(message);
@@ -19,8 +25,18 @@ wss.on('connection', function connection(ws) {
     log('Sent to client:', msg);
   }
 
-  ws.on('message', function incoming(message: WS_MESSAGE) {
-    console.log('received: %s', message);
+  ws.on('message', function incoming(message: string) {
+    const data: WS_MESSAGE = JSON.parse(message);
+    log('Received:', data);
+
+    switch(data.type) {
+      case WSActionTypes.WS_CREATE_ROOM:
+        sendMessage({
+          type: WSActionTypes.WS_CREATED_ROOM,
+          id: createRoom(),
+        });
+      break;
+    }
   });
 
   log('Client connected', ws);

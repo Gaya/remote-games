@@ -5,6 +5,14 @@ import { WS_MESSAGE, WSActionTypes } from './types';
 let ws: WebSocket | undefined;
 const websocketMessages$ = new Subject<WS_MESSAGE>();
 
+export function sendWSMessage(message: WS_MESSAGE): Subject<WS_MESSAGE> {
+  if (ws) {
+    ws.send(JSON.stringify(message));
+  }
+
+  return websocketMessages$;
+}
+
 export default function websocketMessageObservable(): Subject<WS_MESSAGE> {
   if (!ws) {
     ws = new WebSocket(process.env.REACT_APP_WS_URL || '');

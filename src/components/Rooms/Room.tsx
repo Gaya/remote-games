@@ -12,7 +12,15 @@ import {
 
 import './Room.css';
 
+import useStore from './store/useStore';
+
 const Room: React.FunctionComponent = () => {
+  const [state, onCreateRoom, onJoinRoom] = useStore();
+
+  const { isCreating, isJoining } = state;
+
+  const isBusy = isCreating || isJoining;
+
   return (
     <div className="Room">
       <Card elevation={Elevation.ONE}>
@@ -22,7 +30,13 @@ const Room: React.FunctionComponent = () => {
         <p>
           Want to host a room for your friend to come and play?
         </p>
-        <Button rightIcon="insert" intent={Intent.SUCCESS} text="Create new Room" />
+        <Button
+          rightIcon="insert"
+          disabled={isBusy}
+          intent={Intent.SUCCESS}
+          text="Create new Room"
+          onClick={() => onCreateRoom()}
+        />
 
         <Divider className="Room__divider" />
 
@@ -37,11 +51,12 @@ const Room: React.FunctionComponent = () => {
           <FormGroup
             label={"Room ID"}
             labelFor="room-id"
+            disabled={isBusy}
           >
-            <InputGroup id="room-id" placeholder="eg: PPBqWA9" />
+            <InputGroup id="room-id" disabled={isBusy} placeholder="eg: PPBqWA9" />
           </FormGroup>
 
-          <Button icon="log-in" text="Join room" />
+          <Button disabled={isBusy} icon="log-in" text="Join room" />
         </form>
       </Card>
     </div>

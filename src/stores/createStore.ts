@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 export default function createStore<SS, SA>(
   reducer: (state: SS, action: SA) => SS,
   initialState: SS,
-  middleware: ((state: SS, action: SA, dispatch: Dispatch<SA>) => void)[] = [],
+  middleware: ((action: SA, state: SS, dispatch: Dispatch<SA>) => void)[] = [],
 ) {
   const storeState$ = new BehaviorSubject<SS>(initialState);
 
@@ -18,7 +18,7 @@ export default function createStore<SS, SA>(
     const currentState = storeState$.getValue();
 
     // handle middlewares
-    middleware.forEach(m => m(currentState, action, delayedDispatch));
+    middleware.forEach(m => m(action, currentState, delayedDispatch));
 
     // calc next state
     const nextState = reducer(currentState, action);
