@@ -1,9 +1,9 @@
-import WS from 'ws';
+import WebSocket from 'ws';
 import shortid from 'shortid';
 
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 
-const wss = new WS.Server({ port: parseInt(process.env.WS_PORT || '4000') });
+const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '4000') });
 
 const isVerbose = true;
 
