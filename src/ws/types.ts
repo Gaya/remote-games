@@ -12,8 +12,9 @@ interface WSFailedConnection {
   type: WSActionTypes.WS_FAILED_CONNECTION;
 }
 
-interface WSOpenConnection {
+export interface WSOpenConnection {
   type: WSActionTypes.WS_OPEN_CONNECTION;
+  id: string;
 }
 
 interface WSCreateRoom {

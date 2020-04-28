@@ -3,4 +3,5 @@ export interface AppState {
   activeRoom: string;
   isActive: boolean;
   hasConnectionError: boolean;
+  userId: string;
 }

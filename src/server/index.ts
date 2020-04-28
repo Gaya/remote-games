@@ -2,6 +2,9 @@ import WebSocket from 'ws';
 
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 import { createRoom } from './rooms';
+import shortid from 'shortid';
+import construct = Reflect.construct;
+import { WsUser } from './types';
 
 const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '4000') });
 
@@ -15,10 +18,16 @@ function log(...msg: any) {
 wss.on('connection', function connection(ws) {
   let currentRoom: string;
 
+  const user: WsUser = {
+    id: shortid.generate(),
+    ws,
+  };
+
   function sendMessage(message: WS_MESSAGE) {
     const msg = JSON.stringify(message);
 
     ws.send(msg);
+
     log('Sent to client:', msg);
   }
 
@@ -29,7 +38,7 @@ wss.on('connection', function connection(ws) {
 
     switch(data.type) {
       case WSActionTypes.WS_CREATE_ROOM: {
-        const id = createRoom();
+        const id = createRoom(user);
 
         currentRoom = id;
 
@@ -47,7 +56,8 @@ wss.on('connection', function connection(ws) {
   });
 
   log('Client connected', ws);
-  sendMessage({ type: WSActionTypes.WS_OPEN_CONNECTION });
+
+  sendMessage({ type: WSActionTypes.WS_OPEN_CONNECTION, id: user.id });
 });
 
 log('Server started');

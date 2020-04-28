@@ -1,11 +1,19 @@
 import shortid from 'shortid';
 
-let currentRooms: string[] = [];
+import { WsUser } from './types';
 
-export function createRoom(): string {
+const currentRooms: { [id: string]: WsUser[] } = {};
+
+export function createRoom(user: WsUser): string {
   const id = shortid.generate();
 
-  currentRooms = [...currentRooms, id];
+  currentRooms[id] = [];
+
+  return joinRoom(id, user);
+}
+
+export function joinRoom(id: string, user: WsUser): string {
+  currentRooms[id] = [...currentRooms[id], user];
 
   return id;
 }

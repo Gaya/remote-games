@@ -13,6 +13,7 @@ const defaultState = {
   isActive: false,
   activeRoom: '',
   hasConnectionError: false,
+  userId: '',
 };
 
 const appStore = createStore(
