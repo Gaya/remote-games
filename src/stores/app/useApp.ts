@@ -9,6 +9,7 @@ import createStore from '../createStore';
 const defaultState = {
   nickname: '',
   isActive: false,
+  activeRoom: '',
 };
 
 const appStore = createStore(reducer, defaultState, middleware);

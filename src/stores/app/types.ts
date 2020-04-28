@@ -2,6 +2,7 @@ import { AppActions } from './actions';
 
 export interface AppState {
   nickname: string;
+  activeRoom: string;
   isActive: boolean;
 }
 
