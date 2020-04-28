@@ -3,6 +3,21 @@ import { AppActions, AppActionType } from './actions';
 
 function reducer(state: AppState, action: AppActions): AppState {
   switch (action.type) {
+    case AppActionType.OPEN_WS:
+      return {
+        ...state,
+        isActive: true,
+      };
+    case AppActionType.FAILED_WS:
+      return {
+        ...state,
+        hasConnectionError: true,
+      };
+    case AppActionType.RETRY_WS:
+      return {
+        ...state,
+        hasConnectionError: false,
+      };
     case AppActionType.UPDATE_NICKNAME:
       return {
         ...state,

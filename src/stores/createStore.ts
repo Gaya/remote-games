@@ -1,4 +1,5 @@
-import { Dispatch, useEffect, useReducer } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
+import { BehaviorSubject } from 'rxjs';
 
 /*
   Creates a store hook which can be used as a hook in functional components
@@ -9,25 +10,40 @@ import { Dispatch, useEffect, useReducer } from 'react';
 export default function createStore<SS, SA>(
   reducer: (state: SS, action: SA) => SS,
   initialState: SS,
-  middleware?: ((state: SS, action: SA, dispatch: Dispatch<SA>) => void)[]
+  middleware: ((state: SS, action: SA, dispatch: Dispatch<SA>) => void)[] = [],
 ) {
-  let dispatcher: Dispatch<SA>;
+  const storeState$ = new BehaviorSubject<SS>(initialState);
 
-  const withMiddleware = (state: SS, action: SA) => {
-    if (middleware && middleware.length > 0) {
-      middleware.forEach(m => m(state, action, dispatcher))
+  const dispatch = (action: SA) => {
+    const currentState = storeState$.getValue();
+
+    // handle middlewares
+    middleware.forEach(m => m(currentState, action, delayedDispatch));
+
+    // calc next state
+    const nextState = reducer(currentState, action);
+
+    // update state
+    storeState$.next(nextState);
+  };
+
+  const delayedDispatch = (action: SA) => window.requestAnimationFrame(() => dispatch(action));
+
+  return {
+    state$: storeState$,
+    dispatch,
+    useStoreState: () => {
+      const [state, setState] = useState<SS>(initialState);
+
+      useEffect(() => {
+        const subscription = storeState$.subscribe((value) => {
+          setState(value);
+        });
+
+        return () => subscription.unsubscribe();
+      }, []);
+
+      return state;
     }
-
-    return reducer(state, action);
-  }
-
-  return (): [SS, Dispatch<SA>] => {
-    const [state, dispatch] = useReducer(withMiddleware, initialState);
-
-    useEffect(() => {
-      dispatcher = dispatch;
-    }, [dispatch]);
-
-    return [state, dispatch];
   }
 }

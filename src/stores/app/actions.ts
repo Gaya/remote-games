@@ -1,5 +1,8 @@
 export enum AppActionType {
   INIT = 'INIT',
+  RETRY_WS = 'RETRY_WS',
+  OPEN_WS = 'OPEN_WS',
+  FAILED_WS = 'FAILED_WS',
   UPDATE_NICKNAME = 'UPDATE_NICKNAME'
 }
 
@@ -10,6 +13,36 @@ interface AppInit {
 export function initApp(): AppInit {
   return {
     type: AppActionType.INIT
+  };
+}
+
+interface AppOpenWS {
+  type: AppActionType.OPEN_WS
+}
+
+export function openWS(): AppOpenWS {
+  return {
+    type: AppActionType.OPEN_WS
+  };
+}
+
+interface AppRetryWS {
+  type: AppActionType.RETRY_WS
+}
+
+export function retryWS(): AppRetryWS {
+  return {
+    type: AppActionType.RETRY_WS
+  };
+}
+
+interface AppFailedWS {
+  type: AppActionType.FAILED_WS
+}
+
+export function failedWS(): AppFailedWS {
+  return {
+    type: AppActionType.FAILED_WS
   };
 }
 
@@ -25,4 +58,4 @@ export function updateNickname(nickname: string): AppUpdateNickname {
   };
 }
 
-export type AppActions = AppInit | AppUpdateNickname;
+export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname;
