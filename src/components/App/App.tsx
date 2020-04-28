@@ -14,7 +14,7 @@ import useStore from './store/useStore';
 import './App.css';
 
 const App: React.FunctionComponent = () => {
-  const [state, retryConnection] = useStore();
+  const [state, retryConnection, leaveRoom] = useStore();
 
   const { isActive, activeRoom, hasConnectionError } = state;
 
@@ -36,7 +36,7 @@ const App: React.FunctionComponent = () => {
   return (
     <div className="App">
       {!isInRoom && <JoinRoom />}
-      {isInRoom && <Lobby id={activeRoom} />}
+      {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
     </div>
   );
 }

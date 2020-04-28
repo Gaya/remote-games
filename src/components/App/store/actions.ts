@@ -5,6 +5,7 @@ export enum AppActionType {
   FAILED_WS = 'FAILED_WS',
   UPDATE_NICKNAME = 'UPDATE_NICKNAME',
   JOIN_ROOM = 'JOIN_ROOM',
+  LEAVE_ROOM = 'LEAVE_ROOM',
 }
 
 interface AppInit {
@@ -71,4 +72,14 @@ export function joinRoom(id: string): AppJoinRoom {
   };
 }
 
-export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname | AppJoinRoom;
+interface AppLeaveRoom {
+  type: AppActionType.LEAVE_ROOM;
+}
+
+export function leaveRoom(): AppLeaveRoom {
+  return {
+    type: AppActionType.LEAVE_ROOM,
+  };
+}
+
+export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname | AppJoinRoom | AppLeaveRoom;

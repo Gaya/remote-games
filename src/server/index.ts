@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
-import shortid from 'shortid';
 
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
+import { createRoom } from './rooms';
 
 const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '4000') });
 
@@ -12,11 +12,9 @@ function log(...msg: any) {
   console.info(...msg);
 }
 
-function createRoom(): string {
-  return shortid.generate();
-}
-
 wss.on('connection', function connection(ws) {
+  let currentRoom: string;
+
   function sendMessage(message: WS_MESSAGE) {
     const msg = JSON.stringify(message);
 
@@ -25,15 +23,25 @@ wss.on('connection', function connection(ws) {
   }
 
   ws.on('message', function incoming(message: string) {
+    log('Received:', message);
+
     const data: WS_MESSAGE = JSON.parse(message);
-    log('Received:', data);
 
     switch(data.type) {
-      case WSActionTypes.WS_CREATE_ROOM:
+      case WSActionTypes.WS_CREATE_ROOM: {
+        const id = createRoom();
+
+        currentRoom = id;
+
         sendMessage({
           type: WSActionTypes.WS_CREATED_ROOM,
-          id: createRoom(),
+          id,
         });
+      }
+      break;
+      case WSActionTypes.WS_LEAVE_ROOM: {
+        log(`Left room ${currentRoom}`)
+      }
       break;
     }
   });

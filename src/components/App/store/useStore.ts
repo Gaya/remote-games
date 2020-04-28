@@ -4,7 +4,7 @@ import createStore from '../../../stores/createStore';
 
 import reducer from './reducer';
 import { AppState } from './types';
-import { initApp, retryWS } from './actions';
+import { initApp, leaveRoom, retryWS } from './actions';
 import middleware from './middleware';
 import listeners from './listeners';
 
@@ -22,7 +22,7 @@ const appStore = createStore(
   listeners,
 );
 
-function useStore(): [AppState, () => void] {
+function useStore(): [AppState, () => void, () => void] {
   const { dispatch, useStoreState } = appStore;
 
   const state = useStoreState();
@@ -31,12 +31,16 @@ function useStore(): [AppState, () => void] {
     dispatch(retryWS());
   }, [dispatch]);
 
+  const onLeave = useCallback(() => {
+    dispatch(leaveRoom());
+  }, [dispatch]);
+
   useEffect(() => {
     if (state.isActive) return;
     dispatch(initApp());
   }, [state.isActive, dispatch])
 
-  return [state, retryConnect];
+  return [state, retryConnect, onLeave];
 }
 
 export default useStore;

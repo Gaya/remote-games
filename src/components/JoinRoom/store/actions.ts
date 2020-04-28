@@ -1,7 +1,18 @@
 export enum RoomActionType {
+  'RESET' = 'RESET',
   'CREATE_ROOM' = 'CREATE_ROOM',
   'CREATE_ROOM_FAILED' = 'CREATE_ROOM_FAILED',
   'JOIN_ROOM' = 'JOIN_ROOM',
+}
+
+interface RoomReset {
+  type: RoomActionType.RESET;
+}
+
+export function reset(): RoomReset {
+  return {
+    type: RoomActionType.RESET,
+  };
 }
 
 interface RoomCreateAction {
@@ -36,4 +47,4 @@ export function createRoomFailed(): RoomCreateFailedAction {
   };
 }
 
-export type RoomActions = RoomCreateAction | RoomJoinAction | RoomCreateFailedAction;
+export type RoomActions = RoomCreateAction | RoomJoinAction | RoomCreateFailedAction | RoomReset;
