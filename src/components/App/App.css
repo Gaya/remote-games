@@ -1,0 +1,15 @@
+html, body, #root {
+    height: 100%;
+}
+
+.App {
+    display: flex;
+    flex: 1 1;
+    height: 100%;
+    flex-direction: column;
+}
+
+.App--loading {
+    justify-content: center;
+    align-items: center;
+}
