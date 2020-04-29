@@ -18,6 +18,7 @@ function reducer(state: AppState, action: AppActions): AppState {
         ...state,
         isActive: true,
         userId: action.id,
+        nickname: action.nickname,
       };
     case AppActionType.FAILED_WS:
       return {

@@ -14,7 +14,7 @@ export function createUser(ws: WebSocket): WsUser {
   return {
     id: shortid.generate(),
     currentRoom: '',
-    nickname: gb.generate(['adj', 'pre', 'suf']),
+    nickname: gb.generate(['adj', 'suf']).toLowerCase(),
     ws,
     sendMessage(message: WS_MESSAGE) {
       const msg = JSON.stringify(message);

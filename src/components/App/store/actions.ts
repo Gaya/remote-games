@@ -21,12 +21,14 @@ export function initApp(): AppInit {
 interface AppOpenWS {
   type: AppActionType.OPEN_WS
   id: string;
+  nickname: string;
 }
 
-export function openWS(id: string): AppOpenWS {
+export function openWS(id: string, nickname: string): AppOpenWS {
   return {
     type: AppActionType.OPEN_WS,
     id,
+    nickname,
   };
 }
 

@@ -16,7 +16,7 @@ function onConnectionOpen(
     )
     .subscribe((msg) => {
       if (msg.type === WSActionTypes.WS_OPEN_CONNECTION) {
-        dispatch(openWS(msg.id));
+        dispatch(openWS(msg.id, msg.nickname));
       }
     });
 }
