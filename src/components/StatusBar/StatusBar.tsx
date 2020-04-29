@@ -10,6 +10,7 @@ import {
   Tooltip
 } from '@blueprintjs/core';
 import copyToClipboard from '../../utils/copyToClipboard';
+import Nickname from './Nickname';
 
 interface StatusBarProps {
   nickname: string;
@@ -38,7 +39,6 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
             onClosed={() => setIsCopied(false)}
             hoverOpenDelay={300}
             position={Position.BOTTOM}
-            usePortal
           >
             <Button
               minimal
@@ -60,12 +60,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
       )}
 
       <NavbarGroup align={Alignment.RIGHT}>
-        <Button
-          minimal
-          icon="user"
-          text={nickname}
-          type="button"
-        />
+        <Nickname nickname={nickname} />
       </NavbarGroup>
     </Navbar>
   );
