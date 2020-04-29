@@ -36,7 +36,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
           <Tooltip
             content={isCopied ? 'Copied!' : 'Click to copy room id'}
             onClosed={() => setIsCopied(false)}
-            hoverOpenDelay={500}
+            hoverOpenDelay={300}
             position={Position.BOTTOM}
             usePortal
           >
