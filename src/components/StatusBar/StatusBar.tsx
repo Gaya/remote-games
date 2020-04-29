@@ -12,11 +12,12 @@ import {
 import copyToClipboard from '../../utils/copyToClipboard';
 
 interface StatusBarProps {
+  nickname: string;
   roomId?: string;
   onLeave: () => void;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ roomId, onLeave }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const onCopyId = useCallback(() => {
@@ -29,6 +30,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ roomId, onLeave }) => {
       <NavbarGroup>
         <NavbarHeading>Remote Games</NavbarHeading>
       </NavbarGroup>
+
       {roomId !== '' && (
         <NavbarGroup align={Alignment.RIGHT}>
           <Tooltip
@@ -40,7 +42,9 @@ const StatusBar: React.FC<StatusBarProps> = ({ roomId, onLeave }) => {
           >
             <Button
               minimal
-              text={`Room: ${roomId}`}
+              icon="presentation"
+              text={`${roomId}`}
+              type="button"
               onClick={onCopyId}
             />
           </Tooltip>
@@ -54,6 +58,15 @@ const StatusBar: React.FC<StatusBarProps> = ({ roomId, onLeave }) => {
           />
         </NavbarGroup>
       )}
+
+      <NavbarGroup align={Alignment.RIGHT}>
+        <Button
+          minimal
+          icon="user"
+          text={nickname}
+          type="button"
+        />
+      </NavbarGroup>
     </Navbar>
   );
 };

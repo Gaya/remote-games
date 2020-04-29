@@ -17,7 +17,7 @@ import './App.css';
 const App: React.FC = () => {
   const [state, retryConnection, leaveRoom] = useStore();
 
-  const { isActive, activeRoom, hasConnectionError } = state;
+  const { isActive, activeRoom, hasConnectionError, nickname } = state;
 
   const isInRoom = activeRoom !== '';
 
@@ -36,7 +36,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App bp3-dark">
-      <StatusBar roomId={activeRoom} onLeave={leaveRoom} />
+      <StatusBar nickname={nickname} roomId={activeRoom} onLeave={leaveRoom} />
       {!isInRoom && <JoinRoom />}
       {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
     </div>
