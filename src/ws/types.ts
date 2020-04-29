@@ -17,6 +17,7 @@ interface WSFailedConnection {
 export interface WSOpenConnection {
   type: WSActionTypes.WS_OPEN_CONNECTION;
   id: string;
+  nickname: string;
 }
 
 interface WSCreateRoom {
