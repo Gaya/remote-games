@@ -8,7 +8,7 @@ interface LobbyProps {
   onLeave: () => void;
 }
 
-const Lobby: React.FunctionComponent<LobbyProps> = ({ id, onLeave }) => {
+const Lobby: React.FC<LobbyProps> = ({ id, onLeave }) => {
   return (
     <div className="Lobby">
       <Card elevation={Elevation.ONE}>

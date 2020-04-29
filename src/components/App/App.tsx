@@ -8,12 +8,13 @@ import { Button, NonIdealState, Spinner } from '@blueprintjs/core';
 
 import JoinRoom from '../JoinRoom/JoinRoom';
 import Lobby from '../Lobby/Lobby';
+import StatusBar from '../StatusBar/StatusBar';
 
 import useStore from './store/useStore';
 
 import './App.css';
 
-const App: React.FunctionComponent = () => {
+const App: React.FC = () => {
   const [state, retryConnection, leaveRoom] = useStore();
 
   const { isActive, activeRoom, hasConnectionError } = state;
@@ -34,8 +35,9 @@ const App: React.FunctionComponent = () => {
   }
 
   return (
-    <div className="App">
+    <div className="App bp3-dark">
       {!isInRoom && <JoinRoom />}
+      {isInRoom && <StatusBar id={activeRoom} onLeave={leaveRoom} />}
       {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
     </div>
   );

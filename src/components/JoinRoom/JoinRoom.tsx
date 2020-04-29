@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -21,6 +21,9 @@ const JoinRoom: React.FunctionComponent = () => {
 
   const isBusy = isCreating || isJoining;
 
+  // @TODO remove
+  useEffect(onCreateRoom, []);
+
   return (
     <div className="Room">
       <Card elevation={Elevation.ONE}>
@@ -33,6 +36,7 @@ const JoinRoom: React.FunctionComponent = () => {
         <Button
           rightIcon="insert"
           disabled={isBusy}
+          loading={isCreating}
           intent={Intent.SUCCESS}
           text="Create new JoinRoom"
           onClick={() => onCreateRoom()}
@@ -56,7 +60,7 @@ const JoinRoom: React.FunctionComponent = () => {
             <InputGroup id="room-id" disabled={isBusy} placeholder="eg: PPBqWA9" />
           </FormGroup>
 
-          <Button disabled={isBusy} icon="log-in" text="Join room" />
+          <Button disabled={isBusy} loading={isJoining} type="submit" icon="log-in" text="Join room" />
         </form>
       </Card>
     </div>
