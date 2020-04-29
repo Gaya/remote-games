@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   if (!isActive) {
     return (
-      <div className="App App--loading">
+      <div className="App App--loading bp3-dark">
         <NonIdealState
           icon={hasConnectionError ? 'offline' : <Spinner size={50} />}
           title={hasConnectionError ? 'Connection Error' : undefined}
@@ -36,8 +36,8 @@ const App: React.FC = () => {
 
   return (
     <div className="App bp3-dark">
+      <StatusBar roomId={activeRoom} onLeave={leaveRoom} />
       {!isInRoom && <JoinRoom />}
-      {isInRoom && <StatusBar id={activeRoom} onLeave={leaveRoom} />}
       {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
     </div>
   );

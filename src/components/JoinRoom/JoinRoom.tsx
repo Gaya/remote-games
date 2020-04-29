@@ -22,7 +22,7 @@ const JoinRoom: React.FunctionComponent = () => {
   const isBusy = isCreating || isJoining;
 
   // @TODO remove
-  useEffect(onCreateRoom, []);
+  // useEffect(onCreateRoom, []);
 
   return (
     <div className="Room">
