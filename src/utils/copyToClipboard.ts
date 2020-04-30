@@ -1,4 +1,4 @@
-function copyToClipboard(text: string) {
+function copyToClipboard(text: string): void {
   if (!navigator.clipboard) return;
 
   navigator.clipboard.writeText(text).then();
