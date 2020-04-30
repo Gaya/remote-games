@@ -4,6 +4,12 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { WS_MESSAGE } from '../ws/types';
 import { websocketMessages$ } from '../ws/websockets';
 
+interface Store<SS, SA> {
+  state$: BehaviorSubject<SS>;
+  dispatch: (action: SA) => void;
+  useStoreState: () => SS;
+}
+
 /*
   Creates a store hook which can be used as a hook in functional components
 
@@ -15,14 +21,14 @@ export default function createStore<SS, SA>(
   initialState: SS,
   middleware: ((action: SA, state: SS, dispatch: Dispatch<SA>) => void)[] = [],
   websocketListeners: ((wsm$: Subject<WS_MESSAGE>, dispatch: Dispatch<SA>) => void)[] = [],
-) {
+): Store<SS, SA> {
   const storeState$ = new BehaviorSubject<SS>(initialState);
 
-  const dispatch = (action: SA) => {
+  const dispatch = (action: SA): void => {
     const currentState = storeState$.getValue();
 
     // handle middlewares
-    middleware.forEach(m => m(action, currentState, delayedDispatch));
+    middleware.forEach((m) => m(action, currentState, delayedDispatch));
 
     // calc next state
     const nextState = reducer(currentState, action);
@@ -31,14 +37,16 @@ export default function createStore<SS, SA>(
     storeState$.next(nextState);
   };
 
-  const delayedDispatch = (action: SA) => window.requestAnimationFrame(() => dispatch(action));
+  const delayedDispatch = (action: SA): void => {
+    window.requestAnimationFrame(() => dispatch(action));
+  };
 
-  websocketListeners.forEach(listener => listener(websocketMessages$, delayedDispatch));
+  websocketListeners.forEach((listener) => listener(websocketMessages$, delayedDispatch));
 
   return {
     state$: storeState$,
     dispatch,
-    useStoreState: () => {
+    useStoreState: (): SS => {
       const [state, setState] = useState<SS>(initialState);
 
       useEffect(() => {
@@ -46,10 +54,10 @@ export default function createStore<SS, SA>(
           setState(value);
         });
 
-        return () => subscription.unsubscribe();
+        return (): void => subscription.unsubscribe();
       }, []);
 
       return state;
-    }
-  }
+    },
+  };
 }
