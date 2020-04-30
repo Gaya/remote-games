@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { Button, Dialog, DialogBody, Position, Tooltip } from '../UI';
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  Position,
+  Tooltip,
+} from '../UI';
 
 interface NicknameProps {
   nickname: string;
@@ -20,14 +26,14 @@ const Nickname: React.FC<NicknameProps> = ({ nickname }) => {
           minimal
           icon="user"
           text={nickname}
-          onClick={() => setIsOpen(true)}
+          onClick={(): void => setIsOpen(true)}
           type="button"
         />
       </Tooltip>
       <Dialog
         className="bp3-dark"
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={(): void => setIsOpen(false)}
         icon="user"
         title="Change nickname"
       >
@@ -37,6 +43,6 @@ const Nickname: React.FC<NicknameProps> = ({ nickname }) => {
       </Dialog>
     </>
   );
-}
+};
 
 export default Nickname;

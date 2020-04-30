@@ -8,7 +8,7 @@ import {
   FormGroup,
   H5,
   InputGroup,
-  Intent
+  Intent,
 } from '../UI';
 
 import './JoinRoom.css';
@@ -54,7 +54,7 @@ const JoinRoom: React.FunctionComponent = () => {
 
         <form onSubmit={(e) => { e.preventDefault(); }}>
           <FormGroup
-            label={"Room ID"}
+            label="Room ID"
             labelFor="room-id"
             disabled={isBusy}
           >

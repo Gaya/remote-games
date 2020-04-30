@@ -10,7 +10,7 @@ import {
   NavbarGroup,
   NavbarHeading,
   Position,
-  Tooltip
+  Tooltip,
 } from '../UI';
 
 import Nickname from './Nickname';
