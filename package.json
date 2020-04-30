@@ -49,7 +49,19 @@
       "@typescript-eslint",
       "import"
     ],
-    "rules": {},
+    "rules": {
+      "import/prefer-default-export": 0,
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      ]
+    },
     "overrides": [
       {
         "files": [
@@ -60,7 +72,8 @@
     ],
     "settings": {
       "import/parsers": {
-        "@typescript-eslint/parser": [".ts", ".tsx"]
+        "@typescript-eslint/parser": [".ts",
+          ".tsx"]
       },
       "import/resolver": {
         "typescript": {
