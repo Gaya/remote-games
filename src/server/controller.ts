@@ -4,7 +4,7 @@ import { log } from './logging';
 import { WsUser } from './types';
 
 const Controller = {
-  createRoom(user: WsUser) {
+  createRoom(user: WsUser): void {
     const id = createRoom(user);
 
     user.sendMessage({
@@ -14,12 +14,12 @@ const Controller = {
 
     log('Create room:', id, user.id);
   },
-  leaveRoom(user: WsUser) {
+  leaveRoom(user: WsUser): void {
     leaveRoom(user.currentRoom, user);
 
     log('Left room:', user.currentRoom, user.id);
   },
-  joinRoom(user: WsUser, roomId: string) {
+  joinRoom(user: WsUser, roomId: string): void {
     try {
       const id = joinRoom(roomId, user);
 
@@ -37,17 +37,21 @@ const Controller = {
 
       log('Join room failed:', roomId, user.id);
     }
-  }
+  },
 };
 
 function handleMessage(data: WS_MESSAGE, user: WsUser): void {
-  switch(data.type) {
+  switch (data.type) {
     case WSActionTypes.WS_CREATE_ROOM:
       return Controller.createRoom(user);
     case WSActionTypes.WS_LEAVE_ROOM:
       return Controller.leaveRoom(user);
     case WSActionTypes.WS_JOIN_ROOM:
       return Controller.joinRoom(user, data.id);
+    default: {
+      log(`No method found for '${data.type}'`);
+      return undefined;
+    }
   }
 }
 

@@ -6,5 +6,6 @@ export interface WsUser {
   currentRoom: string;
   nickname: string;
   ws: WebSocket;
+  setCurrentRoom(room: string): void;
   sendMessage(message: WS_MESSAGE): void;
 }

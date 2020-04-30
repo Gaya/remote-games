@@ -18,14 +18,14 @@ export function joinRoom(id: string, user: WsUser): string {
   currentRooms[id] = [...currentRooms[id], user];
 
   // update user room
-  user.currentRoom = id;
+  user.setCurrentRoom(id);
 
   return id;
 }
 
 export function leaveRoom(id: string, user: WsUser): string {
   // remove user from room
-  currentRooms[id] = currentRooms[id].filter(u => u.id !== user.id);
+  currentRooms[id] = currentRooms[id].filter((u) => u.id !== user.id);
 
   // remove room if empty
   if (currentRooms[id].length === 0) {
@@ -34,7 +34,7 @@ export function leaveRoom(id: string, user: WsUser): string {
   }
 
   // update user room
-  user.currentRoom = '';
+  user.setCurrentRoom('');
 
   return id;
 }
