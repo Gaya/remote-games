@@ -49,25 +49,26 @@
       "@typescript-eslint",
       "import"
     ],
-    "rules": {
-      "import/prefer-default-export": 0,
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ]
-    },
+    "rules": {},
     "overrides": [
       {
         "files": [
           "**/*.ts?(x)"
         ],
-        "rules": {}
+        "rules": {
+          "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
+          "import/prefer-default-export": 0,
+          "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+              "js": "never",
+              "jsx": "never",
+              "ts": "never",
+              "tsx": "never"
+            }
+          ]
+        }
       }
     ],
     "settings": {
