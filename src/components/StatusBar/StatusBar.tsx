@@ -1,4 +1,7 @@
 import React, { useCallback, useState } from 'react';
+
+import copyToClipboard from '../../utils/copyToClipboard';
+
 import {
   Alignment,
   Button,
@@ -8,8 +11,8 @@ import {
   NavbarHeading,
   Position,
   Tooltip
-} from '@blueprintjs/core';
-import copyToClipboard from '../../utils/copyToClipboard';
+} from '../UI';
+
 import Nickname from './Nickname';
 
 interface StatusBarProps {

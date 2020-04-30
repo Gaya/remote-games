@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Dialog, Position, Tooltip } from '@blueprintjs/core';
+
+import { Button, Dialog, DialogBody, Position, Tooltip } from '../UI';
 
 interface NicknameProps {
   nickname: string;
@@ -27,8 +28,12 @@ const Nickname: React.FC<NicknameProps> = ({ nickname }) => {
         className="bp3-dark"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        icon="user"
+        title="Change nickname"
       >
-        Change username
+        <DialogBody>
+          Change username
+        </DialogBody>
       </Dialog>
     </>
   );

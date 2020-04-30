@@ -1,11 +1,6 @@
 import React from 'react';
 
-import 'normalize.css/normalize.css';
-import '@blueprintjs/core/lib/css/blueprint.css';
-import '@blueprintjs/icons/lib/css/blueprint-icons.css';
-
-import { Button, NonIdealState, Spinner } from '@blueprintjs/core';
-
+import { Button, NonIdealState, Spinner } from '../UI';
 import JoinRoom from '../JoinRoom/JoinRoom';
 import Lobby from '../Lobby/Lobby';
 import StatusBar from '../StatusBar/StatusBar';

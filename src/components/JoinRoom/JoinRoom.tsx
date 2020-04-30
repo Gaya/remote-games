@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+
 import {
   Button,
   Card,
@@ -8,7 +9,7 @@ import {
   H5,
   InputGroup,
   Intent
-} from '@blueprintjs/core';
+} from '../UI';
 
 import './JoinRoom.css';
 

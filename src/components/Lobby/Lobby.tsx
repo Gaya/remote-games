@@ -1,7 +1,8 @@
 import React from 'react';
 
+import { Button, Card, Elevation, H5, Intent } from '../UI';
+
 import './Lobby.css';
-import { Button, Card, Elevation, H5, Intent } from '@blueprintjs/core';
 
 interface LobbyProps {
   id: string;
