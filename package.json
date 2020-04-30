@@ -30,10 +30,18 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "server": "ts-node -r dotenv/config --project ./src/server/tsconfig.json ./src/server/index.ts"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["react-app"],
+    "rules": {},
+    "overrides": [
+      {
+        "files": ["**/*.ts?(x)"],
+        "rules": {}
+      }
+    ]
   },
   "browserslist": {
     "production": [
