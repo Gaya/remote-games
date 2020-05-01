@@ -4,15 +4,20 @@ import { Subject } from 'rxjs';
 import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 
-import { AppActions, failedWS, joinRoom, openWS } from './actions';
+import {
+  AppActions,
+  failedWS,
+  joinRoom,
+  openWS,
+} from './actions';
 
 function onConnectionOpen(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
-) {
+): void {
   webSocketMessage$
     .pipe(
-      ofType(WSActionTypes.WS_OPEN_CONNECTION)
+      ofType(WSActionTypes.WS_OPEN_CONNECTION),
     )
     .subscribe((msg) => {
       if (msg.type === WSActionTypes.WS_OPEN_CONNECTION) {
@@ -24,10 +29,10 @@ function onConnectionOpen(
 function onConnectionFailed(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
-) {
+): void {
   webSocketMessage$
     .pipe(
-      ofType(WSActionTypes.WS_FAILED_CONNECTION)
+      ofType(WSActionTypes.WS_FAILED_CONNECTION),
     )
     .subscribe(() => {
       dispatch(failedWS());
@@ -37,10 +42,10 @@ function onConnectionFailed(
 function onJoinRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
-) {
+): void {
   webSocketMessage$
     .pipe(
-      ofType(WSActionTypes.WS_CREATED_ROOM)
+      ofType(WSActionTypes.WS_CREATED_ROOM),
     )
     .subscribe((msg) => {
       if (msg.type === WSActionTypes.WS_CREATED_ROOM) {

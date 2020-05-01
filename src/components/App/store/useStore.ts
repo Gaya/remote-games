@@ -39,7 +39,7 @@ function useStore(): [AppState, () => void, () => void] {
   useEffect(() => {
     if (state.isActive) return;
     dispatch(initApp());
-  }, [state.isActive, dispatch])
+  }, [state.isActive, dispatch]);
 
   return [state, retryConnect, onLeave];
 }

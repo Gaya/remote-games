@@ -12,7 +12,12 @@ import './App.css';
 const App: React.FC = () => {
   const [state, retryConnection, leaveRoom] = useStore();
 
-  const { isActive, activeRoom, hasConnectionError, nickname } = state;
+  const {
+    isActive,
+    activeRoom,
+    hasConnectionError,
+    nickname,
+  } = state;
 
   const isInRoom = activeRoom !== '';
 
@@ -36,6 +41,6 @@ const App: React.FC = () => {
       {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
     </div>
   );
-}
+};
 
 export default App;

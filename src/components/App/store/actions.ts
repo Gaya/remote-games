@@ -9,17 +9,17 @@ export enum AppActionType {
 }
 
 interface AppInit {
-  type: AppActionType.INIT
+  type: AppActionType.INIT;
 }
 
 export function initApp(): AppInit {
   return {
-    type: AppActionType.INIT
+    type: AppActionType.INIT,
   };
 }
 
 interface AppOpenWS {
-  type: AppActionType.OPEN_WS
+  type: AppActionType.OPEN_WS;
   id: string;
   nickname: string;
 }
@@ -33,22 +33,22 @@ export function openWS(id: string, nickname: string): AppOpenWS {
 }
 
 interface AppRetryWS {
-  type: AppActionType.RETRY_WS
+  type: AppActionType.RETRY_WS;
 }
 
 export function retryWS(): AppRetryWS {
   return {
-    type: AppActionType.RETRY_WS
+    type: AppActionType.RETRY_WS,
   };
 }
 
 interface AppFailedWS {
-  type: AppActionType.FAILED_WS
+  type: AppActionType.FAILED_WS;
 }
 
 export function failedWS(): AppFailedWS {
   return {
-    type: AppActionType.FAILED_WS
+    type: AppActionType.FAILED_WS,
   };
 }
 
@@ -86,4 +86,5 @@ export function leaveRoom(): AppLeaveRoom {
   };
 }
 
-export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname | AppJoinRoom | AppLeaveRoom;
+export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
+  | AppJoinRoom | AppLeaveRoom;
