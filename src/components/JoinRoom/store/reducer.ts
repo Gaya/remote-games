@@ -1,6 +1,10 @@
 import { RoomState } from './types';
 import { RoomActions, RoomActionType } from './actions';
-import { defaultState } from './useStore';
+
+export const defaultState: RoomState = {
+  isCreating: false,
+  isJoining: false,
+};
 
 function reducer(state: RoomState, action: RoomActions): RoomState {
   switch (action.type) {

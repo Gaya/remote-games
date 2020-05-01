@@ -2,16 +2,11 @@ import { useCallback } from 'react';
 
 import createStore from '../../../stores/createStore';
 
-import reducer from './reducer';
+import reducer, { defaultState } from './reducer';
 import { RoomState } from './types';
 import middleware from './middleware';
 import listeners from './listeners';
 import { createRoom, joinRoom } from './actions';
-
-export const defaultState: RoomState = {
-  isCreating: false,
-  isJoining: false,
-};
 
 const appStore = createStore(reducer, defaultState, middleware, listeners);
 

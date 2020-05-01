@@ -2,9 +2,9 @@ import createLogMiddleware from '../../../stores/createLogMiddleware';
 import { sendWSMessage } from '../../../ws/websockets';
 import { WSActionTypes } from '../../../ws/types';
 
-import {  RoomActions, RoomActionType } from './actions';
+import { RoomActions, RoomActionType } from './actions';
 
-function createRoom(action: RoomActions) {
+function createRoom(action: RoomActions): void {
   if (action.type !== RoomActionType.CREATE_ROOM) return;
 
   sendWSMessage({
