@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export default function createLogMiddleware(name: string): (
+export default function createLogMiddleware(name: string, showState = false): (
   action: any,
   state: any,
   dispatch: any,
@@ -12,8 +12,14 @@ export default function createLogMiddleware(name: string): (
     /* eslint-disable no-console */
     console.group(`ACTION ON '${name}'`);
     console.dir(action);
-    console.dir(state);
-    console.dir(nextState);
+
+    if (showState) {
+      console.info('prev');
+      console.dir(state);
+      console.info('next');
+      console.dir(nextState);
+    }
+
     console.groupEnd();
     /* eslint-enable no-console */
   };
