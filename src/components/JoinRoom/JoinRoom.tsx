@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useFormik } from 'formik';
 
 import {
   Button,
@@ -25,6 +26,15 @@ const JoinRoom: React.FunctionComponent = () => {
 
   // enable to auto connect
   // useEffect(onCreateRoom, []);
+
+  useFormik({
+    initialValues: {
+      room: '',
+    },
+    onSubmit(values) {
+      console.log(values);
+    },
+  });
 
   return (
     <div className="Room">

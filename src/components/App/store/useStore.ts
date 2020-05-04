@@ -43,13 +43,13 @@ function useStore(): [AppState, DispatchActions] {
   const state = useStoreState();
 
   const actions: DispatchActions = useMemo(() => ({
-    retryConnect: (): void => {
+    retryConnect(): void {
       dispatch(retryWS());
     },
-    leaveRoom: (): void => {
+    leaveRoom(): void {
       dispatch(leaveRoom());
     },
-    changeNickname: (nickname: string): void => {
+    changeNickname(nickname: string): void {
       dispatch(updateNickname(nickname));
     },
   }), [dispatch]);

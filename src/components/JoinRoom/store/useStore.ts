@@ -21,10 +21,10 @@ function useStore(): [RoomState, DispatchActions] {
   const state = useStoreState();
 
   const actions: DispatchActions = useMemo(() => ({
-    createRoom: (): void => {
+    createRoom(): void {
       dispatch(createRoom());
     },
-    joinRoom: (id: string): void => {
+    joinRoom(id: string): void {
       dispatch(joinRoom(id));
     },
   }), [dispatch]);
