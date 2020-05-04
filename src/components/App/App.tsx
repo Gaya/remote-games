@@ -11,7 +11,9 @@ import { currentRoom, currentUser } from './store/selectors';
 import './App.css';
 
 const App: React.FC = () => {
-  const [state, retryConnection, leaveRoom] = useStore();
+  const [state, actions] = useStore();
+
+  const { retryConnect, leaveRoom, changeNickname } = actions;
 
   const {
     isActive,
@@ -28,7 +30,7 @@ const App: React.FC = () => {
           icon={hasConnectionError ? 'offline' : <Spinner size={50} />}
           title={hasConnectionError ? 'Connection Error' : undefined}
           description={hasConnectionError ? 'Could not connect to the game server' : undefined}
-          action={hasConnectionError ? <Button icon="refresh" text="Retry" onClick={() => retryConnection()} /> : undefined}
+          action={hasConnectionError ? <Button icon="refresh" text="Retry" onClick={(): void => retryConnect()} /> : undefined}
         />
       </div>
     );
@@ -36,7 +38,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <StatusBar user={user} room={room} onLeave={leaveRoom} />
+      <StatusBar user={user} room={room} onLeave={leaveRoom} onChangeNickname={changeNickname} />
       {!room && <JoinRoom />}
       {room && <Lobby room={room} onLeave={leaveRoom} />}
     </div>

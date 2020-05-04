@@ -21,9 +21,12 @@ interface StatusBarProps {
   user?: User;
   room?: Room;
   onLeave: () => void;
+  onChangeNickname: (nickname: string) => void;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ user, room, onLeave }) => {
+const StatusBar: React.FC<StatusBarProps> = ({
+  user, room, onLeave, onChangeNickname,
+}) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const onCopyId = useCallback(() => {
@@ -68,7 +71,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ user, room, onLeave }) => {
 
       {user && (
         <NavbarGroup align={Alignment.RIGHT}>
-          <Nickname user={user} />
+          <Nickname user={user} onChangeNickname={onChangeNickname} />
         </NavbarGroup>
       )}
     </Navbar>

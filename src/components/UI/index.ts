@@ -1,6 +1,7 @@
 import {
   Alignment,
   Button,
+  Callout,
   Card,
   Classes,
   Dialog,
@@ -16,6 +17,7 @@ import {
   NonIdealState,
   Position,
   Spinner,
+  Tag,
   Tooltip,
 } from '@blueprintjs/core/lib/esnext';
 
@@ -28,6 +30,7 @@ import DialogFooterActions from './Dialog/DialogFooterActions';
 export {
   Alignment,
   Button,
+  Callout,
   Card,
   Classes,
   Dialog,
@@ -46,5 +49,6 @@ export {
   NonIdealState,
   Position,
   Spinner,
+  Tag,
   Tooltip,
 };
