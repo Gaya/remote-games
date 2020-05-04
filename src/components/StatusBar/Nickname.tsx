@@ -1,8 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 
-import { User } from '../App/store/types';
-
 import {
   Button,
   Dialog,
@@ -16,13 +14,16 @@ import {
   Tag,
   Tooltip,
 } from '../UI';
+import useAppStore from '../App/store/useStore';
+import { currentUser } from '../App/store/selectors';
 
-interface NicknameProps {
-  user?: User;
-  onChangeNickname: (nickname: string) => void;
-}
+const Nickname: React.FC = () => {
+  const [state, actions] = useAppStore();
 
-const Nickname: React.FC<NicknameProps> = ({ user, onChangeNickname }) => {
+  const user = currentUser(state);
+
+  const { changeNickname } = actions;
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const form = useFormik({
@@ -30,15 +31,15 @@ const Nickname: React.FC<NicknameProps> = ({ user, onChangeNickname }) => {
     validate: (values) => {
       const errors: { nickname?: string } = {};
 
-      if (!values.nickname || values.nickname === '') {
+      if (!values.nickname || values.nickname.trim() === '') {
         errors.nickname = 'Required';
       }
 
       return errors;
     },
     onSubmit: (values) => {
-      if (values.nickname) {
-        onChangeNickname(values.nickname);
+      if (values.nickname && values.nickname.trim() !== user?.nickname) {
+        changeNickname(values.nickname.trim());
       }
 
       closeModal();
@@ -67,7 +68,7 @@ const Nickname: React.FC<NicknameProps> = ({ user, onChangeNickname }) => {
       <Dialog
         isOpen={isOpen}
         onClose={closeModal}
-        onClosed={(): void => form.resetForm()}
+        onOpening={(): void => form.resetForm()}
         icon="user"
         title="Change nickname"
       >

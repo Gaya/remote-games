@@ -13,7 +13,7 @@ import './App.css';
 const App: React.FC = () => {
   const [state, actions] = useStore();
 
-  const { retryConnect, leaveRoom, changeNickname } = actions;
+  const { retryConnect, leaveRoom } = actions;
 
   const {
     isActive,
@@ -38,9 +38,9 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <StatusBar user={user} room={room} onLeave={leaveRoom} onChangeNickname={changeNickname} />
+      <StatusBar />
       {!room && <JoinRoom />}
-      {room && <Lobby room={room} onLeave={leaveRoom} />}
+      {room && <Lobby />}
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 
 import copyToClipboard from '../../utils/copyToClipboard';
 
-import { Room, User } from '../App/store/types';
+import useAppStore from '../App/store/useStore';
 
 import {
   Alignment,
@@ -16,17 +16,17 @@ import {
 } from '../UI';
 
 import Nickname from './Nickname';
+import { currentRoom, currentUser } from '../App/store/selectors';
 
-interface StatusBarProps {
-  user?: User;
-  room?: Room;
-  onLeave: () => void;
-  onChangeNickname: (nickname: string) => void;
-}
 
-const StatusBar: React.FC<StatusBarProps> = ({
-  user, room, onLeave, onChangeNickname,
-}) => {
+const StatusBar: React.FC = () => {
+  const [state, actions] = useAppStore();
+
+  const user = currentUser(state);
+  const room = currentRoom(state);
+
+  const { leaveRoom } = actions;
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const onCopyId = useCallback(() => {
@@ -64,14 +64,14 @@ const StatusBar: React.FC<StatusBarProps> = ({
             intent={Intent.DANGER}
             text="Disconnect"
             type="button"
-            onClick={onLeave}
+            onClick={leaveRoom}
           />
         </NavbarGroup>
       )}
 
       {user && (
         <NavbarGroup align={Alignment.RIGHT}>
-          <Nickname user={user} onChangeNickname={onChangeNickname} />
+          <Nickname />
         </NavbarGroup>
       )}
     </Navbar>
