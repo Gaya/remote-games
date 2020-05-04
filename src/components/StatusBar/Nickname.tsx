@@ -46,6 +46,11 @@ const Nickname: React.FC = () => {
     },
   });
 
+  const openModal = useCallback((): void => {
+    form.resetForm();
+    setIsOpen(true);
+  }, [form]);
+
   const closeModal = useCallback((): void => {
     setIsOpen(false);
   }, []);
@@ -61,14 +66,13 @@ const Nickname: React.FC = () => {
           minimal
           icon="user"
           text={user?.nickname}
-          onClick={(): void => setIsOpen(true)}
+          onClick={openModal}
           type="button"
         />
       </Tooltip>
       <Dialog
         isOpen={isOpen}
         onClose={closeModal}
-        onOpening={(): void => form.resetForm()}
         icon="user"
         title="Change nickname"
       >
