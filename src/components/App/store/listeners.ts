@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import { Subject } from 'rxjs';
+import { withLatestFrom } from 'rxjs/operators';
 
 import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
@@ -10,6 +11,7 @@ import {
   joinRoom,
   openWS,
 } from './actions';
+import { AppState } from './types';
 
 function onConnectionOpen(
   webSocketMessage$: Subject<WS_MESSAGE>,
@@ -42,14 +44,16 @@ function onConnectionFailed(
 function onJoinRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
+  state$: Subject<AppState>,
 ): void {
   webSocketMessage$
     .pipe(
       ofType(WSActionTypes.WS_CREATED_ROOM),
+      withLatestFrom(state$),
     )
-    .subscribe((msg) => {
+    .subscribe(([msg, state]) => {
       if (msg.type === WSActionTypes.WS_CREATED_ROOM) {
-        dispatch(joinRoom(msg.id));
+        dispatch(joinRoom(msg.id, [state.app.userId]));
       }
     });
 }

@@ -6,6 +6,7 @@ import Lobby from '../Lobby/Lobby';
 import StatusBar from '../StatusBar/StatusBar';
 
 import useStore from './store/useStore';
+import { currentRoom, currentUser } from './store/selectors';
 
 import './App.css';
 
@@ -14,14 +15,13 @@ const App: React.FC = () => {
 
   const {
     isActive,
-    activeRoom,
     hasConnectionError,
-    nickname,
-  } = state;
+  } = state.app;
 
-  const isInRoom = activeRoom !== '';
+  const user = currentUser(state);
+  const room = currentRoom(state);
 
-  if (!isActive) {
+  if (!isActive || !user) {
     return (
       <div className="App App--loading bp3-dark">
         <NonIdealState
@@ -36,9 +36,9 @@ const App: React.FC = () => {
 
   return (
     <div className="App bp3-dark">
-      <StatusBar nickname={nickname} roomId={activeRoom} onLeave={leaveRoom} />
-      {!isInRoom && <JoinRoom />}
-      {isInRoom && <Lobby id={activeRoom} onLeave={leaveRoom} />}
+      <StatusBar user={user} room={room} onLeave={leaveRoom} />
+      {!room && <JoinRoom />}
+      {room && <Lobby room={room} onLeave={leaveRoom} />}
     </div>
   );
 };

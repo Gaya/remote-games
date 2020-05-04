@@ -55,12 +55,14 @@ export function failedWS(): AppFailedWS {
 interface AppJoinRoom {
   type: AppActionType.JOIN_ROOM;
   id: string;
+  users: string[];
 }
 
-export function joinRoom(id: string): AppJoinRoom {
+export function joinRoom(id: string, users: string[]): AppJoinRoom {
   return {
     type: AppActionType.JOIN_ROOM,
     id,
+    users,
   };
 }
 

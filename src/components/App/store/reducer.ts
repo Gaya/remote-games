@@ -69,6 +69,7 @@ function rooms(state: Rooms, action: AppActions, root: AppState): Rooms {
         ...state,
         [action.id]: {
           ...state[action.id],
+          id: action.id,
           users: [root.app.userId],
         },
       };

@@ -9,11 +9,14 @@ import middleware from './middleware';
 import listeners from './listeners';
 
 const defaultState = {
-  nickname: '',
-  isActive: false,
-  activeRoom: '',
-  hasConnectionError: false,
-  userId: '',
+  app: {
+    isActive: false,
+    activeRoom: '',
+    hasConnectionError: false,
+    userId: '',
+  },
+  users: {},
+  rooms: {},
 };
 
 const appStore = createStore(
@@ -37,9 +40,9 @@ function useStore(): [AppState, () => void, () => void] {
   }, [dispatch]);
 
   useEffect(() => {
-    if (state.isActive) return;
+    if (state.app.isActive) return;
     dispatch(initApp());
-  }, [state.isActive, dispatch]);
+  }, [state.app.isActive, dispatch]);
 
   return [state, retryConnect, onLeave];
 }

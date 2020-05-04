@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { User } from '../App/store/types';
+
 import {
   Button,
   Dialog,
@@ -9,10 +11,10 @@ import {
 } from '../UI';
 
 interface NicknameProps {
-  nickname: string;
+  user?: User;
 }
 
-const Nickname: React.FC<NicknameProps> = ({ nickname }) => {
+const Nickname: React.FC<NicknameProps> = ({ user }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -25,7 +27,7 @@ const Nickname: React.FC<NicknameProps> = ({ nickname }) => {
         <Button
           minimal
           icon="user"
-          text={nickname}
+          text={user?.nickname}
           onClick={(): void => setIsOpen(true)}
           type="button"
         />

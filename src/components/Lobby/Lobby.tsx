@@ -8,18 +8,20 @@ import {
   Intent,
 } from '../UI';
 
+import { Room } from '../App/store/types';
+
 import './Lobby.css';
 
 interface LobbyProps {
-  id: string;
+  room: Room;
   onLeave: () => void;
 }
 
-const Lobby: React.FC<LobbyProps> = ({ id, onLeave }) => (
+const Lobby: React.FC<LobbyProps> = ({ room, onLeave }) => (
   <div className="Lobby">
     <Card elevation={Elevation.ONE}>
       <H5>
-        {`Welcome to Room ${id}`}
+        {`Welcome to Room ${room.id}`}
       </H5>
       <Button
         icon="log-out"

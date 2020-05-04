@@ -19,19 +19,20 @@ interface Store<SS, SA> {
 export default function createStore<SS, SA>(
   reducer: (state: SS, action: SA) => SS,
   initialState: SS,
-  middleware: ((action: SA, state: SS, dispatch: Dispatch<SA>) => void)[] = [],
-  websocketListeners: ((wsm$: Subject<WS_MESSAGE>, dispatch: Dispatch<SA>) => void)[] = [],
+  middleware: ((action: SA, state: SS, dispatch: Dispatch<SA>, nextState: SS) => void)[] = [],
+  websocketListeners:
+    ((wsm$: Subject<WS_MESSAGE>, dispatch: Dispatch<SA>, ss$: Subject<SS>) => void)[] = [],
 ): Store<SS, SA> {
   const storeState$ = new BehaviorSubject<SS>(initialState);
 
   const dispatch = (action: SA): void => {
     const currentState = storeState$.getValue();
 
-    // handle middlewares
-    middleware.forEach((m) => m(action, currentState, delayedDispatch));
-
     // calc next state
     const nextState = reducer(currentState, action);
+
+    // handle middlewares
+    middleware.forEach((m) => m(action, currentState, delayedDispatch, nextState));
 
     // update state
     storeState$.next(nextState);
@@ -41,7 +42,9 @@ export default function createStore<SS, SA>(
     window.requestAnimationFrame(() => dispatch(action));
   };
 
-  websocketListeners.forEach((listener) => listener(websocketMessages$, delayedDispatch));
+  websocketListeners.forEach(
+    (listener) => listener(websocketMessages$, delayedDispatch, storeState$),
+  );
 
   return {
     state$: storeState$,

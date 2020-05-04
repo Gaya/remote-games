@@ -2,6 +2,8 @@ import React, { useCallback, useState } from 'react';
 
 import copyToClipboard from '../../utils/copyToClipboard';
 
+import { Room, User } from '../App/store/types';
+
 import {
   Alignment,
   Button,
@@ -16,18 +18,20 @@ import {
 import Nickname from './Nickname';
 
 interface StatusBarProps {
-  nickname: string;
-  roomId?: string;
+  user?: User;
+  room?: Room;
   onLeave: () => void;
 }
 
-const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
+const StatusBar: React.FC<StatusBarProps> = ({ user, room, onLeave }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const onCopyId = useCallback(() => {
+    if (!room) return;
+
     setIsCopied(true);
-    copyToClipboard(roomId || '');
-  }, [setIsCopied, roomId]);
+    copyToClipboard(room.id || '');
+  }, [setIsCopied, room]);
 
   return (
     <Navbar>
@@ -35,7 +39,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
         <NavbarHeading>Remote Games</NavbarHeading>
       </NavbarGroup>
 
-      {roomId !== '' && (
+      {room && (
         <NavbarGroup align={Alignment.RIGHT}>
           <Tooltip
             content={isCopied ? 'Copied!' : 'Click to copy room id'}
@@ -46,7 +50,7 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
             <Button
               minimal
               icon="presentation"
-              text={`${roomId}`}
+              text={`${room.id}`}
               type="button"
               onClick={onCopyId}
             />
@@ -62,9 +66,11 @@ const StatusBar: React.FC<StatusBarProps> = ({ nickname, roomId, onLeave }) => {
         </NavbarGroup>
       )}
 
-      <NavbarGroup align={Alignment.RIGHT}>
-        <Nickname nickname={nickname} />
-      </NavbarGroup>
+      {user && (
+        <NavbarGroup align={Alignment.RIGHT}>
+          <Nickname user={user} />
+        </NavbarGroup>
+      )}
     </Navbar>
   );
 };
