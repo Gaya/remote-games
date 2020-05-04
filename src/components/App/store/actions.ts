@@ -52,18 +52,6 @@ export function failedWS(): AppFailedWS {
   };
 }
 
-interface AppUpdateNickname {
-  type: AppActionType.UPDATE_NICKNAME;
-  nickname: string;
-}
-
-export function updateNickname(nickname: string): AppUpdateNickname {
-  return {
-    type: AppActionType.UPDATE_NICKNAME,
-    nickname,
-  };
-}
-
 interface AppJoinRoom {
   type: AppActionType.JOIN_ROOM;
   id: string;
@@ -83,6 +71,18 @@ interface AppLeaveRoom {
 export function leaveRoom(): AppLeaveRoom {
   return {
     type: AppActionType.LEAVE_ROOM,
+  };
+}
+
+interface AppUpdateNickname {
+  type: AppActionType.UPDATE_NICKNAME;
+  nickname: string;
+}
+
+export function updateNickname(nickname: string): AppUpdateNickname {
+  return {
+    type: AppActionType.UPDATE_NICKNAME,
+    nickname,
   };
 }
 
