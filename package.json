@@ -15,6 +15,7 @@
     "@types/shortid": "0.0.29",
     "@types/ws": "^7.2.4",
     "dotenv": "^8.2.0",
+    "formik": "^2.1.4",
     "normalize.css": "^8.0.1",
     "project-name-generator": "^2.1.7",
     "react": "^16.13.1",
