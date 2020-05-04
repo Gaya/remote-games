@@ -20,7 +20,10 @@ import {
 } from '@blueprintjs/core/lib/esnext';
 
 import './styles';
-import DialogBody from './DialogBody';
+
+import DialogBody from './Dialog/DialogBody';
+import DialogFooter from './Dialog/DialogFooter';
+import DialogFooterActions from './Dialog/DialogFooterActions';
 
 export {
   Alignment,
@@ -28,6 +31,8 @@ export {
   Card,
   Classes,
   Dialog,
+  DialogFooter,
+  DialogFooterActions,
   Divider,
   Elevation,
   FormGroup,

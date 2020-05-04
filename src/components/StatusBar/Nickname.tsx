@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { User } from '../App/store/types';
 
 import {
   Button,
   Dialog,
-  DialogBody,
+  DialogBody, DialogFooter, DialogFooterActions,
   Position,
   Tooltip,
 } from '../UI';
@@ -16,6 +16,8 @@ interface NicknameProps {
 
 const Nickname: React.FC<NicknameProps> = ({ user }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const closeModal = useCallback((): void => setIsOpen(false), [setIsOpen]);
 
   return (
     <>
@@ -33,15 +35,19 @@ const Nickname: React.FC<NicknameProps> = ({ user }) => {
         />
       </Tooltip>
       <Dialog
-        className="bp3-dark"
         isOpen={isOpen}
-        onClose={(): void => setIsOpen(false)}
+        onClose={closeModal}
         icon="user"
         title="Change nickname"
       >
         <DialogBody>
           Change username
         </DialogBody>
+        <DialogFooter>
+          <DialogFooterActions>
+            <Button type="button" onClick={closeModal}>Close</Button>
+          </DialogFooterActions>
+        </DialogFooter>
       </Dialog>
     </>
   );
