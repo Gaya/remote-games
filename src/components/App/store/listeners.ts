@@ -6,10 +6,7 @@ import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 
 import {
-  AppActions,
-  failedWS,
-  joinRoom,
-  openWS, updatedNickname,
+  AppActions, failedWS, joinRoom, openWS, updatedNickname,
 } from './actions';
 import { AppState } from './types';
 
@@ -41,7 +38,7 @@ function onConnectionFailed(
     });
 }
 
-function onJoinRoom(
+function onCreateRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
   state$: Subject<AppState>,
@@ -55,6 +52,23 @@ function onJoinRoom(
       if (action.type !== WSActionTypes.WS_CREATED_ROOM) return;
 
       dispatch(joinRoom(action.id, [state.app.userId]));
+    });
+}
+
+function onJoinRoom(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+  state$: Subject<AppState>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_JOINED_ROOM),
+      withLatestFrom(state$),
+    )
+    .subscribe(([action]) => {
+      if (action.type !== WSActionTypes.WS_JOINED_ROOM) return;
+
+      dispatch(joinRoom(action.id, action.users));
     });
 }
 
@@ -76,4 +90,4 @@ function onUpdatedNickname(
     });
 }
 
-export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname];
+export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom];

@@ -18,6 +18,10 @@ export function createRoom(user: WsUser): string {
 }
 
 export function joinRoom(id: string, user: WsUser): string {
+  if (!currentRooms[id]) {
+    throw new Error(`Room '${id}' does not exist`);
+  }
+
   // put user in room
   currentRooms[id] = [...currentRooms[id], user];
 

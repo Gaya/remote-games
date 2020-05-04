@@ -14,3 +14,7 @@ html, body, #root {
     justify-content: center;
     align-items: center;
 }
+
+form .bp3-callout {
+    margin: 1em 0;
+}

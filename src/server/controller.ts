@@ -28,6 +28,7 @@ const Controller = {
       user.sendMessage({
         type: WSActionTypes.WS_JOINED_ROOM,
         id,
+        users: roomUsers(id).map((u) => u.id),
       });
 
       log('Join room:', roomId, user.id);

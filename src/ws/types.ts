@@ -47,6 +47,7 @@ export interface WSJoinRoom {
 export interface WSJoinedRoom {
   type: WSActionTypes.WS_JOINED_ROOM;
   id: string;
+  users: string[];
 }
 
 interface WSJoinRoomFailed {

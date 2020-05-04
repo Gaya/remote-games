@@ -13,7 +13,7 @@ import './App.css';
 const App: React.FC = () => {
   const [state, actions] = useStore();
 
-  const { retryConnect, leaveRoom } = actions;
+  const { retryConnect } = actions;
 
   const {
     isActive,

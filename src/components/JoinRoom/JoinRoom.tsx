@@ -3,13 +3,14 @@ import { useFormik } from 'formik';
 
 import {
   Button,
+  Callout,
   Card,
   Divider,
   Elevation,
   FormGroup,
   H5,
   InputGroup,
-  Intent,
+  Intent, Tag,
 } from '../UI';
 
 import './JoinRoom.css';
@@ -19,20 +20,29 @@ import useStore from './store/useStore';
 const JoinRoom: React.FunctionComponent = () => {
   const [state, actions] = useStore();
 
-  const { isCreating, isJoining } = state;
-  const { createRoom } = actions;
+  const { isCreating, isJoining, joinError } = state;
+  const { createRoom, joinRoom } = actions;
 
   const isBusy = isCreating || isJoining;
 
   // enable to auto connect
   // useEffect(onCreateRoom, []);
 
-  useFormik({
+  const form = useFormik({
     initialValues: {
       room: '',
     },
+    validate(values) {
+      const errors: { room?: string } = {};
+
+      if (!values.room || values.room.trim() === '') {
+        errors.room = 'Required';
+      }
+
+      return errors;
+    },
     onSubmit(values) {
-      console.log(values);
+      joinRoom(values.room);
     },
   });
 
@@ -63,13 +73,29 @@ const JoinRoom: React.FunctionComponent = () => {
           Someone already opened a room you want to join?
         </p>
 
-        <form onSubmit={(e): void => { e.preventDefault(); }}>
+        <form onSubmit={form.handleSubmit}>
+          {joinError !== '' && (
+            <Callout intent={Intent.DANGER}>{joinError}</Callout>
+          )}
           <FormGroup
             label="Room ID"
             labelFor="room-id"
             disabled={isBusy}
           >
-            <InputGroup id="room-id" disabled={isBusy} placeholder="eg: PPBqWA9" />
+            <InputGroup
+              id="room-id"
+              disabled={isBusy}
+              placeholder="eg: PPBqWA9"
+              value={form.values.room}
+              name="room"
+              onChange={form.handleChange}
+              intent={form.errors.room && form.touched.room ? Intent.DANGER : Intent.NONE}
+              rightElement={
+                form.errors.room && form.touched.room ? (
+                  <Tag intent={Intent.DANGER}>{form.errors.room}</Tag>
+                ) : undefined
+              }
+            />
           </FormGroup>
 
           <Button disabled={isBusy} loading={isJoining} type="submit" icon="log-in" text="Join room" />

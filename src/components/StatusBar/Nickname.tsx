@@ -28,7 +28,7 @@ const Nickname: React.FC = () => {
 
   const form = useFormik({
     initialValues: { nickname: user?.nickname },
-    validate: (values) => {
+    validate(values) {
       const errors: { nickname?: string } = {};
 
       if (!values.nickname || values.nickname.trim() === '') {
@@ -37,7 +37,7 @@ const Nickname: React.FC = () => {
 
       return errors;
     },
-    onSubmit: (values) => {
+    onSubmit(values) {
       if (values.nickname && values.nickname.trim() !== user?.nickname) {
         changeNickname(values.nickname.trim());
       }
