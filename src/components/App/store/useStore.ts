@@ -6,6 +6,7 @@ import reducer from './reducer';
 import { AppState } from './types';
 import {
   initApp,
+  leaveRoom,
   retryWS,
   updateNickname,
 } from './actions';
@@ -46,7 +47,7 @@ function useStore(): [AppState, DispatchActions] {
       dispatch(retryWS());
     },
     leaveRoom: (): void => {
-      dispatch(retryWS());
+      dispatch(leaveRoom());
     },
     changeNickname: (nickname: string): void => {
       dispatch(updateNickname(nickname));

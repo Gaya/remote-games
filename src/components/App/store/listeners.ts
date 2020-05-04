@@ -21,10 +21,10 @@ function onConnectionOpen(
     .pipe(
       ofType(WSActionTypes.WS_OPEN_CONNECTION),
     )
-    .subscribe((msg) => {
-      if (msg.type === WSActionTypes.WS_OPEN_CONNECTION) {
-        dispatch(openWS(msg.id, msg.nickname));
-      }
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_OPEN_CONNECTION) return;
+
+      dispatch(openWS(action.id, action.nickname));
     });
 }
 
@@ -51,10 +51,10 @@ function onJoinRoom(
       ofType(WSActionTypes.WS_CREATED_ROOM),
       withLatestFrom(state$),
     )
-    .subscribe(([msg, state]) => {
-      if (msg.type === WSActionTypes.WS_CREATED_ROOM) {
-        dispatch(joinRoom(msg.id, [state.app.userId]));
-      }
+    .subscribe(([action, state]) => {
+      if (action.type !== WSActionTypes.WS_CREATED_ROOM) return;
+
+      dispatch(joinRoom(action.id, [state.app.userId]));
     });
 }
 
@@ -68,10 +68,11 @@ function onUpdatedNickname(
       ofType(WSActionTypes.WS_UPDATED_NICKNAME),
       withLatestFrom(state$),
     )
-    .subscribe(([msg, state]) => {
-      if (msg.type === WSActionTypes.WS_UPDATED_NICKNAME && state.app.userId !== msg.id) {
-        dispatch(updatedNickname(msg.id, msg.nickname));
-      }
+    .subscribe(([action, state]) => {
+      if (action.type !== WSActionTypes.WS_UPDATED_NICKNAME
+        || state.app.userId !== action.id) return;
+
+      dispatch(updatedNickname(action.id, action.nickname));
     });
 }
 

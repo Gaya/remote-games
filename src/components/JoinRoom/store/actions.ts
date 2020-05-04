@@ -3,6 +3,7 @@ export enum RoomActionType {
   'CREATE_ROOM' = 'CREATE_ROOM',
   'CREATE_ROOM_FAILED' = 'CREATE_ROOM_FAILED',
   'JOIN_ROOM' = 'JOIN_ROOM',
+  'JOIN_ROOM_FAILED' = 'JOIN_ROOM_FAILED',
 }
 
 interface RoomReset {
@@ -39,12 +40,27 @@ export function joinRoom(id: string): RoomJoinAction {
 
 interface RoomCreateFailedAction {
   type: RoomActionType.CREATE_ROOM_FAILED;
+  error: string;
 }
 
-export function createRoomFailed(): RoomCreateFailedAction {
+export function createRoomFailed(error: string): RoomCreateFailedAction {
   return {
     type: RoomActionType.CREATE_ROOM_FAILED,
+    error,
   };
 }
 
-export type RoomActions = RoomCreateAction | RoomJoinAction | RoomCreateFailedAction | RoomReset;
+interface RoomJoinFailedAction {
+  type: RoomActionType.JOIN_ROOM_FAILED;
+  error: string;
+}
+
+export function joinRoomFailed(error: string): RoomJoinFailedAction {
+  return {
+    type: RoomActionType.JOIN_ROOM_FAILED,
+    error,
+  };
+}
+
+export type RoomActions = RoomCreateAction | RoomJoinAction | RoomCreateFailedAction | RoomReset
+  | RoomJoinFailedAction;

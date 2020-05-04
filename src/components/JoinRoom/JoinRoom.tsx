@@ -16,9 +16,10 @@ import './JoinRoom.css';
 import useStore from './store/useStore';
 
 const JoinRoom: React.FunctionComponent = () => {
-  const [state, onCreateRoom] = useStore();
+  const [state, actions] = useStore();
 
   const { isCreating, isJoining } = state;
+  const { createRoom } = actions;
 
   const isBusy = isCreating || isJoining;
 
@@ -40,7 +41,7 @@ const JoinRoom: React.FunctionComponent = () => {
           loading={isCreating}
           intent={Intent.SUCCESS}
           text="Create new JoinRoom"
-          onClick={(): void => onCreateRoom()}
+          onClick={createRoom}
         />
 
         <Divider className="Room__divider" />

@@ -51,7 +51,7 @@ export interface WSJoinedRoom {
 
 interface WSJoinRoomFailed {
   type: WSActionTypes.WS_JOIN_ROOM_FAILED;
-  message: string;
+  error: string;
 }
 
 interface WSUpdateNickname {

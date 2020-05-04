@@ -4,7 +4,12 @@ import { Subject } from 'rxjs';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 import { ofType } from '../../../ws/utils';
 
-import { createRoomFailed, reset, RoomActions } from './actions';
+import {
+  createRoomFailed,
+  joinRoomFailed,
+  reset,
+  RoomActions,
+} from './actions';
 
 function onJoinRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
@@ -28,8 +33,23 @@ function onCreateFailed(
       ofType(WSActionTypes.WS_CREATE_ROOM_FAILED),
     )
     .subscribe(() => {
-      dispatch(createRoomFailed());
+      dispatch(createRoomFailed('Creating room failed'));
     });
 }
 
-export default [onJoinRoom, onCreateFailed];
+function onJoinFailed(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<RoomActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_JOIN_ROOM_FAILED),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_JOIN_ROOM_FAILED) return;
+
+      dispatch(joinRoomFailed(action.error));
+    });
+}
+
+export default [onJoinRoom, onCreateFailed, onJoinFailed];

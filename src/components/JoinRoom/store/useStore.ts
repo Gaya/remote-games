@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import createStore from '../../../stores/createStore';
 
@@ -10,20 +10,26 @@ import { createRoom, joinRoom } from './actions';
 
 const appStore = createStore(reducer, defaultState, middleware, listeners);
 
-function useStore(): [RoomState, () => void, (id: string) => void] {
+interface DispatchActions {
+  createRoom: () => void;
+  joinRoom: (id: string) => void;
+}
+
+function useStore(): [RoomState, DispatchActions] {
   const { dispatch, useStoreState } = appStore;
 
   const state = useStoreState();
 
-  const onCreateRoom = useCallback(() => {
-    dispatch(createRoom());
-  }, [dispatch]);
+  const actions: DispatchActions = useMemo(() => ({
+    createRoom: (): void => {
+      dispatch(createRoom());
+    },
+    joinRoom: (id: string): void => {
+      dispatch(joinRoom(id));
+    },
+  }), [dispatch]);
 
-  const onJoinRoom = useCallback((id: string) => {
-    dispatch(joinRoom(id));
-  }, [dispatch]);
-
-  return [state, onCreateRoom, onJoinRoom];
+  return [state, actions];
 }
 
 export default useStore;

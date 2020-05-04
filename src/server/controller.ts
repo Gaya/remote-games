@@ -34,7 +34,7 @@ const Controller = {
     } catch (err) {
       user.sendMessage({
         type: WSActionTypes.WS_JOIN_ROOM_FAILED,
-        message: err.message,
+        error: err.message,
       });
 
       log('Join room failed:', roomId, user.id);
