@@ -9,7 +9,7 @@ import {
   AppActions,
   failedWS,
   joinRoom,
-  openWS,
+  openWS, updatedNickname,
 } from './actions';
 import { AppState } from './types';
 
@@ -58,4 +58,21 @@ function onJoinRoom(
     });
 }
 
-export default [onConnectionOpen, onConnectionFailed, onJoinRoom];
+function onUpdatedNickname(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+  state$: Subject<AppState>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_UPDATED_NICKNAME),
+      withLatestFrom(state$),
+    )
+    .subscribe(([msg, state]) => {
+      if (msg.type === WSActionTypes.WS_UPDATED_NICKNAME && state.app.userId !== msg.id) {
+        dispatch(updatedNickname(msg.id, msg.nickname));
+      }
+    });
+}
+
+export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname];

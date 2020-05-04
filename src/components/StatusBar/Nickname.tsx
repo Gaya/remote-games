@@ -67,7 +67,7 @@ const Nickname: React.FC<NicknameProps> = ({ user, onChangeNickname }) => {
       <Dialog
         isOpen={isOpen}
         onClose={closeModal}
-        onClosed={() => form.resetForm()}
+        onClosed={(): void => form.resetForm()}
         icon="user"
         title="Change nickname"
       >

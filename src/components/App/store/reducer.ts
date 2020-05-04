@@ -1,10 +1,8 @@
 import {
-  App,
-  AppState,
-  Rooms,
-  Users,
+  App, AppState, Rooms, Users,
 } from './types';
 import { AppActions, AppActionType } from './actions';
+import { replaceAtId } from '../../../stores/utils';
 
 function app(state: App, action: AppActions): App {
   switch (action.type) {
@@ -41,22 +39,19 @@ function app(state: App, action: AppActions): App {
 
 function users(state: Users, action: AppActions, root: AppState): Users {
   switch (action.type) {
+    case AppActionType.UPDATED_NICKNAME:
     case AppActionType.OPEN_WS:
-      return {
-        ...state,
-        [action.id]: {
-          ...state[action.id],
-          nickname: action.nickname,
-        },
-      };
+      return replaceAtId(state, {
+        ...state[action.id],
+        id: action.id,
+        nickname: action.nickname,
+      });
     case AppActionType.UPDATE_NICKNAME:
-      return {
-        ...state,
-        [root.app.userId]: {
-          ...state[root.app.userId],
-          nickname: action.nickname,
-        },
-      };
+      return replaceAtId(state, {
+        ...state[root.app.userId],
+        id: root.app.userId,
+        nickname: action.nickname,
+      });
     default:
       return state;
   }

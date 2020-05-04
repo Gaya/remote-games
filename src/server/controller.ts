@@ -1,5 +1,7 @@
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
-import { createRoom, joinRoom, leaveRoom } from './rooms';
+import {
+  createRoom, joinRoom, leaveRoom, roomUsers,
+} from './rooms';
 import { log } from './logging';
 import { WsUser } from './types';
 
@@ -38,6 +40,17 @@ const Controller = {
       log('Join room failed:', roomId, user.id);
     }
   },
+  updateNickname(user: WsUser, nickname: string): void {
+    user.setNickname(nickname);
+
+    roomUsers(user.currentRoom).forEach((u) => {
+      u.sendMessage({
+        type: WSActionTypes.WS_UPDATED_NICKNAME,
+        id: user.id,
+        nickname,
+      });
+    });
+  },
 };
 
 function handleMessage(data: WS_MESSAGE, user: WsUser): void {
@@ -48,6 +61,8 @@ function handleMessage(data: WS_MESSAGE, user: WsUser): void {
       return Controller.leaveRoom(user);
     case WSActionTypes.WS_JOIN_ROOM:
       return Controller.joinRoom(user, data.id);
+    case WSActionTypes.WS_UPDATE_NICKNAME:
+      return Controller.updateNickname(user, data.nickname);
     default: {
       log(`No method found for '${data.type}'`);
       return undefined;

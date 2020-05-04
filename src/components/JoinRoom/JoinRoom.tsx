@@ -16,14 +16,14 @@ import './JoinRoom.css';
 import useStore from './store/useStore';
 
 const JoinRoom: React.FunctionComponent = () => {
-  const [state, onCreateRoom, onJoinRoom] = useStore();
+  const [state, onCreateRoom] = useStore();
 
   const { isCreating, isJoining } = state;
 
   const isBusy = isCreating || isJoining;
 
-  // @TODO remove
-  useEffect(onCreateRoom, []);
+  // enable to auto connect
+  // useEffect(onCreateRoom, []);
 
   return (
     <div className="Room">
@@ -40,7 +40,7 @@ const JoinRoom: React.FunctionComponent = () => {
           loading={isCreating}
           intent={Intent.SUCCESS}
           text="Create new JoinRoom"
-          onClick={() => onCreateRoom()}
+          onClick={(): void => onCreateRoom()}
         />
 
         <Divider className="Room__divider" />
@@ -52,7 +52,7 @@ const JoinRoom: React.FunctionComponent = () => {
           Someone already opened a room you want to join?
         </p>
 
-        <form onSubmit={(e) => { e.preventDefault(); }}>
+        <form onSubmit={(e): void => { e.preventDefault(); }}>
           <FormGroup
             label="Room ID"
             labelFor="room-id"

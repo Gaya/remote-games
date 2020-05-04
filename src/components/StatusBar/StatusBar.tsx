@@ -46,7 +46,7 @@ const StatusBar: React.FC<StatusBarProps> = ({
         <NavbarGroup align={Alignment.RIGHT}>
           <Tooltip
             content={isCopied ? 'Copied!' : 'Click to copy room id'}
-            onClosed={() => setIsCopied(false)}
+            onClosed={(): void => setIsCopied(false)}
             hoverOpenDelay={300}
             position={Position.BOTTOM}
           >

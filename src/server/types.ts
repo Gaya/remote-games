@@ -8,4 +8,5 @@ export interface WsUser {
   ws: WebSocket;
   setCurrentRoom(room: string): void;
   sendMessage(message: WS_MESSAGE): void;
+  setNickname(nickname: string): void;
 }

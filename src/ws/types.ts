@@ -8,6 +8,8 @@ export enum WSActionTypes {
   'WS_JOIN_ROOM_FAILED'= 'WS_JOIN_ROOM_FAILED',
   'WS_JOINED_ROOM'= 'WS_JOINED_ROOM',
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
+  'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
+  'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
 }
 
 interface WSFailedConnection {
@@ -52,5 +54,17 @@ interface WSJoinRoomFailed {
   message: string;
 }
 
+interface WSUpdateNickname {
+  type: WSActionTypes.WS_UPDATE_NICKNAME;
+  nickname: string;
+}
+
+interface WSUpdatedNickname {
+  type: WSActionTypes.WS_UPDATED_NICKNAME;
+  id: string;
+  nickname: string;
+}
+
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
-  | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed;
+  | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
+  | WSUpdateNickname | WSUpdatedNickname;

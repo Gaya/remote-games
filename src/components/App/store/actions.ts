@@ -4,6 +4,7 @@ export enum AppActionType {
   OPEN_WS = 'OPEN_WS',
   FAILED_WS = 'FAILED_WS',
   UPDATE_NICKNAME = 'UPDATE_NICKNAME',
+  UPDATED_NICKNAME = 'UPDATED_NICKNAME',
   JOIN_ROOM = 'JOIN_ROOM',
   LEAVE_ROOM = 'LEAVE_ROOM',
 }
@@ -88,5 +89,19 @@ export function updateNickname(nickname: string): AppUpdateNickname {
   };
 }
 
+interface AppUpdatedNickname {
+  type: AppActionType.UPDATED_NICKNAME;
+  id: string;
+  nickname: string;
+}
+
+export function updatedNickname(id: string, nickname: string): AppUpdatedNickname {
+  return {
+    type: AppActionType.UPDATED_NICKNAME,
+    id,
+    nickname,
+  };
+}
+
 export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
-  | AppJoinRoom | AppLeaveRoom;
+  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname;

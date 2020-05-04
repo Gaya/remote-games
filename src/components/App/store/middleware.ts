@@ -19,6 +19,15 @@ function onLeaveRoom(action: AppActions): void {
   });
 }
 
-const middleware = [createLogMiddleware('App'), connectToWS, onLeaveRoom];
+function onUpdateNickname(action: AppActions): void {
+  if (action.type !== AppActionType.UPDATE_NICKNAME) return;
+
+  sendWSMessage({
+    type: WSActionTypes.WS_UPDATE_NICKNAME,
+    nickname: action.nickname,
+  });
+}
+
+const middleware = [createLogMiddleware('App'), connectToWS, onLeaveRoom, onUpdateNickname];
 
 export default middleware;

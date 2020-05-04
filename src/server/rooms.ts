@@ -5,6 +5,10 @@ import { log } from './logging';
 
 const currentRooms: { [id: string]: WsUser[] } = {};
 
+export function roomUsers(id: string): WsUser[] {
+  return currentRooms[id] || [];
+}
+
 export function createRoom(user: WsUser): string {
   const id = shortid.generate();
 

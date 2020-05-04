@@ -26,5 +26,8 @@ export function createUser(ws: WebSocket): WsUser {
     setCurrentRoom(id: string): void {
       this.currentRoom = id;
     },
+    setNickname(nickname: string): void {
+      this.nickname = nickname;
+    },
   };
 }

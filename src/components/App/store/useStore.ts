@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import createStore from '../../../stores/createStore';
 
 import reducer from './reducer';
 import { AppState } from './types';
 import {
-  initApp, leaveRoom, retryWS, updateNickname,
+  initApp,
+  retryWS,
+  updateNickname,
 } from './actions';
 import middleware from './middleware';
 import listeners from './listeners';
