@@ -17,6 +17,7 @@ const defaultState = {
   app: {
     isActive: false,
     activeRoom: '',
+    hasNickname: false,
     hasConnectionError: false,
     userId: '',
   },

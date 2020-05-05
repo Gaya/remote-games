@@ -1,5 +1,6 @@
 export enum WSActionTypes {
   'WS_OPEN_CONNECTION'= 'WS_OPEN_CONNECTION',
+  'WS_CLOSE_CONNECTION'= 'WS_CLOSE_CONNECTION',
   'WS_FAILED_CONNECTION'= 'WS_FAILED_CONNECTION',
   'WS_CREATE_ROOM'= 'WS_CREATE_ROOM',
   'WS_CREATE_ROOM_FAILED'= 'WS_CREATE_ROOM_FAILED',
@@ -10,7 +11,7 @@ export enum WSActionTypes {
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
   'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
   'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
-  'WS_CLOSE_CONNECTION'= 'WS_CLOSE_CONNECTION',
+  'WS_REQUEST_NICKNAME'= 'WS_REQUEST_NICKNAME',
 }
 
 interface WSCloseConnection {
@@ -71,6 +72,10 @@ interface WSUpdatedNickname {
   nickname: string;
 }
 
+interface WSRequestNickname {
+  type: WSActionTypes.WS_REQUEST_NICKNAME;
+}
+
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
   | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
-  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection;
+  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname;

@@ -10,11 +10,15 @@ import { WS_MESSAGE } from '../ws/types';
 import { WsUser } from './types';
 import { log } from './logging';
 
+export function generateNickname(): string {
+  return generateName().spaced;
+}
+
 export function createUser(ws: WebSocket): WsUser {
   return {
     id: shortid.generate(),
     currentRoom: '',
-    nickname: generateName().spaced,
+    nickname: '',
     ws,
     sendMessage(message: WS_MESSAGE): void {
       const msg = JSON.stringify(message);

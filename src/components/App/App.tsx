@@ -5,7 +5,7 @@ import Lobby from '../Lobby/Lobby';
 import StatusBar from '../StatusBar/StatusBar';
 
 import useStore from './store/useStore';
-import { useCurrentRoom, useCurrentUser } from './store/selectors';
+import { useCurrentRoom } from './store/selectors';
 
 import ConnectionFailed from './ConnectionFailed';
 import Loading from './Loading';
@@ -19,20 +19,20 @@ const App: React.FC = () => {
 
   const {
     isActive,
+    hasNickname,
     hasConnectionError,
   } = state.app;
 
-  const user = useCurrentUser(state);
   const room = useCurrentRoom(state);
 
   // first time start up, connecting to WS
   useEffect(() => {
-    if (!isActive || !user) {
+    if (!isActive && !hasNickname) {
       init();
     }
-  }, [init, isActive, user]);
+  }, [hasNickname, init, isActive]);
 
-  if (!isActive || !user) {
+  if (!isActive || !hasNickname) {
     if (hasConnectionError) {
       return <ConnectionFailed />;
     }

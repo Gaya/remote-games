@@ -6,6 +6,7 @@ export interface AppState {
 
 export interface App {
   isActive: boolean;
+  hasNickname: boolean;
   hasConnectionError: boolean;
   userId: string;
   activeRoom: string;
@@ -27,4 +28,8 @@ export interface Room {
 
 export interface Rooms {
   [id: string]: Room;
+}
+
+export enum LocalStorageKeys {
+  nickname = 'RG_NICKNAME'
 }

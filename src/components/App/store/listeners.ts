@@ -4,11 +4,13 @@ import { withLatestFrom } from 'rxjs/operators';
 
 import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
+import { sendWSMessage } from '../../../ws/websockets';
 
 import {
   AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname,
 } from './actions';
 import { AppState } from './types';
+import { getStoredNickname } from './utils';
 
 function onConnectionOpen(
   webSocketMessage$: Subject<WS_MESSAGE>,
@@ -21,7 +23,18 @@ function onConnectionOpen(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_OPEN_CONNECTION) return;
 
-      dispatch(openWS(action.id, action.nickname));
+      dispatch(openWS(action.id));
+
+      const nickname = getStoredNickname();
+
+      const nicknameAction: WS_MESSAGE = nickname && nickname !== '' ? {
+        type: WSActionTypes.WS_UPDATE_NICKNAME,
+        nickname,
+      } : {
+        type: WSActionTypes.WS_REQUEST_NICKNAME,
+      };
+
+      sendWSMessage(nicknameAction);
     });
 }
 
@@ -95,9 +108,8 @@ function onUpdatedNickname(
       ofType(WSActionTypes.WS_UPDATED_NICKNAME),
       withLatestFrom(state$),
     )
-    .subscribe(([action, state]) => {
-      if (action.type !== WSActionTypes.WS_UPDATED_NICKNAME
-        || state.app.userId !== action.id) return;
+    .subscribe(([action]) => {
+      if (action.type !== WSActionTypes.WS_UPDATED_NICKNAME) return;
 
       dispatch(updatedNickname(action.id, action.nickname));
     });

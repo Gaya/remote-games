@@ -38,6 +38,11 @@ function app(state: App, action: AppActions): App {
         ...state,
         hasConnectionError: false,
       };
+    case AppActionType.UPDATED_NICKNAME:
+      return {
+        ...state,
+        hasNickname: true,
+      };
     default:
       return state;
   }
@@ -45,13 +50,12 @@ function app(state: App, action: AppActions): App {
 
 function users(state: Users, action: AppActions, root: AppState): Users {
   switch (action.type) {
-    case AppActionType.UPDATED_NICKNAME:
     case AppActionType.OPEN_WS:
       return replaceAtId(state, {
         ...state[action.id],
         id: action.id,
-        nickname: action.nickname,
       });
+    case AppActionType.UPDATED_NICKNAME:
     case AppActionType.UPDATE_NICKNAME:
       return replaceAtId(state, {
         ...state[root.app.userId],
@@ -66,14 +70,11 @@ function users(state: Users, action: AppActions, root: AppState): Users {
 function rooms(state: Rooms, action: AppActions, root: AppState): Rooms {
   switch (action.type) {
     case AppActionType.JOIN_ROOM:
-      return {
-        ...state,
-        [action.id]: {
-          ...state[action.id],
-          id: action.id,
-          users: [root.app.userId],
-        },
-      };
+      return replaceAtId(state, {
+        ...state[action.id],
+        id: action.id,
+        users: [root.app.userId],
+      });
     default:
       return state;
   }
