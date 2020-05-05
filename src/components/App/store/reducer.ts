@@ -81,6 +81,12 @@ function users(state: Users, action: AppActions, root: AppState): Users {
 
 function rooms(state: Rooms, action: AppActions): Rooms {
   switch (action.type) {
+    case AppActionType.USER_LEFT_ROOM:
+      return replaceAtId(state, {
+        ...state[action.id],
+        id: action.id,
+        users: state[action.id].users.filter((u) => u !== action.userId),
+      });
     case AppActionType.USER_JOINED_ROOM:
       return replaceAtId(state, {
         ...state[action.id],

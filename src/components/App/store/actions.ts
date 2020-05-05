@@ -10,6 +10,7 @@ export enum AppActionType {
   UPDATED_NICKNAME = 'UPDATED_NICKNAME',
   JOIN_ROOM = 'JOIN_ROOM',
   USER_JOINED_ROOM = 'USER_JOINED_ROOM',
+  USER_LEFT_ROOM = 'USER_LEFT_ROOM',
   LEAVE_ROOM = 'LEAVE_ROOM',
 }
 
@@ -93,6 +94,20 @@ export function userJoinedRoom(id: string, user: User): AppUserJoinedRoom {
   };
 }
 
+interface AppUserLeftRoom {
+  type: AppActionType.USER_LEFT_ROOM;
+  id: string;
+  userId: string;
+}
+
+export function userLeftRoom(id: string, userId: string): AppUserLeftRoom {
+  return {
+    type: AppActionType.USER_LEFT_ROOM,
+    id,
+    userId,
+  };
+}
+
 interface AppLeaveRoom {
   type: AppActionType.LEAVE_ROOM;
 }
@@ -130,4 +145,5 @@ export function updatedNickname(id: string, nickname: string): AppUpdatedNicknam
 }
 
 export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
-  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS | AppUserJoinedRoom;
+  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS | AppUserJoinedRoom
+  | AppUserLeftRoom;

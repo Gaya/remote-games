@@ -11,6 +11,7 @@ export enum WSActionTypes {
   'WS_JOIN_ROOM_FAILED'= 'WS_JOIN_ROOM_FAILED',
   'WS_JOINED_ROOM'= 'WS_JOINED_ROOM',
   'WS_USER_JOINED_ROOM'= 'WS_USER_JOINED_ROOM',
+  'WS_USER_LEFT_ROOM'= 'WS_USER_LEFT_ROOM',
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
   'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
   'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
@@ -65,6 +66,12 @@ export interface WSUserJoinedRoom {
   user: User;
 }
 
+export interface WSUserLeftRoom {
+  type: WSActionTypes.WS_USER_LEFT_ROOM;
+  id: string;
+  userId: string;
+}
+
 interface WSJoinRoomFailed {
   type: WSActionTypes.WS_JOIN_ROOM_FAILED;
   error: string;
@@ -87,4 +94,5 @@ interface WSRequestNickname {
 
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
   | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
-  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname | WSUserJoinedRoom;
+  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname | WSUserJoinedRoom
+  | WSUserLeftRoom;

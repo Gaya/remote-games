@@ -7,7 +7,7 @@ import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 import { sendWSMessage } from '../../../ws/websockets';
 
 import {
-  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname, userJoinedRoom,
+  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname, userJoinedRoom, userLeftRoom,
 } from './actions';
 import { AppState } from './types';
 import { getStoredNickname } from './utils';
@@ -111,6 +111,21 @@ function onUserJoinedRoom(
     });
 }
 
+function onUserLeftRoom(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_USER_LEFT_ROOM),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_USER_LEFT_ROOM) return;
+
+      dispatch(userLeftRoom(action.id, action.userId));
+    });
+}
+
 function onUpdatedNickname(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
@@ -129,4 +144,4 @@ function onUpdatedNickname(
 }
 
 export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
-  onCloseConnection, onUserJoinedRoom];
+  onCloseConnection, onUserJoinedRoom, onUserLeftRoom];

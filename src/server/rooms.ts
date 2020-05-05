@@ -9,6 +9,11 @@ export function roomUsers(id: string): WsUser[] {
   return currentRooms[id] || [];
 }
 
+export function roomUsersWithoutUser(id: string, userId: string): WsUser[] {
+  return roomUsers(id)
+    .filter((u) => u.id !== userId);
+}
+
 export function roomUsersWithInfo(id: string): WsUserInfo[] {
   return roomUsers(id).map((user) => ({ id: user.id, nickname: user.nickname }));
 }
