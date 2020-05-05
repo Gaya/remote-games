@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 
 import {
@@ -26,7 +26,7 @@ const JoinRoom: React.FunctionComponent = () => {
   const isBusy = isCreating || isJoining;
 
   // enable to auto connect
-  // useEffect(onCreateRoom, []);
+  // useEffect(createRoom, []);
 
   const form = useFormik({
     initialValues: {

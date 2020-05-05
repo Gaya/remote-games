@@ -55,6 +55,12 @@ function users(state: Users, action: AppActions, root: AppState): Users {
         ...state[action.id],
         id: action.id,
       });
+    case AppActionType.USER_JOINED_ROOM:
+      return replaceAtId(state, {
+        ...state[action.id],
+        id: action.user.id,
+        nickname: action.user.nickname,
+      });
     case AppActionType.UPDATED_NICKNAME:
     case AppActionType.UPDATE_NICKNAME:
       return replaceAtId(state, {
@@ -62,18 +68,30 @@ function users(state: Users, action: AppActions, root: AppState): Users {
         id: root.app.userId,
         nickname: action.nickname,
       });
+    case AppActionType.JOIN_ROOM:
+      return action.users.reduce((acc, user): Users => replaceAtId(acc, {
+        ...acc[user.id],
+        id: user.id,
+        nickname: user.nickname,
+      }), state);
     default:
       return state;
   }
 }
 
-function rooms(state: Rooms, action: AppActions, root: AppState): Rooms {
+function rooms(state: Rooms, action: AppActions): Rooms {
   switch (action.type) {
+    case AppActionType.USER_JOINED_ROOM:
+      return replaceAtId(state, {
+        ...state[action.id],
+        id: action.id,
+        users: [...state[action.id].users, action.user.id],
+      });
     case AppActionType.JOIN_ROOM:
       return replaceAtId(state, {
         ...state[action.id],
         id: action.id,
-        users: [root.app.userId],
+        users: action.users.map((u) => u.id),
       });
     default:
       return state;
@@ -84,7 +102,7 @@ function reducer(state: AppState, action: AppActions): AppState {
   return {
     app: app(state.app, action),
     users: users(state.users, action, state),
-    rooms: rooms(state.rooms, action, state),
+    rooms: rooms(state.rooms, action),
   };
 }
 

@@ -1,3 +1,5 @@
+import { User } from './types';
+
 export enum AppActionType {
   INIT = 'INIT',
   RETRY_WS = 'RETRY_WS',
@@ -7,6 +9,7 @@ export enum AppActionType {
   UPDATE_NICKNAME = 'UPDATE_NICKNAME',
   UPDATED_NICKNAME = 'UPDATED_NICKNAME',
   JOIN_ROOM = 'JOIN_ROOM',
+  USER_JOINED_ROOM = 'USER_JOINED_ROOM',
   LEAVE_ROOM = 'LEAVE_ROOM',
 }
 
@@ -65,14 +68,28 @@ export function closedWS(): AppCloseWS {
 interface AppJoinRoom {
   type: AppActionType.JOIN_ROOM;
   id: string;
-  users: string[];
+  users: User[];
 }
 
-export function joinRoom(id: string, users: string[]): AppJoinRoom {
+export function joinRoom(id: string, users: User[]): AppJoinRoom {
   return {
     type: AppActionType.JOIN_ROOM,
     id,
     users,
+  };
+}
+
+interface AppUserJoinedRoom {
+  type: AppActionType.USER_JOINED_ROOM;
+  id: string;
+  user: User;
+}
+
+export function userJoinedRoom(id: string, user: User): AppUserJoinedRoom {
+  return {
+    type: AppActionType.USER_JOINED_ROOM,
+    id,
+    user,
   };
 }
 
@@ -113,4 +130,4 @@ export function updatedNickname(id: string, nickname: string): AppUpdatedNicknam
 }
 
 export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
-  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS;
+  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS | AppUserJoinedRoom;

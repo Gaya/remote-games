@@ -15,3 +15,9 @@ export function useCurrentRoom(state: AppState): Room | undefined {
     [state.rooms, state.app.activeRoom],
   );
 }
+
+export function useMappedUsers(state: AppState, users: string[] = []): User[] {
+  return useMemo(() => users
+    .map((id): User => state.users[id])
+    .filter((user) => typeof user !== 'undefined'), [state.users, users]);
+}

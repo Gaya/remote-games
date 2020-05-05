@@ -7,7 +7,7 @@ import WebSocket from 'ws';
 
 import { WS_MESSAGE } from '../ws/types';
 
-import { WsUser } from './types';
+import { WsUser, WsUserInfo } from './types';
 import { log } from './logging';
 
 export function generateNickname(): string {
@@ -32,6 +32,12 @@ export function createUser(ws: WebSocket): WsUser {
     },
     setNickname(nickname: string): void {
       this.nickname = nickname;
+    },
+    toInfo(): WsUserInfo {
+      return {
+        id: this.id,
+        nickname: this.nickname,
+      };
     },
   };
 }

@@ -1,6 +1,6 @@
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 import {
-  createRoom, joinRoom, leaveRoom, roomUsers,
+  createRoom, joinRoom, leaveRoom, roomUsers, roomUsersWithInfo,
 } from './rooms';
 import { log } from './logging';
 import { WsUser } from './types';
@@ -29,8 +29,16 @@ const Controller = {
       user.sendMessage({
         type: WSActionTypes.WS_JOINED_ROOM,
         id,
-        users: roomUsers(id).map((u) => u.id),
+        users: roomUsersWithInfo(id),
       });
+
+      roomUsers(user.currentRoom)
+        .filter((u) => u.id !== user.id)
+        .forEach((u) => u.sendMessage({
+          type: WSActionTypes.WS_USER_JOINED_ROOM,
+          id,
+          user: user.toInfo(),
+        }));
 
       log('Join room:', roomId, user.id);
     } catch (err) {

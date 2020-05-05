@@ -1,3 +1,5 @@
+import { User } from '../components/App/store/types';
+
 export enum WSActionTypes {
   'WS_OPEN_CONNECTION'= 'WS_OPEN_CONNECTION',
   'WS_CLOSE_CONNECTION'= 'WS_CLOSE_CONNECTION',
@@ -8,6 +10,7 @@ export enum WSActionTypes {
   'WS_JOIN_ROOM'= 'WS_JOIN_ROOM',
   'WS_JOIN_ROOM_FAILED'= 'WS_JOIN_ROOM_FAILED',
   'WS_JOINED_ROOM'= 'WS_JOINED_ROOM',
+  'WS_USER_JOINED_ROOM'= 'WS_USER_JOINED_ROOM',
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
   'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
   'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
@@ -53,7 +56,13 @@ export interface WSJoinRoom {
 export interface WSJoinedRoom {
   type: WSActionTypes.WS_JOINED_ROOM;
   id: string;
-  users: string[];
+  users: User[];
+}
+
+export interface WSUserJoinedRoom {
+  type: WSActionTypes.WS_USER_JOINED_ROOM;
+  id: string;
+  user: User;
 }
 
 interface WSJoinRoomFailed {
@@ -78,4 +87,4 @@ interface WSRequestNickname {
 
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
   | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
-  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname;
+  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname | WSUserJoinedRoom;

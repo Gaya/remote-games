@@ -7,7 +7,7 @@ import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 import { sendWSMessage } from '../../../ws/websockets';
 
 import {
-  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname,
+  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname, userJoinedRoom,
 } from './actions';
 import { AppState } from './types';
 import { getStoredNickname } from './utils';
@@ -77,24 +77,37 @@ function onCreateRoom(
     .subscribe(([action, state]) => {
       if (action.type !== WSActionTypes.WS_CREATED_ROOM) return;
 
-      dispatch(joinRoom(action.id, [state.app.userId]));
+      dispatch(joinRoom(action.id, [state.users[state.app.userId]]));
     });
 }
 
 function onJoinRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
-  state$: Subject<AppState>,
 ): void {
   webSocketMessage$
     .pipe(
       ofType(WSActionTypes.WS_JOINED_ROOM),
-      withLatestFrom(state$),
     )
-    .subscribe(([action]) => {
+    .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_JOINED_ROOM) return;
 
       dispatch(joinRoom(action.id, action.users));
+    });
+}
+
+function onUserJoinedRoom(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_USER_JOINED_ROOM),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_USER_JOINED_ROOM) return;
+
+      dispatch(userJoinedRoom(action.id, action.user));
     });
 }
 
@@ -116,4 +129,4 @@ function onUpdatedNickname(
 }
 
 export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
-  onCloseConnection];
+  onCloseConnection, onUserJoinedRoom];

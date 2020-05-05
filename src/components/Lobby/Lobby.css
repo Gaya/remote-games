@@ -1,4 +1,31 @@
 .Lobby {
+    width: 100%;
     display: flex;
     padding: 2em;
+}
+
+.Lobby__Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Lobby__Header h5 {
+    margin: 0;
+}
+
+.Lobby__Main {
+    flex-basis: 66%;
+    flex-grow: 1;
+}
+
+.Lobby__Players {
+    flex-grow: 1;
+    margin-left: 2em;
+}
+
+.Lobby__Users {
+    margin: 2em 0;
+    list-style: none;
+    padding-left: 0;
 }

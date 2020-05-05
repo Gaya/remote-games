@@ -11,6 +11,8 @@ import {
   H5,
   InputGroup,
   Intent,
+  Menu,
+  MenuItem,
   Navbar,
   NavbarGroup,
   NavbarHeading,
@@ -19,6 +21,7 @@ import {
   Spinner,
   Tag,
   Tooltip,
+  UL,
 } from '@blueprintjs/core/lib/esnext';
 
 import './styles';
@@ -43,6 +46,8 @@ export {
   InputGroup,
   DialogBody,
   Intent,
+  Menu,
+  MenuItem,
   Navbar,
   NavbarGroup,
   NavbarHeading,
@@ -51,4 +56,5 @@ export {
   Spinner,
   Tag,
   Tooltip,
+  UL,
 };
