@@ -6,7 +6,7 @@ import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 
 import {
-  AppActions, failedWS, joinRoom, openWS, updatedNickname,
+  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname,
 } from './actions';
 import { AppState } from './types';
 
@@ -22,6 +22,19 @@ function onConnectionOpen(
       if (action.type !== WSActionTypes.WS_OPEN_CONNECTION) return;
 
       dispatch(openWS(action.id, action.nickname));
+    });
+}
+
+function onCloseConnection(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_CLOSE_CONNECTION),
+    )
+    .subscribe(() => {
+      dispatch(closedWS());
     });
 }
 
@@ -90,4 +103,5 @@ function onUpdatedNickname(
     });
 }
 
-export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom];
+export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
+  onCloseConnection];

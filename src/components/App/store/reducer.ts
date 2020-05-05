@@ -22,6 +22,12 @@ function app(state: App, action: AppActions): App {
         isActive: true,
         userId: action.id,
       };
+    case AppActionType.CLOSED_WS:
+      return {
+        ...state,
+        isActive: false,
+        hasConnectionError: true,
+      };
     case AppActionType.FAILED_WS:
       return {
         ...state,

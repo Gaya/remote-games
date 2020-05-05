@@ -10,6 +10,11 @@ export enum WSActionTypes {
   'WS_LEAVE_ROOM'= 'WS_LEAVE_ROOM',
   'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
   'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
+  'WS_CLOSE_CONNECTION'= 'WS_CLOSE_CONNECTION',
+}
+
+interface WSCloseConnection {
+  type: WSActionTypes.WS_CLOSE_CONNECTION;
 }
 
 interface WSFailedConnection {
@@ -68,4 +73,4 @@ interface WSUpdatedNickname {
 
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
   | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
-  | WSUpdateNickname | WSUpdatedNickname;
+  | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection;

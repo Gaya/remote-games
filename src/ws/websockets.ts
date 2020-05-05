@@ -26,5 +26,10 @@ export default function openWebSocketConnection(): void {
       const data: WS_MESSAGE = JSON.parse(message.data);
       websocketMessages$.next(data);
     });
+
+    ws.addEventListener('close', () => {
+      websocketMessages$.next({ type: WSActionTypes.WS_CLOSE_CONNECTION });
+      ws = undefined;
+    });
   }
 }

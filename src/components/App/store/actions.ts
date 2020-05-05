@@ -3,6 +3,7 @@ export enum AppActionType {
   RETRY_WS = 'RETRY_WS',
   OPEN_WS = 'OPEN_WS',
   FAILED_WS = 'FAILED_WS',
+  CLOSED_WS = 'CLOSED_WS',
   UPDATE_NICKNAME = 'UPDATE_NICKNAME',
   UPDATED_NICKNAME = 'UPDATED_NICKNAME',
   JOIN_ROOM = 'JOIN_ROOM',
@@ -50,6 +51,16 @@ interface AppFailedWS {
 export function failedWS(): AppFailedWS {
   return {
     type: AppActionType.FAILED_WS,
+  };
+}
+
+interface AppCloseWS {
+  type: AppActionType.CLOSED_WS;
+}
+
+export function closedWS(): AppCloseWS {
+  return {
+    type: AppActionType.CLOSED_WS,
   };
 }
 
@@ -104,4 +115,4 @@ export function updatedNickname(id: string, nickname: string): AppUpdatedNicknam
 }
 
 export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
-  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname;
+  | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS;
