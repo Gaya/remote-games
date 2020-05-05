@@ -10,7 +10,7 @@ export default function createLogMiddleware(name: string, showState = false): (
     if (process.env.NODE_ENV !== 'development') return;
 
     /* eslint-disable no-console */
-    console.group(`ACTION ON '${name}'`);
+    console.group(`ACTION '${action.type}' ON '${name}'`);
     console.dir(action);
 
     if (showState) {

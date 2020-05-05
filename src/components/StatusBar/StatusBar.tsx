@@ -16,14 +16,14 @@ import {
 } from '../UI';
 
 import Nickname from './Nickname';
-import { currentRoom, currentUser } from '../App/store/selectors';
+import { useCurrentRoom, useCurrentUser } from '../App/store/selectors';
 
 
 const StatusBar: React.FC = () => {
   const [state, actions] = useAppStore();
 
-  const user = currentUser(state);
-  const room = currentRoom(state);
+  const user = useCurrentUser(state);
+  const room = useCurrentRoom(state);
 
   const { leaveRoom } = actions;
 

@@ -15,12 +15,12 @@ import {
   Tooltip,
 } from '../UI';
 import useAppStore from '../App/store/useStore';
-import { currentUser } from '../App/store/selectors';
+import { useCurrentUser } from '../App/store/selectors';
 
 const Nickname: React.FC = () => {
   const [state, actions] = useAppStore();
 
-  const user = currentUser(state);
+  const user = useCurrentUser(state);
 
   const { changeNickname } = actions;
 

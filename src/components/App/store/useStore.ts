@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import createStore from '../../../stores/createStore';
 
@@ -32,6 +32,7 @@ const appStore = createStore(
 );
 
 interface DispatchActions {
+  init: () => void;
   retryConnect: () => void;
   leaveRoom: () => void;
   changeNickname: (nickname: string) => void;
@@ -43,6 +44,9 @@ function useStore(): [AppState, DispatchActions] {
   const state = useStoreState();
 
   const actions: DispatchActions = useMemo(() => ({
+    init(): void {
+      dispatch(initApp());
+    },
     retryConnect(): void {
       dispatch(retryWS());
     },
@@ -53,11 +57,6 @@ function useStore(): [AppState, DispatchActions] {
       dispatch(updateNickname(nickname));
     },
   }), [dispatch]);
-
-  useEffect(() => {
-    if (state.app.isActive) return;
-    dispatch(initApp());
-  }, [state.app.isActive, dispatch]);
 
   return [state, actions];
 }

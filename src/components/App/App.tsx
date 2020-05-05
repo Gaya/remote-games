@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Button, NonIdealState, Spinner } from '../UI';
 import JoinRoom from '../JoinRoom/JoinRoom';
@@ -6,22 +6,29 @@ import Lobby from '../Lobby/Lobby';
 import StatusBar from '../StatusBar/StatusBar';
 
 import useStore from './store/useStore';
-import { currentRoom, currentUser } from './store/selectors';
+import { useCurrentRoom, useCurrentUser } from './store/selectors';
 
 import './App.css';
 
 const App: React.FC = () => {
   const [state, actions] = useStore();
 
-  const { retryConnect } = actions;
+  const { init, retryConnect } = actions;
 
   const {
     isActive,
     hasConnectionError,
   } = state.app;
 
-  const user = currentUser(state);
-  const room = currentRoom(state);
+  const user = useCurrentUser(state);
+  const room = useCurrentRoom(state);
+
+  // first time start up, connecting to WS
+  useEffect(() => {
+    if (!isActive || !user) {
+      init();
+    }
+  }, [init, isActive, user]);
 
   if (!isActive || !user) {
     return (

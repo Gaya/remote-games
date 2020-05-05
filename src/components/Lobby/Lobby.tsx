@@ -9,13 +9,13 @@ import {
 } from '../UI';
 
 import './Lobby.css';
-import { currentRoom } from '../App/store/selectors';
+import { useCurrentRoom } from '../App/store/selectors';
 import useAppStore from '../App/store/useStore';
 
 const Lobby: React.FC = () => {
   const [state, actions] = useAppStore();
 
-  const room = currentRoom(state);
+  const room = useCurrentRoom(state);
 
   if (!room) return null;
 
