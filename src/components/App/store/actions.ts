@@ -12,7 +12,8 @@ export enum AppActionType {
   USER_JOINED_ROOM = 'USER_JOINED_ROOM',
   USER_LEFT_ROOM = 'USER_LEFT_ROOM',
   LEAVE_ROOM = 'LEAVE_ROOM',
-  START_GAME = 'START_GAME',
+  GAME_START = 'GAME_START',
+  GAME_END = 'GAME_END',
 }
 
 interface AppInit {
@@ -147,6 +148,32 @@ export function updatedNickname(id: string, nickname: string): AppUpdatedNicknam
   };
 }
 
+interface AppStartGame {
+  type: AppActionType.GAME_START;
+  game: string;
+  id: string;
+}
+
+export function startGame(game: string, id: string): AppStartGame {
+  return {
+    type: AppActionType.GAME_START,
+    id,
+    game,
+  };
+}
+
+interface AppEndGame {
+  type: AppActionType.GAME_END;
+  id: string;
+}
+
+export function endGame(id: string): AppEndGame {
+  return {
+    type: AppActionType.GAME_END,
+    id,
+  };
+}
+
 export type AppActions = AppInit | AppOpenWS | AppRetryWS | AppFailedWS | AppUpdateNickname
   | AppJoinRoom | AppLeaveRoom | AppUpdatedNickname | AppCloseWS | AppUserJoinedRoom
-  | AppUserLeftRoom;
+  | AppUserLeftRoom | AppStartGame | AppEndGame;

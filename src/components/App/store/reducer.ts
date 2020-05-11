@@ -100,6 +100,16 @@ function rooms(state: Rooms, action: AppActions): Rooms {
         users: action.users.map((u) => u.id),
         activeGame: action.activeGame,
       });
+    case AppActionType.GAME_START:
+      return replaceAtId(state, {
+        ...state[action.id],
+        activeGame: action.game,
+      });
+    case AppActionType.GAME_END:
+      return replaceAtId(state, {
+        ...state[action.id],
+        activeGame: '',
+      });
     default:
       return state;
   }

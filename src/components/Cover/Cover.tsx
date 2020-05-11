@@ -8,9 +8,10 @@ import './Cover.css';
 
 interface CoverProps {
   game: Game;
+  onStart: (id: string) => void;
 }
 
-const Cover: React.FC<CoverProps> = ({ game }) => {
+const Cover: React.FC<CoverProps> = ({ game, onStart }) => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const onMouseOver = useCallback(() => {
@@ -32,7 +33,15 @@ const Cover: React.FC<CoverProps> = ({ game }) => {
         {game.name}
       </H5>
       <div className="Cover__Actions">
-        <Button title="Play Now" intent={Intent.PRIMARY} large type="button">Play Now</Button>
+        <Button
+          title="Play Now"
+          intent={Intent.PRIMARY}
+          large
+          type="button"
+          onClick={(): void => onStart(game.id)}
+        >
+          Play Now
+        </Button>
       </div>
     </div>
   );

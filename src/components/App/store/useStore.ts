@@ -5,9 +5,11 @@ import createStore from '../../../core/stores/createStore';
 import reducer from './reducer';
 import { AppState } from './types';
 import {
+  endGame,
   initApp,
   leaveRoom,
   retryWS,
+  startGame,
   updateNickname,
 } from './actions';
 import middleware from './middleware';
@@ -37,6 +39,8 @@ interface DispatchActions {
   retryConnect: () => void;
   leaveRoom: () => void;
   changeNickname: (nickname: string) => void;
+  startGame: (game: string, roomId: string) => void;
+  endGame: (roomId: string) => void;
 }
 
 function useStore(): [AppState, DispatchActions] {
@@ -56,6 +60,12 @@ function useStore(): [AppState, DispatchActions] {
     },
     changeNickname(nickname: string): void {
       dispatch(updateNickname(nickname));
+    },
+    startGame(game: string, roomId: string): void {
+      dispatch(startGame(game, roomId));
+    },
+    endGame(id: string): void {
+      dispatch(endGame(id));
     },
   }), [dispatch]);
 
