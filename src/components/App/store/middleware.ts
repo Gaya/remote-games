@@ -1,5 +1,5 @@
 import openWebSocketConnection, { sendWSMessage } from '../../../ws/websockets';
-import createLogMiddleware from '../../../stores/createLogMiddleware';
+import createLogMiddleware from '../../../core/stores/createLogMiddleware';
 import { WSActionTypes } from '../../../ws/types';
 
 import { AppActions, AppActionType } from './actions';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   Button,
-  Card, Divider,
+  Card,
   Elevation,
   H5,
   Intent,

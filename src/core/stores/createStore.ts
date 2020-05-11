@@ -5,8 +5,8 @@ import {
 } from 'react';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { WS_MESSAGE } from '../ws/types';
-import { websocketMessages$ } from '../ws/websockets';
+import { WS_MESSAGE } from '../../ws/types';
+import { websocketMessages$ } from '../../ws/websockets';
 
 interface Store<SS, SA> {
   state$: BehaviorSubject<SS>;

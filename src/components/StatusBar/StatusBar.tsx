@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import copyToClipboard from '../../utils/copyToClipboard';
+import copyToClipboard from '../../core/copyToClipboard';
 
 import useAppStore from '../App/store/useStore';
 

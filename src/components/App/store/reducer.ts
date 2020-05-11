@@ -2,7 +2,7 @@ import {
   App, AppState, Rooms, Users,
 } from './types';
 import { AppActions, AppActionType } from './actions';
-import { replaceAtId } from '../../../stores/utils';
+import { replaceAtId } from '../../../core/stores/utils';
 
 function app(state: App, action: AppActions): App {
   switch (action.type) {

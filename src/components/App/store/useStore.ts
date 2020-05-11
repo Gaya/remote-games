@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import createStore from '../../../stores/createStore';
+import createStore from '../../../core/stores/createStore';
 
 import reducer from './reducer';
 import { AppState } from './types';

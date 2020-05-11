@@ -1,4 +1,4 @@
-import createLogMiddleware from '../../../stores/createLogMiddleware';
+import createLogMiddleware from '../../../core/stores/createLogMiddleware';
 import { sendWSMessage } from '../../../ws/websockets';
 import { WSActionTypes } from '../../../ws/types';
 
