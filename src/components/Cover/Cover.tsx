@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import classNames from 'classnames';
 
 import { Game } from '../../core/games/types';
 
@@ -24,7 +25,7 @@ const Cover: React.FC<CoverProps> = ({ game, onStart }) => {
 
   return (
     <div
-      className={['Cover', isActive ? 'Cover--active' : undefined].join(' ')}
+      className={classNames('Cover', { 'Cover--active': isActive })}
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseLeave}
     >
