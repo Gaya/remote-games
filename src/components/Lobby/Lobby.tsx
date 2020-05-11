@@ -4,7 +4,7 @@ import {
   Button,
   Card,
   Elevation,
-  H5,
+  H3, H5,
   Intent,
   UL,
 } from '../UI';
@@ -13,8 +13,12 @@ import './Lobby.css';
 import { useCurrentRoom, useMappedUsers } from '../App/store/selectors';
 import useAppStore from '../App/store/useStore';
 
+import useGames from '../../core/games/useGames';
+import Cover from '../Cover/Cover';
+
 const Lobby: React.FC = () => {
   const [state, actions] = useAppStore();
+  const [games] = useGames();
 
   const room = useCurrentRoom(state);
   const users = useMappedUsers(state, room?.users);
@@ -24,9 +28,12 @@ const Lobby: React.FC = () => {
   return (
     <div className="Lobby">
       <Card elevation={Elevation.ONE} className="Lobby__Main">
-        <H5>
-          {`You are in Room ${room.id}`}
-        </H5>
+        <H3>Pick a game to play</H3>
+        <section className="Covers">
+          {games.map((game) => (
+            <Cover game={game} key={game.id} />
+          ))}
+        </section>
       </Card>
       <Card elevation={Elevation.ONE} className="Lobby__Players">
         <H5>

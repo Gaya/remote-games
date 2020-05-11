@@ -20,6 +20,10 @@
     flex-grow: 1;
 }
 
+.Lobby__Main h3 {
+    text-align: center;
+}
+
 .Lobby__Players {
     flex-grow: 1;
     margin-left: 2em;
