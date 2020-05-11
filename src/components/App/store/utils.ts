@@ -7,3 +7,7 @@ export function storeNickname(nickname: string): void {
 export function getStoredNickname(): string | null {
   return window.localStorage.getItem(LocalStorageKeys.nickname);
 }
+
+export function getStoredAutoConnect(): boolean {
+  return Boolean(window.localStorage.getItem(LocalStorageKeys.autoConnect));
+}

@@ -12,6 +12,7 @@ import {
   InputGroup,
   Intent, Tag,
 } from '../UI';
+import { getStoredAutoConnect } from '../App/store/utils';
 
 import './JoinRoom.css';
 
@@ -25,8 +26,11 @@ const JoinRoom: React.FunctionComponent = () => {
 
   const isBusy = isCreating || isJoining;
 
-  // enable to auto connect
-  useEffect(createRoom, []);
+  useEffect(() => {
+    if (getStoredAutoConnect()) {
+      createRoom();
+    }
+  }, [createRoom]);
 
   const form = useFormik({
     initialValues: {

@@ -34,5 +34,6 @@ export interface Rooms {
 }
 
 export enum LocalStorageKeys {
-  nickname = 'RG_NICKNAME'
+  nickname = 'RG_NICKNAME',
+  autoConnect = 'RG_AUTOCONNECT',
 }
