@@ -9,6 +9,7 @@ import { WS_MESSAGE } from '../ws/types';
 
 import { WsUser, WsUserInfo } from './types';
 import { log } from './logging';
+import { roomUsersWithoutUser } from './rooms';
 
 export function generateNickname(): string {
   return generateName().spaced;
@@ -26,6 +27,10 @@ export function createUser(ws: WebSocket): WsUser {
       this.ws.send(msg);
 
       log('Sent to client:', msg, this.id);
+    },
+    sendToRoom(message: WS_MESSAGE): void {
+      roomUsersWithoutUser(this.currentRoom, this.id)
+        .forEach((u) => u.sendMessage(message));
     },
     setCurrentRoom(id: string): void {
       this.currentRoom = id;

@@ -39,8 +39,8 @@ interface DispatchActions {
   retryConnect: () => void;
   leaveRoom: () => void;
   changeNickname: (nickname: string) => void;
-  startGame: (game: string, roomId: string) => void;
-  endGame: (roomId: string) => void;
+  startGame: (game: string) => void;
+  endGame: () => void;
 }
 
 function useStore(): [AppState, DispatchActions] {
@@ -61,11 +61,11 @@ function useStore(): [AppState, DispatchActions] {
     changeNickname(nickname: string): void {
       dispatch(updateNickname(nickname));
     },
-    startGame(game: string, roomId: string): void {
-      dispatch(startGame(game, roomId));
+    startGame(game: string): void {
+      dispatch(startGame(game));
     },
-    endGame(id: string): void {
-      dispatch(endGame(id));
+    endGame(): void {
+      dispatch(endGame());
     },
   }), [dispatch]);
 

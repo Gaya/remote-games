@@ -7,7 +7,15 @@ import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
 import { sendWSMessage } from '../../../ws/websockets';
 
 import {
-  AppActions, closedWS, failedWS, joinRoom, openWS, updatedNickname, userJoinedRoom, userLeftRoom,
+  AppActions,
+  closedWS, endedGame,
+  failedWS,
+  joinRoom,
+  openWS,
+  startedGame,
+  updatedNickname,
+  userJoinedRoom,
+  userLeftRoom,
 } from './actions';
 import { AppState } from './types';
 import { getStoredNickname } from './utils';
@@ -129,19 +137,47 @@ function onUserLeftRoom(
 function onUpdatedNickname(
   webSocketMessage$: Subject<WS_MESSAGE>,
   dispatch: Dispatch<AppActions>,
-  state$: Subject<AppState>,
 ): void {
   webSocketMessage$
     .pipe(
       ofType(WSActionTypes.WS_UPDATED_NICKNAME),
-      withLatestFrom(state$),
     )
-    .subscribe(([action]) => {
+    .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_UPDATED_NICKNAME) return;
 
       dispatch(updatedNickname(action.id, action.nickname));
     });
 }
 
+function onGameStarted(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_GAME_STARTED),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_GAME_STARTED) return;
+
+      dispatch(startedGame(action.game));
+    });
+}
+
+function onGameEnded(
+  webSocketMessage$: Subject<WS_MESSAGE>,
+  dispatch: Dispatch<AppActions>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSActionTypes.WS_GAME_ENDED),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSActionTypes.WS_GAME_ENDED) return;
+
+      dispatch(endedGame());
+    });
+}
+
 export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
-  onCloseConnection, onUserJoinedRoom, onUserLeftRoom];
+  onCloseConnection, onUserJoinedRoom, onUserLeftRoom, onGameStarted, onGameEnded];

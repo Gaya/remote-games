@@ -70,3 +70,17 @@ export function leaveRoom(id: string, user: WsUser): string {
 
   return id;
 }
+
+export function startGame(id: string, game: string): void {
+  currentRooms[id] = {
+    ...(currentRooms[id] || { users: [], activeGame: '' }),
+    activeGame: game,
+  };
+}
+
+export function endGame(id: string): void {
+  currentRooms[id] = {
+    ...(currentRooms[id] || { users: [], activeGame: '' }),
+    activeGame: '',
+  };
+}

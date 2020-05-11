@@ -6,6 +6,7 @@ export interface WsUser extends WsUserInfo {
   ws: WebSocket;
   setCurrentRoom(room: string): void;
   sendMessage(message: WS_MESSAGE): void;
+  sendToRoom(message: WS_MESSAGE): void;
   setNickname(nickname: string): void;
   toInfo(): WsUserInfo;
 }

@@ -26,7 +26,7 @@ const JoinRoom: React.FunctionComponent = () => {
   const isBusy = isCreating || isJoining;
 
   // enable to auto connect
-  useEffect(createRoom, []);
+  // useEffect(createRoom, []);
 
   const form = useFormik({
     initialValues: {

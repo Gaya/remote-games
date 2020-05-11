@@ -16,6 +16,10 @@ export enum WSActionTypes {
   'WS_UPDATE_NICKNAME'= 'WS_UPDATE_NICKNAME',
   'WS_UPDATED_NICKNAME'= 'WS_UPDATED_NICKNAME',
   'WS_REQUEST_NICKNAME'= 'WS_REQUEST_NICKNAME',
+  'WS_GAME_START'= 'WS_GAME_START',
+  'WS_GAME_STARTED'= 'WS_GAME_STARTED',
+  'WS_GAME_END'= 'WS_GAME_END',
+  'WS_GAME_ENDED'= 'WS_GAME_ENDED',
 }
 
 interface WSCloseConnection {
@@ -93,7 +97,25 @@ interface WSRequestNickname {
   type: WSActionTypes.WS_REQUEST_NICKNAME;
 }
 
+interface WSGameStart {
+  type: WSActionTypes.WS_GAME_START;
+  game: string;
+}
+
+interface WSGameEnd {
+  type: WSActionTypes.WS_GAME_END;
+}
+
+interface WSGameStarted {
+  type: WSActionTypes.WS_GAME_STARTED;
+  game: string;
+}
+
+interface WSGameEnded {
+  type: WSActionTypes.WS_GAME_ENDED;
+}
+
 export type WS_MESSAGE = WSOpenConnection | WSFailedConnection | WSCreateRoom | WSCreatedRoom
   | WSCreateRoomFailed | WSLeaveRoom | WSJoinRoom | WSJoinedRoom | WSJoinRoomFailed
   | WSUpdateNickname | WSUpdatedNickname | WSCloseConnection | WSRequestNickname | WSUserJoinedRoom
-  | WSUserLeftRoom;
+  | WSUserLeftRoom | WSGameStart | WSGameEnd | WSGameStarted | WSGameEnded;

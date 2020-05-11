@@ -79,7 +79,7 @@ function users(state: Users, action: AppActions, root: AppState): Users {
   }
 }
 
-function rooms(state: Rooms, action: AppActions): Rooms {
+function rooms(state: Rooms, action: AppActions, root: AppState): Rooms {
   switch (action.type) {
     case AppActionType.USER_LEFT_ROOM:
       return replaceAtId(state, {
@@ -101,13 +101,15 @@ function rooms(state: Rooms, action: AppActions): Rooms {
         activeGame: action.activeGame,
       });
     case AppActionType.GAME_START:
+    case AppActionType.GAME_STARTED:
       return replaceAtId(state, {
-        ...state[action.id],
+        ...state[root.app.activeRoom],
         activeGame: action.game,
       });
     case AppActionType.GAME_END:
+    case AppActionType.GAME_ENDED:
       return replaceAtId(state, {
-        ...state[action.id],
+        ...state[root.app.activeRoom],
         activeGame: '',
       });
     default:
@@ -119,7 +121,7 @@ function reducer(state: AppState, action: AppActions): AppState {
   return {
     app: app(state.app, action),
     users: users(state.users, action, state),
-    rooms: rooms(state.rooms, action),
+    rooms: rooms(state.rooms, action, state),
   };
 }
 

@@ -31,6 +31,30 @@ function onUpdateNickname(action: AppActions): void {
   });
 }
 
-const middleware = [createLogMiddleware('App'), connectToWS, onLeaveRoom, onUpdateNickname];
+function onStartGame(action: AppActions): void {
+  if (action.type !== AppActionType.GAME_START) return;
+
+  sendWSMessage({
+    type: WSActionTypes.WS_GAME_START,
+    game: action.game,
+  });
+}
+
+function onEndGame(action: AppActions): void {
+  if (action.type !== AppActionType.GAME_END) return;
+
+  sendWSMessage({
+    type: WSActionTypes.WS_GAME_END,
+  });
+}
+
+const middleware = [
+  createLogMiddleware('App'),
+  connectToWS,
+  onLeaveRoom,
+  onUpdateNickname,
+  onStartGame,
+  onEndGame,
+];
 
 export default middleware;

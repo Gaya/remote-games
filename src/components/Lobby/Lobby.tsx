@@ -23,11 +23,6 @@ const Lobby: React.FC = () => {
   const room = useCurrentRoom(state);
   const users = useMappedUsers(state, room?.users);
 
-  const onStartGame = useCallback((game: string) => {
-    if (!room) return;
-    actions.startGame(game, room.id);
-  }, [actions, room]);
-
   if (!room) return null;
 
   if (room.activeGame) {
@@ -41,7 +36,7 @@ const Lobby: React.FC = () => {
           icon="small-cross"
           intent={Intent.DANGER}
           text="End game"
-          onClick={(): void => actions.endGame(room.id)}
+          onClick={actions.endGame}
         />
       </div>
     );
@@ -53,7 +48,7 @@ const Lobby: React.FC = () => {
         <H3>Pick a game to play</H3>
         <section className="Covers">
           {games.map((game) => (
-            <Cover game={game} key={game.id} onStart={onStartGame} />
+            <Cover game={game} key={game.id} onStart={actions.startGame} />
           ))}
         </section>
       </Card>
