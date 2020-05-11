@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { Suspense } from 'react';
 
 import {
   Button,
@@ -9,12 +9,13 @@ import {
   UL,
 } from '../UI';
 
-import './Lobby.css';
 import { useCurrentRoom, useMappedUsers } from '../App/store/selectors';
 import useAppStore from '../App/store/useStore';
-
 import useGames from '../../core/games/useGames';
 import Cover from '../Cover/Cover';
+
+import './Lobby.css';
+import Loading from './Loading';
 
 const Lobby: React.FC = () => {
   const [state, actions] = useAppStore();
@@ -25,20 +26,14 @@ const Lobby: React.FC = () => {
 
   if (!room) return null;
 
-  if (room.activeGame) {
-    return (
-      <div className="Lobby">
-        Now playing
-        {' '}
-        {gamesDict[room.activeGame].name}
 
-        <Button
-          icon="small-cross"
-          intent={Intent.DANGER}
-          text="End game"
-          onClick={actions.endGame}
-        />
-      </div>
+  if (room.activeGame) {
+    const Game = gamesDict[room.activeGame].game;
+
+    return (
+      <Suspense fallback={<Loading />}>
+        <Game />
+      </Suspense>
     );
   }
 

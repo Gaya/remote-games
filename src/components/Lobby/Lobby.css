@@ -34,3 +34,8 @@
     list-style: none;
     padding-left: 0;
 }
+
+.Lobby__Loading {
+    display: flex;
+    flex-grow: 1;
+}
