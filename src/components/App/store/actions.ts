@@ -12,6 +12,7 @@ export enum AppActionType {
   USER_JOINED_ROOM = 'USER_JOINED_ROOM',
   USER_LEFT_ROOM = 'USER_LEFT_ROOM',
   LEAVE_ROOM = 'LEAVE_ROOM',
+  START_GAME = 'START_GAME',
 }
 
 interface AppInit {
@@ -70,13 +71,15 @@ interface AppJoinRoom {
   type: AppActionType.JOIN_ROOM;
   id: string;
   users: User[];
+  activeGame: string;
 }
 
-export function joinRoom(id: string, users: User[]): AppJoinRoom {
+export function joinRoom(id: string, users: User[], activeGame: string): AppJoinRoom {
   return {
     type: AppActionType.JOIN_ROOM,
     id,
     users,
+    activeGame,
   };
 }
 

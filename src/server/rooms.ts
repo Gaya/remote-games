@@ -1,12 +1,14 @@
 import shortid from 'shortid';
 
-import { WsUser, WsUserInfo } from './types';
+import {
+  WsRoom, WsRooms, WsUser, WsUserInfo,
+} from './types';
 import { log } from './logging';
 
-const currentRooms: { [id: string]: WsUser[] | undefined } = {};
+const currentRooms: WsRooms = {};
 
 export function roomUsers(id: string): WsUser[] {
-  return currentRooms[id] || [];
+  return currentRooms[id]?.users || [];
 }
 
 export function roomUsersWithoutUser(id: string, userId: string): WsUser[] {
@@ -18,10 +20,17 @@ export function roomUsersWithInfo(id: string): WsUserInfo[] {
   return roomUsers(id).map((user) => ({ id: user.id, nickname: user.nickname }));
 }
 
+export function activeRoomGame(id: string): WsRoom['activeGame'] {
+  return currentRooms[id]?.activeGame || '';
+}
+
 export function createRoom(user: WsUser): string {
   const id = shortid.generate();
 
-  currentRooms[id] = [];
+  currentRooms[id] = {
+    activeGame: '',
+    users: [],
+  };
 
   return joinRoom(id, user);
 }
@@ -32,7 +41,10 @@ export function joinRoom(id: string, user: WsUser): string {
   }
 
   // put user in room
-  currentRooms[id] = [...(currentRooms[id] || []), user];
+  currentRooms[id] = {
+    ...(currentRooms[id] || { users: [], activeGame: '' }),
+    users: [...(currentRooms[id]?.users || []), user],
+  };
 
   // update user room
   user.setCurrentRoom(id);
@@ -42,10 +54,13 @@ export function joinRoom(id: string, user: WsUser): string {
 
 export function leaveRoom(id: string, user: WsUser): string {
   // remove user from room
-  currentRooms[id] = (currentRooms[id] || []).filter((u) => u.id !== user.id);
+  currentRooms[id] = {
+    ...(currentRooms[id] || { users: [], activeGame: '' }),
+    users: roomUsers(id).filter((u) => u.id !== user.id),
+  };
 
   // remove room if empty
-  if ((currentRooms[id] || []).length === 0) {
+  if (roomUsers(id).length === 0) {
     delete currentRooms[id];
     log('Removing empty room:', id);
   }

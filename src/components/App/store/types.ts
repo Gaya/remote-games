@@ -1,3 +1,5 @@
+import { Game } from '../../../core/games/types';
+
 export interface AppState {
   app: App;
   users: Users;
@@ -9,7 +11,7 @@ export interface App {
   hasNickname: boolean;
   hasConnectionError: boolean;
   userId: string;
-  activeRoom: string;
+  activeRoom: Room['id'];
 }
 
 export interface User {
@@ -24,6 +26,7 @@ export interface Users {
 export interface Room {
   id: string;
   users: string[];
+  activeGame: Game['id'];
 }
 
 export interface Rooms {

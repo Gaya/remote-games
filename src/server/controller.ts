@@ -1,5 +1,6 @@
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 import {
+  activeRoomGame,
   createRoom,
   joinRoom,
   leaveRoom,
@@ -44,6 +45,7 @@ const Controller = {
         type: WSActionTypes.WS_JOINED_ROOM,
         id,
         users: roomUsersWithInfo(id),
+        activeGame: activeRoomGame(id),
       });
 
       roomUsersWithoutUser(user.currentRoom, user.id)

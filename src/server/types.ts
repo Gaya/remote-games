@@ -14,3 +14,12 @@ export interface WsUserInfo {
   id: string;
   nickname: string;
 }
+
+export interface WsRoom {
+  users: WsUser[];
+  activeGame: string;
+}
+
+export interface WsRooms {
+  [id: string]: WsRoom | undefined;
+}

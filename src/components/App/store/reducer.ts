@@ -98,6 +98,7 @@ function rooms(state: Rooms, action: AppActions): Rooms {
         ...state[action.id],
         id: action.id,
         users: action.users.map((u) => u.id),
+        activeGame: action.activeGame,
       });
     default:
       return state;

@@ -77,7 +77,7 @@ function onCreateRoom(
     .subscribe(([action, state]) => {
       if (action.type !== WSActionTypes.WS_CREATED_ROOM) return;
 
-      dispatch(joinRoom(action.id, [state.users[state.app.userId]]));
+      dispatch(joinRoom(action.id, [state.users[state.app.userId]], ''));
     });
 }
 
@@ -92,7 +92,7 @@ function onJoinRoom(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_JOINED_ROOM) return;
 
-      dispatch(joinRoom(action.id, action.users));
+      dispatch(joinRoom(action.id, action.users, action.activeGame));
     });
 }
 

@@ -16,10 +16,10 @@ import listeners from './listeners';
 const defaultState = {
   app: {
     isActive: false,
-    activeRoom: '',
     hasNickname: false,
     hasConnectionError: false,
     userId: '',
+    activeRoom: '',
   },
   users: {},
   rooms: {},

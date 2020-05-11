@@ -58,6 +58,7 @@ export interface WSJoinedRoom {
   type: WSActionTypes.WS_JOINED_ROOM;
   id: string;
   users: User[];
+  activeGame: string;
 }
 
 export interface WSUserJoinedRoom {
