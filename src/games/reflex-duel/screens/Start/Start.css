@@ -43,10 +43,23 @@
     padding: 2em;
     margin: 2em;
     cursor: pointer;
+    position: relative;
+}
+
+.ReflexDuel__PickFighter__Item-Label {
+    background: #3DCC91;
+    padding: 0.2em 1em;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .ReflexDuel__PickFighter__Item:hover {
     border-color: #F5F8FA;
+}
+
+.ReflexDuel__PickFighter__Item:hover .ReflexDuel__PickFighter__Item-Label {
+    background: #F5F8FA;
 }
 
 .ReflexDuel__PickFighter__Item--active {

@@ -55,6 +55,11 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers, player, onChangeCharac
               }
               onClick={(): void => onChangeCharacter(character)}
             >
+              {player.character === character && (
+                <span className="ReflexDuel__PickFighter__Item-Label">
+                  {player.nickname}
+                </span>
+              )}
               <Player character={character} pose={Pose.IDLE} />
             </button>
           ))}
