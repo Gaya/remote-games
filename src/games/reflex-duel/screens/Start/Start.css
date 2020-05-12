@@ -3,10 +3,17 @@
     flex-grow: 1;
     flex-direction: column;
     align-items: center;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
 }
 
 .ReflexDuel__Start__Title {
     font-size: 10em;
+    margin: 0.4em 0 0 0;
 }
 
 .ReflexDuel__Start__CountDown {
@@ -14,8 +21,20 @@
 }
 
 .ReflexDuel__PickFighter {
-    display: flex;
     margin: 4em;
+    width: 100%;
+}
+
+.ReflexDuel__PickFighter p {
+    width: 100%;
+    text-align: center;
+    margin: 1em 0;
+    font-size: 2em;
+}
+
+.ReflexDuel__PickFighter__Items {
+    display: flex;
+    justify-content: center;
 }
 
 .ReflexDuel__PickFighter__Item {
@@ -32,5 +51,4 @@
 
 .ReflexDuel__PickFighter__Item--active {
     border-color: #3DCC91;
-    background: #182026;
 }
