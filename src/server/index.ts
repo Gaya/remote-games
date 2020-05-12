@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 
-import { WS_MESSAGE, WSActionTypes } from '../ws/types';
+import { WS_MESSAGE, WSActionTypes } from '../ws/actions';
 
 import { createUser } from './entities/user';
 import { log } from './logging';

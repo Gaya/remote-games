@@ -1,6 +1,6 @@
 import openWebSocketConnection, { sendWSMessage } from '../../../ws/websockets';
 import createLogMiddleware from '../../../core/stores/createLogMiddleware';
-import { WSActionTypes } from '../../../ws/types';
+import { WSActionTypes } from '../../../ws/actions';
 
 import { AppActions, AppActionType } from './actions';
 import { storeNickname } from './utils';

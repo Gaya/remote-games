@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import { WS_MESSAGE } from '../ws/types';
+import { WS_MESSAGE } from '../ws/actions';
 
 export interface WsUser extends WsUserInfo {
   currentRoom: string;

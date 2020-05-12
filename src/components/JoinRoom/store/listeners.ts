@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { Subject } from 'rxjs';
 
-import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
+import { WS_MESSAGE, WSActionTypes } from '../../../ws/actions';
 import { ofType } from '../../../ws/utils';
 
 import {

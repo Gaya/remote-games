@@ -1,6 +1,6 @@
 import createLogMiddleware from '../../../core/stores/createLogMiddleware';
 import { sendWSMessage } from '../../../ws/websockets';
-import { WSActionTypes } from '../../../ws/types';
+import { WSActionTypes } from '../../../ws/actions';
 
 import { RoomActions, RoomActionType } from './actions';
 

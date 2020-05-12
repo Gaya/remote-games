@@ -1,4 +1,4 @@
-import { WS_MESSAGE, WSActionTypes } from '../../ws/types';
+import { WS_MESSAGE, WSActionTypes } from '../../ws/actions';
 import {
   activeRoomGame,
   createRoom, endGame,

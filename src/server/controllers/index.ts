@@ -1,4 +1,4 @@
-import { WS_MESSAGE } from '../../ws/types';
+import { WS_MESSAGE } from '../../ws/actions';
 import { WsUser } from '../types';
 
 import general from './general';

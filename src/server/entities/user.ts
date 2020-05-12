@@ -5,7 +5,7 @@ import generateName from 'project-name-generator';
 import shortid from 'shortid';
 import WebSocket from 'ws';
 
-import { WS_MESSAGE } from '../../ws/types';
+import { WS_MESSAGE } from '../../ws/actions';
 
 import { WsUser, WsUserInfo } from '../types';
 import { log } from '../logging';

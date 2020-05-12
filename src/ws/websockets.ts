@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 
-import { WS_MESSAGE, WSActionTypes } from './types';
+import { WS_MESSAGE, WSActionTypes } from './actions';
 
 let ws: WebSocket | undefined;
 export const websocketMessages$ = new Subject<WS_MESSAGE>();

@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { withLatestFrom } from 'rxjs/operators';
 
 import { ofType } from '../../../ws/utils';
-import { WS_MESSAGE, WSActionTypes } from '../../../ws/types';
+import { WS_MESSAGE, WSActionTypes } from '../../../ws/actions';
 import { sendWSMessage } from '../../../ws/websockets';
 
 import {
