@@ -2,7 +2,7 @@ import React from 'react';
 
 import registerGame from '../../core/games/registerGame';
 
-import cover from './cover.jpg';
+import cover from './assets/cover.jpg';
 
 const reflexDuelInfo = {
   id: 'reflex-duel',

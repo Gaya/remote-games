@@ -1,0 +1,36 @@
+.ReflexDuel__Start {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ReflexDuel__Start__Title {
+    font-size: 10em;
+}
+
+.ReflexDuel__Start__CountDown {
+    font-size: 2em;
+}
+
+.ReflexDuel__PickFighter {
+    display: flex;
+    margin: 4em;
+}
+
+.ReflexDuel__PickFighter__Item {
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 2em;
+    margin: 2em;
+    cursor: pointer;
+}
+
+.ReflexDuel__PickFighter__Item:hover {
+    border-color: #F5F8FA;
+}
+
+.ReflexDuel__PickFighter__Item--active {
+    border-color: #3DCC91;
+    background: #182026;
+}

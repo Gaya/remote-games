@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 import {
   Button,
@@ -16,6 +16,7 @@ import Cover from '../Cover/Cover';
 
 import './Lobby.css';
 import Loading from './Loading';
+import { getStoredAutoConnect } from '../App/store/utils';
 
 const Lobby: React.FC = () => {
   const [state, actions] = useAppStore();
@@ -24,8 +25,13 @@ const Lobby: React.FC = () => {
   const room = useCurrentRoom(state);
   const users = useMappedUsers(state, room?.users);
 
-  if (!room) return null;
+  useEffect(() => {
+    if (getStoredAutoConnect() && room?.activeGame === '') {
+      actions.startGame('reflex-duel');
+    }
+  }, [actions, room]);
 
+  if (!room) return null;
 
   if (room.activeGame) {
     const Game = gamesDict[room.activeGame].game;
