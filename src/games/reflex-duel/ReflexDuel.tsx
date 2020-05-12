@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import useAppStore from '../../components/App/store/useStore';
 import {
@@ -11,7 +11,7 @@ import './ReflexDuel.css';
 
 import Start from './screens/Start/Start';
 import useReflexDuel from './store/useReflexDuel';
-import { MappedPlayers } from './types';
+import { Character, MappedPlayers } from './types';
 
 const ReflexDuel: React.FC = () => {
   const [state] = useAppStore();
@@ -41,6 +41,11 @@ const ReflexDuel: React.FC = () => {
     [players, users],
   );
 
+  const onChangeCharacter = useCallback((character: Character): void => {
+    if (!user) return;
+    actions.changeCharacter(user.id, character);
+  }, [actions, user]);
+
   const currentPlayer = mappedPlayers[user?.id || 0];
 
   if (!user || !currentPlayer) {
@@ -55,6 +60,7 @@ const ReflexDuel: React.FC = () => {
         waitingForPlayers={Object.keys(players).length < 2}
         players={mappedPlayers}
         player={currentPlayer}
+        onChangeCharacter={onChangeCharacter}
       />
     </div>
   );

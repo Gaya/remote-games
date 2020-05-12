@@ -16,11 +16,11 @@ interface StartProps {
   waitingForPlayers: boolean;
   players: MappedPlayers;
   player: MappedPlayer;
+  onChangeCharacter(character: Character): void;
 }
 
-const Start: React.FC<StartProps> = ({ waitingForPlayers, player }) => {
+const Start: React.FC<StartProps> = ({ waitingForPlayers, player, onChangeCharacter }) => {
   const [count, setCount] = useState<number>(30);
-  const [fighter, setFighter] = useState<Character>(Character.A);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -53,7 +53,7 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers, player }) => {
                   { 'ReflexDuel__PickFighter__Item--active': player.character === character },
                 )
               }
-              onClick={(): void => setFighter(character)}
+              onClick={(): void => onChangeCharacter(character)}
             >
               <Player character={character} pose={Pose.IDLE} />
             </button>
