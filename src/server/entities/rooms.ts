@@ -2,8 +2,8 @@ import shortid from 'shortid';
 
 import {
   WsRoom, WsRooms, WsUser, WsUserInfo,
-} from './types';
-import { log } from './logging';
+} from '../types';
+import { log } from '../logging';
 
 const currentRooms: WsRooms = {};
 

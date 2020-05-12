@@ -1,19 +1,17 @@
-import { WS_MESSAGE, WSActionTypes } from '../ws/types';
+import { WS_MESSAGE, WSActionTypes } from '../../ws/types';
 import {
   activeRoomGame,
   createRoom, endGame,
   joinRoom,
   leaveRoom,
-  roomUsers,
   roomUsersWithInfo,
-  roomUsersWithoutUser,
   startGame,
-} from './rooms';
-import { log } from './logging';
-import { WsUser } from './types';
-import { generateNickname } from './user';
+} from '../entities/rooms';
+import { log } from '../logging';
+import { WsUser } from '../types';
+import { generateNickname } from '../entities/user';
 
-const Controller = {
+const General = {
   createRoom(user: WsUser): void {
     const id = createRoom(user);
 
@@ -80,7 +78,7 @@ const Controller = {
   },
   generateNickname(user: WsUser): void {
     const nickname = generateNickname();
-    Controller.updateNickname(user, nickname);
+    General.updateNickname(user, nickname);
 
     log('Generated nickname:', user.nickname, user.id);
   },
@@ -108,23 +106,21 @@ const Controller = {
 function handleMessage(data: WS_MESSAGE, user: WsUser): void {
   switch (data.type) {
     case WSActionTypes.WS_CREATE_ROOM:
-      return Controller.createRoom(user);
+      return General.createRoom(user);
     case WSActionTypes.WS_LEAVE_ROOM:
-      return Controller.leaveRoom(user);
+      return General.leaveRoom(user);
     case WSActionTypes.WS_JOIN_ROOM:
-      return Controller.joinRoom(user, data.id);
+      return General.joinRoom(user, data.id);
     case WSActionTypes.WS_UPDATE_NICKNAME:
-      return Controller.updateNickname(user, data.nickname);
+      return General.updateNickname(user, data.nickname);
     case WSActionTypes.WS_REQUEST_NICKNAME:
-      return Controller.generateNickname(user);
+      return General.generateNickname(user);
     case WSActionTypes.WS_GAME_START:
-      return Controller.startGame(user, data.game);
+      return General.startGame(user, data.game);
     case WSActionTypes.WS_GAME_END:
-      return Controller.endGame(user);
-    default: {
-      log(`No method found for '${data.type}'`);
+      return General.endGame(user);
+    default:
       return undefined;
-    }
   }
 }
 

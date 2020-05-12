@@ -2,9 +2,9 @@ import WebSocket from 'ws';
 
 import { WS_MESSAGE, WSActionTypes } from '../ws/types';
 
-import { createUser } from './user';
+import { createUser } from './entities/user';
 import { log } from './logging';
-import handleMessage from './controller';
+import handleMessage from './controllers';
 
 const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '4000', 10) });
 

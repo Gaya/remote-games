@@ -5,10 +5,10 @@ import generateName from 'project-name-generator';
 import shortid from 'shortid';
 import WebSocket from 'ws';
 
-import { WS_MESSAGE } from '../ws/types';
+import { WS_MESSAGE } from '../../ws/types';
 
-import { WsUser, WsUserInfo } from './types';
-import { log } from './logging';
+import { WsUser, WsUserInfo } from '../types';
+import { log } from '../logging';
 import { roomUsersWithoutUser } from './rooms';
 
 export function generateNickname(): string {
