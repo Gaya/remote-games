@@ -1,3 +1,5 @@
+import { User } from '../../components/App/store/types';
+
 interface SpriteFrame {
   x1: number;
   x2: number;
@@ -23,4 +25,24 @@ export interface PlayerSprite {
 export enum Character {
   A = 'A',
   B = 'B',
+}
+
+interface Player {
+  id: string;
+  character: Character;
+  isReady: boolean;
+  wins: number;
+  loses: number;
+}
+
+export type MappedPlayer = Player & User;
+
+export interface MappedPlayers {
+  [id: string]: MappedPlayer;
+}
+
+export interface GameState {
+  players: {
+    [id: string]: Player;
+  };
 }

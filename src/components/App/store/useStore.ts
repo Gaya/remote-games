@@ -35,12 +35,12 @@ const appStore = createStore(
 );
 
 interface DispatchActions {
-  init: () => void;
-  retryConnect: () => void;
-  leaveRoom: () => void;
-  changeNickname: (nickname: string) => void;
-  startGame: (game: string) => void;
-  endGame: () => void;
+  init(): void;
+  retryConnect(): void;
+  leaveRoom(): void;
+  changeNickname(nickname: string): void;
+  startGame(game: string): void;
+  endGame(): void;
 }
 
 function useStore(): [AppState, DispatchActions] {

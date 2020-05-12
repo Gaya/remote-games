@@ -2,16 +2,23 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import Player from '../../components/Player/Player';
-import { Character, Pose } from '../../types';
+import {
+  Character,
+  MappedPlayer,
+  MappedPlayers,
+  Pose,
+} from '../../types';
 import background from '../../assets/bg.png';
 
 import './Start.css';
 
 interface StartProps {
   waitingForPlayers: boolean;
+  players: MappedPlayers;
+  player: MappedPlayer;
 }
 
-const Start: React.FC<StartProps> = ({ waitingForPlayers }) => {
+const Start: React.FC<StartProps> = ({ waitingForPlayers, player }) => {
   const [count, setCount] = useState<number>(30);
   const [fighter, setFighter] = useState<Character>(Character.A);
 
@@ -24,6 +31,11 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers }) => {
     return (): void => clearTimeout(timeout);
   }, [count, waitingForPlayers]);
 
+  const characters: Character[] = [
+    Character.A,
+    Character.B,
+  ];
+
   return (
     <div className="ReflexDuel__Start" style={{ backgroundImage: `url(${background})` }}>
       <h2 className="ReflexDuel__Start__Title">Reflex Duel</h2>
@@ -31,30 +43,21 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers }) => {
       <div className="ReflexDuel__PickFighter">
         <p>Pick a Fighter</p>
         <div className="ReflexDuel__PickFighter__Items">
-          <button
-            type="button"
-            className={
-              classNames(
-                'ReflexDuel__PickFighter__Item',
-                { 'ReflexDuel__PickFighter__Item--active': fighter === Character.A },
-              )
-            }
-            onClick={(): void => setFighter(Character.A)}
-          >
-            <Player character={Character.A} pose={Pose.IDLE} />
-          </button>
-          <button
-            type="button"
-            className={
-              classNames(
-                'ReflexDuel__PickFighter__Item',
-                { 'ReflexDuel__PickFighter__Item--active': fighter === Character.B },
-              )
-            }
-            onClick={(): void => setFighter(Character.B)}
-          >
-            <Player character={Character.B} pose={Pose.IDLE} />
-          </button>
+          {characters.map((character) => (
+            <button
+              key={character}
+              type="button"
+              className={
+                classNames(
+                  'ReflexDuel__PickFighter__Item',
+                  { 'ReflexDuel__PickFighter__Item--active': player.character === character },
+                )
+              }
+              onClick={(): void => setFighter(character)}
+            >
+              <Player character={character} pose={Pose.IDLE} />
+            </button>
+          ))}
         </div>
       </div>
 

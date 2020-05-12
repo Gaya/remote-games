@@ -64,7 +64,7 @@ const JoinRoom: React.FunctionComponent = () => {
           disabled={isBusy}
           loading={isCreating}
           intent={Intent.SUCCESS}
-          text="Create new JoinRoom"
+          text="Create new Room"
           onClick={createRoom}
         />
 
