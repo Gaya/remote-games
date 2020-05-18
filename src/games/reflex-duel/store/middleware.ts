@@ -7,10 +7,7 @@ import { WSReflexDuelActionTypes } from '../server/actions';
 function onRegisterPlayer(action: ReflexDuelAction): void {
   if (action.type !== ReflexDuelActionType.REGISTER_PLAYER) return;
 
-  sendWSMessage({
-    type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_REGISTER_PLAYER,
-    character: action.character,
-  });
+  sendWSMessage({ type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_REGISTER_PLAYER });
 }
 
 function onChangeCharacter(action: ReflexDuelAction): void {
@@ -22,4 +19,12 @@ function onChangeCharacter(action: ReflexDuelAction): void {
   });
 }
 
-export default [createLogMiddleware('ReflexDuel'), onRegisterPlayer, onChangeCharacter];
+function onStartDuel(action: ReflexDuelAction): void {
+  if (action.type !== ReflexDuelActionType.START_DUEL) return;
+
+  sendWSMessage({
+    type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_START_DUEL,
+  });
+}
+
+export default [createLogMiddleware('ReflexDuel'), onRegisterPlayer, onChangeCharacter, onStartDuel];

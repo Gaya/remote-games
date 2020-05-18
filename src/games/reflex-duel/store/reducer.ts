@@ -18,7 +18,7 @@ function reducer(state: GameState, action: ReflexDuelAction): GameState {
         ...state,
         players: {
           ...state.players,
-          [action.id]: createPlayer(action.id, action.character),
+          [action.id]: createPlayer(action.id),
         },
       };
     case ReflexDuelActionType.CHANGE_CHARACTER:

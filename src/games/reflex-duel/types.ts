@@ -29,8 +29,7 @@ export enum Character {
 
 export interface Player {
   id: string;
-  character: Character;
-  isReady: boolean;
+  character?: Character;
   wins: number;
   loses: number;
 }
@@ -42,6 +41,7 @@ export interface MappedPlayers {
 }
 
 export interface GameState {
+  isStarted: boolean;
   players: {
     [id: string]: Player;
   };

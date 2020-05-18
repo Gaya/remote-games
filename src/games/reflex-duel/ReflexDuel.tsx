@@ -48,6 +48,10 @@ const ReflexDuel: React.FC = () => {
 
   const currentPlayer = mappedPlayers[user?.id || 0];
 
+  const onStartDuel = useCallback(() => {
+    actions.startDuel();
+  }, [actions]);
+
   if (!user || !currentPlayer) {
     return (
       <div className="ReflexDuel" />
@@ -57,10 +61,10 @@ const ReflexDuel: React.FC = () => {
   return (
     <div className="ReflexDuel">
       <Start
-        waitingForPlayers={Object.keys(players).length < 2}
         players={mappedPlayers}
         player={currentPlayer}
         onChangeCharacter={onChangeCharacter}
+        onStartDuel={onStartDuel}
       />
     </div>
   );

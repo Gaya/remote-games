@@ -8,14 +8,14 @@ import { createPlayer } from '../utils';
 const currentGames: { [key: string]: GameState } = {};
 
 const ReflexDuel = {
-  registerPlayer(user: WsUser, character: Character): void {
+  registerPlayer(user: WsUser): void {
     const room = user.currentRoom;
 
     if (!currentGames[room]) {
-      currentGames[room] = { players: {} };
+      currentGames[room] = { isStarted: false, players: {} };
     }
 
-    const player = createPlayer(user.id, character);
+    const player = createPlayer(user.id);
 
     // add player to room
     currentGames[room].players = {
@@ -56,14 +56,23 @@ const ReflexDuel = {
       character,
     });
   },
+  startDuel(user: WsUser): void {
+    const room = user.currentRoom;
+
+    if (currentGames[room] && !currentGames[room].isStarted) {
+      currentGames[room].isStarted = true;
+    }
+  },
 };
 
 function handleMessage(data: WS_MSG, user: WsUser): void {
   switch (data.type) {
     case WSReflexDuelActionTypes.WS_REFLEX_DUEL_REGISTER_PLAYER:
-      return ReflexDuel.registerPlayer(user, data.character);
+      return ReflexDuel.registerPlayer(user);
     case WSReflexDuelActionTypes.WS_REFLEX_DUEL_CHANGE_CHARACTER:
       return ReflexDuel.changeCharacter(user, data.character);
+    case WSReflexDuelActionTypes.WS_REFLEX_DUEL_START_DUEL:
+      return ReflexDuel.startDuel(user);
     default:
       return undefined;
   }

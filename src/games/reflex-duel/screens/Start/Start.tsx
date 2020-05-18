@@ -13,32 +13,39 @@ import background from '../../assets/bg.png';
 import './Start.css';
 
 interface StartProps {
-  waitingForPlayers: boolean;
   players: MappedPlayers;
   player: MappedPlayer;
   onChangeCharacter(character: Character): void;
+  onStartDuel(): void;
 }
 
 const Start: React.FC<StartProps> = ({
-  waitingForPlayers, player, players, onChangeCharacter,
+  player, players, onChangeCharacter, onStartDuel,
 }) => {
-  const [count, setCount] = useState<number>(30);
+  const [count, setCount] = useState<number>(5);
+
+  const playerList = Object.entries(players);
+
+  const waitingForPlayers = playerList.length < 2 || playerList.some(([, p]) => !p.character);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      if (count === 0) {
+        onStartDuel();
+      }
+
       if (count < 1 || waitingForPlayers) return;
+
       setCount(count - 1);
     }, 1000);
 
     return (): void => clearTimeout(timeout);
-  }, [count, waitingForPlayers]);
+  }, [count, onStartDuel, waitingForPlayers]);
 
   const characters: Character[] = [
     Character.A,
     Character.B,
   ];
-
-  const playerList = Object.entries(players);
 
   return (
     <div className="ReflexDuel__Start" style={{ backgroundImage: `url(${background})` }}>
@@ -83,7 +90,7 @@ const Start: React.FC<StartProps> = ({
       </div>
 
       {waitingForPlayers && (
-        <p className="ReflexDuel__Start__CountDown">Waiting for others to join...</p>
+        <p className="ReflexDuel__Start__CountDown">Waiting for others...</p>
       )}
       {!waitingForPlayers && (
         <p className="ReflexDuel__Start__CountDown">

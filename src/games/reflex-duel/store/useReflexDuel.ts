@@ -4,10 +4,10 @@ import { Character, GameState } from '../types';
 import reducer from './reducer';
 import { ReflexDuelActionType } from './actions';
 import middleware from './middleware';
-import { randomCharacter } from '../utils';
 import listeners from './listeners';
 
 const defaultState: GameState = {
+  isStarted: false,
   players: {},
 };
 
@@ -21,6 +21,7 @@ const reflexDuelStore = createStore(
 interface DispatchActions {
   registerPlayer(id: string): void;
   changeCharacter(id: string, character: Character): void;
+  startDuel(): void;
 }
 
 function useReflexDuel(): [GameState, DispatchActions] {
@@ -33,7 +34,6 @@ function useReflexDuel(): [GameState, DispatchActions] {
       dispatch({
         type: ReflexDuelActionType.REGISTER_PLAYER,
         id,
-        character: randomCharacter(),
       });
     },
     changeCharacter(id: string, character: Character) {
@@ -41,6 +41,11 @@ function useReflexDuel(): [GameState, DispatchActions] {
         type: ReflexDuelActionType.CHANGE_CHARACTER,
         id,
         character,
+      });
+    },
+    startDuel() {
+      dispatch({
+        type: ReflexDuelActionType.START_DUEL,
       });
     },
   };
