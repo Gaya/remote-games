@@ -2,7 +2,7 @@ import createStore from '../../../core/stores/createStore';
 
 import { Character, GameState } from '../types';
 import reducer from './reducer';
-import { changeCharacter, registerPlayer } from './actions';
+import { ReflexDuelActionType } from './actions';
 import middleware from './middleware';
 
 const defaultState: GameState = {
@@ -27,10 +27,17 @@ function useReflexDuel(): [GameState, DispatchActions] {
 
   const mappedActions: DispatchActions = {
     registerPlayer(id: string) {
-      dispatch(registerPlayer(id));
+      dispatch({
+        type: ReflexDuelActionType.REGISTER_PLAYER,
+        id,
+      });
     },
     changeCharacter(id: string, character: Character) {
-      dispatch(changeCharacter(id, character));
+      dispatch({
+        type: ReflexDuelActionType.CHANGE_CHARACTER,
+        id,
+        character,
+      });
     },
   };
 
