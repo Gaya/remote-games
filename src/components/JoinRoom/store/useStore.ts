@@ -6,7 +6,7 @@ import reducer, { defaultState } from './reducer';
 import { RoomState } from './types';
 import middleware from './middleware';
 import listeners from './listeners';
-import { createRoom, joinRoom } from './actions';
+import { RoomActionType } from './actions';
 
 const appStore = createStore(reducer, defaultState, middleware, listeners);
 
@@ -22,10 +22,15 @@ function useStore(): [RoomState, DispatchActions] {
 
   const actions: DispatchActions = useMemo(() => ({
     createRoom(): void {
-      dispatch(createRoom());
+      dispatch({
+        type: RoomActionType.CREATE_ROOM,
+      });
     },
     joinRoom(id: string): void {
-      dispatch(joinRoom(id));
+      dispatch({
+        type: RoomActionType.JOIN_ROOM,
+        id,
+      });
     },
   }), [dispatch]);
 
