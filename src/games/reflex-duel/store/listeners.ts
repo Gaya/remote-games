@@ -24,7 +24,26 @@ function onRegisterPlayer(
     });
 }
 
-export default [onRegisterPlayer]
+function onChangedCharacter(
+  webSocketMessage$: Subject<WS_REFLEXDUEL_MESSAGE>,
+  dispatch: Dispatch<ReflexDuelAction>,
+): void {
+  webSocketMessage$
+    .pipe(
+      ofType(WSReflexDuelActionTypes.WS_REFLEX_DUEL_CHANGED_CHARACTER),
+    )
+    .subscribe((action) => {
+      if (action.type !== WSReflexDuelActionTypes.WS_REFLEX_DUEL_CHANGED_CHARACTER) return;
+
+      dispatch({
+        type: ReflexDuelActionType.CHANGED_CHARACTER,
+        id: action.id,
+        character: action.character,
+      });
+    });
+}
+
+export default [onRegisterPlayer, onChangedCharacter]
   .map((f) => (
     webSocketMessage$: Subject<WS_MSG>,
     dispatch: Dispatch<ReflexDuelAction>,

@@ -19,7 +19,9 @@ interface StartProps {
   onChangeCharacter(character: Character): void;
 }
 
-const Start: React.FC<StartProps> = ({ waitingForPlayers, player, onChangeCharacter }) => {
+const Start: React.FC<StartProps> = ({
+  waitingForPlayers, player, players, onChangeCharacter,
+}) => {
   const [count, setCount] = useState<number>(30);
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers, player, onChangeCharac
     Character.B,
   ];
 
+  const playerList = Object.entries(players);
+
   return (
     <div className="ReflexDuel__Start" style={{ backgroundImage: `url(${background})` }}>
       <h2 className="ReflexDuel__Start__Title">Reflex Duel</h2>
@@ -43,26 +47,38 @@ const Start: React.FC<StartProps> = ({ waitingForPlayers, player, onChangeCharac
       <div className="ReflexDuel__PickFighter">
         <p>Pick a Fighter</p>
         <div className="ReflexDuel__PickFighter__Items">
-          {characters.map((character) => (
-            <button
-              key={character}
-              type="button"
-              className={
-                classNames(
-                  'ReflexDuel__PickFighter__Item',
-                  { 'ReflexDuel__PickFighter__Item--active': player.character === character },
-                )
-              }
-              onClick={(): void => onChangeCharacter(character)}
-            >
-              {player.character === character && (
-                <span className="ReflexDuel__PickFighter__Item-Label">
-                  {player.nickname}
-                </span>
-              )}
-              <Player character={character} pose={Pose.IDLE} />
-            </button>
-          ))}
+          {characters.map((character) => {
+            const isActive = playerList.some(([, p]) => p.character === character);
+
+            return (
+              <button
+                key={character}
+                type="button"
+                className={
+                  classNames(
+                    'ReflexDuel__PickFighter__Item',
+                    {
+                      'ReflexDuel__PickFighter__Item--active': isActive,
+                      'ReflexDuel__PickFighter__Item--active-player': player.character === character,
+                    },
+                  )
+                }
+                onClick={(): void => onChangeCharacter(character)}
+              >
+                {playerList.map(([id, p]) => p.character === character && (
+                  <span
+                    key={id}
+                    className={classNames('ReflexDuel__PickFighter__Item-Label', {
+                      'ReflexDuel__PickFighter__Item-Label--player': player.id === p.id,
+                    })}
+                  >
+                    {p.nickname}
+                  </span>
+                ))}
+                <Player character={character} pose={Pose.IDLE} />
+              </button>
+            );
+          })}
         </div>
       </div>
 

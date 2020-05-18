@@ -47,11 +47,19 @@
 }
 
 .ReflexDuel__PickFighter__Item-Label {
-    background: #3DCC91;
+    background: #48AFF0;
     padding: 0.2em 1em;
     position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.ReflexDuel__PickFighter__Item-Label--player {
+    background: #3DCC91;
     top: 0;
     left: 0;
+    bottom: auto;
+    right: auto;
 }
 
 .ReflexDuel__PickFighter__Item:hover {
@@ -63,5 +71,9 @@
 }
 
 .ReflexDuel__PickFighter__Item--active {
+    border-color: #48AFF0;
+}
+
+.ReflexDuel__PickFighter__Item--active-player {
     border-color: #3DCC91;
 }

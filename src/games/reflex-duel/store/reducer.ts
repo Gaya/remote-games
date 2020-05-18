@@ -22,6 +22,7 @@ function reducer(state: GameState, action: ReflexDuelAction): GameState {
         },
       };
     case ReflexDuelActionType.CHANGE_CHARACTER:
+    case ReflexDuelActionType.CHANGED_CHARACTER:
       return {
         ...state,
         players: replaceAtId(state.players, {
