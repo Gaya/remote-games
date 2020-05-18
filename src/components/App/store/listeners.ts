@@ -6,17 +6,7 @@ import { ofType } from '../../../ws/utils';
 import { WS_MESSAGE, WSActionTypes } from '../../../ws/actions';
 import { sendWSMessage } from '../../../ws/websockets';
 
-import {
-  AppActions,
-  closedWS, endedGame,
-  failedWS,
-  joinRoom,
-  openWS,
-  startedGame,
-  updatedNickname,
-  userJoinedRoom,
-  userLeftRoom,
-} from './actions';
+import { AppActions, AppActionType } from './actions';
 import { AppState } from './types';
 import { getStoredNickname } from './utils';
 
@@ -31,7 +21,10 @@ function onConnectionOpen(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_OPEN_CONNECTION) return;
 
-      dispatch(openWS(action.id));
+      dispatch({
+        type: AppActionType.OPEN_WS,
+        id: action.id,
+      });
 
       const nickname = getStoredNickname();
 
@@ -55,7 +48,7 @@ function onCloseConnection(
       ofType(WSActionTypes.WS_CLOSE_CONNECTION),
     )
     .subscribe(() => {
-      dispatch(closedWS());
+      dispatch({ type: AppActionType.CLOSED_WS });
     });
 }
 
@@ -68,7 +61,7 @@ function onConnectionFailed(
       ofType(WSActionTypes.WS_FAILED_CONNECTION),
     )
     .subscribe(() => {
-      dispatch(failedWS());
+      dispatch({ type: AppActionType.FAILED_WS });
     });
 }
 
@@ -85,7 +78,12 @@ function onCreateRoom(
     .subscribe(([action, state]) => {
       if (action.type !== WSActionTypes.WS_CREATED_ROOM) return;
 
-      dispatch(joinRoom(action.id, [state.users[state.app.userId]], ''));
+      dispatch({
+        type: AppActionType.JOIN_ROOM,
+        id: action.id,
+        users: [state.users[state.app.userId]],
+        activeGame: '',
+      });
     });
 }
 
@@ -100,7 +98,12 @@ function onJoinRoom(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_JOINED_ROOM) return;
 
-      dispatch(joinRoom(action.id, action.users, action.activeGame));
+      dispatch({
+        type: AppActionType.JOIN_ROOM,
+        id: action.id,
+        users: action.users,
+        activeGame: action.activeGame,
+      });
     });
 }
 
@@ -115,7 +118,11 @@ function onUserJoinedRoom(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_USER_JOINED_ROOM) return;
 
-      dispatch(userJoinedRoom(action.id, action.user));
+      dispatch({
+        type: AppActionType.USER_JOINED_ROOM,
+        id: action.id,
+        user: action.user,
+      });
     });
 }
 
@@ -130,7 +137,11 @@ function onUserLeftRoom(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_USER_LEFT_ROOM) return;
 
-      dispatch(userLeftRoom(action.id, action.userId));
+      dispatch({
+        type: AppActionType.USER_LEFT_ROOM,
+        id: action.id,
+        userId: action.userId,
+      });
     });
 }
 
@@ -145,7 +156,11 @@ function onUpdatedNickname(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_UPDATED_NICKNAME) return;
 
-      dispatch(updatedNickname(action.id, action.nickname));
+      dispatch({
+        type: AppActionType.UPDATED_NICKNAME,
+        id: action.id,
+        nickname: action.nickname,
+      });
     });
 }
 
@@ -160,7 +175,10 @@ function onGameStarted(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_GAME_STARTED) return;
 
-      dispatch(startedGame(action.game));
+      dispatch({
+        type: AppActionType.GAME_STARTED,
+        game: action.game,
+      });
     });
 }
 
@@ -175,7 +193,7 @@ function onGameEnded(
     .subscribe((action) => {
       if (action.type !== WSActionTypes.WS_GAME_ENDED) return;
 
-      dispatch(endedGame());
+      dispatch({ type: AppActionType.GAME_ENDED });
     });
 }
 

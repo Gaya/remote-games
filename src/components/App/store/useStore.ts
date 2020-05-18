@@ -4,14 +4,7 @@ import createStore from '../../../core/stores/createStore';
 
 import reducer from './reducer';
 import { AppState } from './types';
-import {
-  endGame,
-  initApp,
-  leaveRoom,
-  retryWS,
-  startGame,
-  updateNickname,
-} from './actions';
+import { AppActionType } from './actions';
 import middleware from './middleware';
 import listeners from './listeners';
 
@@ -50,22 +43,28 @@ function useStore(): [AppState, DispatchActions] {
 
   const actions: DispatchActions = useMemo(() => ({
     init(): void {
-      dispatch(initApp());
+      dispatch({ type: AppActionType.INIT });
     },
     retryConnect(): void {
-      dispatch(retryWS());
+      dispatch({ type: AppActionType.RETRY_WS });
     },
     leaveRoom(): void {
-      dispatch(leaveRoom());
+      dispatch({ type: AppActionType.LEAVE_ROOM });
     },
     changeNickname(nickname: string): void {
-      dispatch(updateNickname(nickname));
+      dispatch({
+        type: AppActionType.UPDATE_NICKNAME,
+        nickname,
+      });
     },
     startGame(game: string): void {
-      dispatch(startGame(game));
+      dispatch({
+        type: AppActionType.GAME_START,
+        game,
+      });
     },
     endGame(): void {
-      dispatch(endGame());
+      dispatch({ type: AppActionType.GAME_END });
     },
   }), [dispatch]);
 
