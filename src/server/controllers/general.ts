@@ -103,20 +103,22 @@ const General = {
   },
 };
 
-function handleMessage(data: WS_MESSAGE, user: WsUser): void {
-  switch (data.type) {
+function handleMessage(data: unknown, user: WsUser): void {
+  const message = data as WS_MESSAGE;
+
+  switch (message.type) {
     case WSActionTypes.WS_CREATE_ROOM:
       return General.createRoom(user);
     case WSActionTypes.WS_LEAVE_ROOM:
       return General.leaveRoom(user);
     case WSActionTypes.WS_JOIN_ROOM:
-      return General.joinRoom(user, data.id);
+      return General.joinRoom(user, message.id);
     case WSActionTypes.WS_UPDATE_NICKNAME:
-      return General.updateNickname(user, data.nickname);
+      return General.updateNickname(user, message.nickname);
     case WSActionTypes.WS_REQUEST_NICKNAME:
       return General.generateNickname(user);
     case WSActionTypes.WS_GAME_START:
-      return General.startGame(user, data.game);
+      return General.startGame(user, message.game);
     case WSActionTypes.WS_GAME_END:
       return General.endGame(user);
     default:

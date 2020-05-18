@@ -3,9 +3,9 @@ import { Subject } from 'rxjs';
 import { WS_MESSAGE, WSActionTypes } from './actions';
 
 let ws: WebSocket | undefined;
-export const websocketMessages$ = new Subject<WS_MESSAGE>();
+export const websocketMessages$ = new Subject<unknown>();
 
-export function sendWSMessage(message: WS_MESSAGE): Subject<WS_MESSAGE> {
+export function sendWSMessage(message: unknown): Subject<unknown> {
   if (ws) {
     ws.send(JSON.stringify(message));
   }

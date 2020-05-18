@@ -5,7 +5,6 @@ import {
 } from 'react';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { WS_MESSAGE } from '../../ws/actions';
 import { websocketMessages$ } from '../../ws/websockets';
 
 interface Store<SS, SA> {
@@ -13,6 +12,9 @@ interface Store<SS, SA> {
   dispatch: (action: SA) => void;
   useStoreState: () => SS;
 }
+
+export type WebsocketListener<SS, SA> =
+  (wsm$: Subject<unknown>, dispatch: Dispatch<SA>, ss$: Subject<SS>) => void;
 
 /*
   Creates a store hook which can be used as a hook in functional components
@@ -24,8 +26,7 @@ export default function createStore<SS, SA>(
   reducer: (state: SS, action: SA) => SS,
   initialState: SS,
   middleware: ((action: SA, state: SS, dispatch: Dispatch<SA>, nextState: SS) => void)[] = [],
-  websocketListeners:
-    ((wsm$: Subject<WS_MESSAGE>, dispatch: Dispatch<SA>, ss$: Subject<SS>) => void)[] = [],
+  websocketListeners: WebsocketListener<SS, SA>[] = [],
 ): Store<SS, SA> {
   const storeState$ = new BehaviorSubject<SS>(initialState);
 

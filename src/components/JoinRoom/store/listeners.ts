@@ -52,4 +52,10 @@ function onJoinFailed(
     });
 }
 
-export default [onJoinRoom, onCreateFailed, onJoinFailed];
+export default [onJoinRoom, onCreateFailed, onJoinFailed]
+  .map((f) => (
+    webSocketMessage$: Subject<unknown>,
+    dispatch: Dispatch<RoomActions>,
+  ): void => {
+    f(webSocketMessage$ as Subject<WS_MESSAGE>, dispatch);
+  });

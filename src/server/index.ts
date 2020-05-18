@@ -34,7 +34,7 @@ wss.on('connection', (ws) => {
   ws.on('message', (message: string) => {
     log('Received:', message, user.id);
 
-    const data: WS_MESSAGE = JSON.parse(message);
+    const data = JSON.parse(message);
 
     handleMessage(data, user);
   });

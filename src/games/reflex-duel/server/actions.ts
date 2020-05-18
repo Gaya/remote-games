@@ -10,4 +10,4 @@ interface ChangeCharacter {
   character: Character;
 }
 
-export type WSReflexDuel = ChangeCharacter;
+export type WS_REFLEXDUEL_MESSAGE = ChangeCharacter;

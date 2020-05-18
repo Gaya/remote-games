@@ -180,4 +180,11 @@ function onGameEnded(
 }
 
 export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
-  onCloseConnection, onUserJoinedRoom, onUserLeftRoom, onGameStarted, onGameEnded];
+  onCloseConnection, onUserJoinedRoom, onUserLeftRoom, onGameStarted, onGameEnded]
+  .map((f) => (
+    webSocketMessage$: Subject<unknown>,
+    dispatch: Dispatch<AppActions>,
+    state$: Subject<AppState>,
+  ): void => {
+    f(webSocketMessage$ as Subject<WS_MESSAGE>, dispatch, state$);
+  });
