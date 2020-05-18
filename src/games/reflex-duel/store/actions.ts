@@ -8,6 +8,7 @@ export enum ReflexDuelActionType {
 interface RegisterPlayer {
   type: ReflexDuelActionType.REGISTER_PLAYER;
   id: string;
+  character: Character;
 }
 
 interface ChangeCharacter {

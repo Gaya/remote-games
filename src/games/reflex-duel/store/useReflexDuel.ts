@@ -4,6 +4,7 @@ import { Character, GameState } from '../types';
 import reducer from './reducer';
 import { ReflexDuelActionType } from './actions';
 import middleware from './middleware';
+import { randomCharacter } from '../utils';
 
 const defaultState: GameState = {
   players: {},
@@ -30,6 +31,7 @@ function useReflexDuel(): [GameState, DispatchActions] {
       dispatch({
         type: ReflexDuelActionType.REGISTER_PLAYER,
         id,
+        character: randomCharacter(),
       });
     },
     changeCharacter(id: string, character: Character) {

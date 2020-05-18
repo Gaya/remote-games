@@ -1,11 +1,12 @@
 import { Subject } from 'rxjs';
 
-import { WS_MESSAGE, WSActionTypes } from './actions';
+import { WSActionTypes } from './actions';
+import { WS_MSG } from '../server/types';
 
 let ws: WebSocket | undefined;
-export const websocketMessages$ = new Subject<unknown>();
+export const websocketMessages$ = new Subject<WS_MSG>();
 
-export function sendWSMessage(message: unknown): Subject<unknown> {
+export function sendWSMessage(message: WS_MSG): Subject<WS_MSG> {
   if (ws) {
     ws.send(JSON.stringify(message));
   }
@@ -23,7 +24,7 @@ export default function openWebSocketConnection(): void {
     });
 
     ws.addEventListener('message', (message: { data: string }) => {
-      const data: WS_MESSAGE = JSON.parse(message.data);
+      const data: WS_MSG = JSON.parse(message.data);
       websocketMessages$.next(data);
     });
 

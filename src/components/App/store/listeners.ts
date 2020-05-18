@@ -9,6 +9,7 @@ import { sendWSMessage } from '../../../ws/websockets';
 import { AppActions, AppActionType } from './actions';
 import { AppState } from './types';
 import { getStoredNickname } from './utils';
+import { WS_MSG } from '../../../server/types';
 
 function onConnectionOpen(
   webSocketMessage$: Subject<WS_MESSAGE>,
@@ -200,7 +201,7 @@ function onGameEnded(
 export default [onConnectionOpen, onConnectionFailed, onJoinRoom, onUpdatedNickname, onCreateRoom,
   onCloseConnection, onUserJoinedRoom, onUserLeftRoom, onGameStarted, onGameEnded]
   .map((f) => (
-    webSocketMessage$: Subject<unknown>,
+    webSocketMessage$: Subject<WS_MSG>,
     dispatch: Dispatch<AppActions>,
     state$: Subject<AppState>,
   ): void => {

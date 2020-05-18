@@ -5,6 +5,7 @@ import { WS_MESSAGE, WSActionTypes } from '../../../ws/actions';
 import { ofType } from '../../../ws/utils';
 
 import { RoomActions, RoomActionType } from './actions';
+import { WS_MSG } from '../../../server/types';
 
 function onJoinRoom(
   webSocketMessage$: Subject<WS_MESSAGE>,
@@ -57,7 +58,7 @@ function onJoinFailed(
 
 export default [onJoinRoom, onCreateFailed, onJoinFailed]
   .map((f) => (
-    webSocketMessage$: Subject<unknown>,
+    webSocketMessage$: Subject<WS_MSG>,
     dispatch: Dispatch<RoomActions>,
   ): void => {
     f(webSocketMessage$ as Subject<WS_MESSAGE>, dispatch);

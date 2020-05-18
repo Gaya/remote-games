@@ -27,7 +27,7 @@ export enum Character {
   B = 'B',
 }
 
-interface Player {
+export interface Player {
   id: string;
   character: Character;
   isReady: boolean;

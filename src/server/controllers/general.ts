@@ -8,7 +8,7 @@ import {
   startGame,
 } from '../entities/rooms';
 import { log } from '../logging';
-import { WsUser } from '../types';
+import { WS_MSG, WsUser } from '../types';
 import { generateNickname } from '../entities/user';
 
 const General = {
@@ -103,22 +103,20 @@ const General = {
   },
 };
 
-function handleMessage(data: unknown, user: WsUser): void {
-  const message = data as WS_MESSAGE;
-
-  switch (message.type) {
+function handleMessage(data: WS_MSG, user: WsUser): void {
+  switch (data.type) {
     case WSActionTypes.WS_CREATE_ROOM:
       return General.createRoom(user);
     case WSActionTypes.WS_LEAVE_ROOM:
       return General.leaveRoom(user);
     case WSActionTypes.WS_JOIN_ROOM:
-      return General.joinRoom(user, message.id);
+      return General.joinRoom(user, data.id);
     case WSActionTypes.WS_UPDATE_NICKNAME:
-      return General.updateNickname(user, message.nickname);
+      return General.updateNickname(user, data.nickname);
     case WSActionTypes.WS_REQUEST_NICKNAME:
       return General.generateNickname(user);
     case WSActionTypes.WS_GAME_START:
-      return General.startGame(user, message.game);
+      return General.startGame(user, data.game);
     case WSActionTypes.WS_GAME_END:
       return General.endGame(user);
     default:
