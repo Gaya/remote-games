@@ -13,6 +13,7 @@ import background from '../../assets/bg.png';
 import './Start.css';
 
 interface StartProps {
+  countDownTime?: number;
   players: MappedPlayers;
   player: MappedPlayer;
   onChangeCharacter(character: Character): void;
@@ -20,9 +21,9 @@ interface StartProps {
 }
 
 const Start: React.FC<StartProps> = ({
-  player, players, onChangeCharacter, onStartDuel,
+  countDownTime = 5, player, players, onChangeCharacter, onStartDuel,
 }) => {
-  const [count, setCount] = useState<number>(5);
+  const [count, setCount] = useState<number>(countDownTime);
 
   const playerList = Object.entries(players);
 

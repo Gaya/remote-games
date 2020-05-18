@@ -12,6 +12,7 @@ import './ReflexDuel.css';
 import Start from './screens/Start/Start';
 import useReflexDuel from './store/useReflexDuel';
 import { Character, MappedPlayers } from './types';
+import Duel from './screens/Duel/Duel';
 
 const ReflexDuel: React.FC = () => {
   const [state] = useAppStore();
@@ -47,6 +48,10 @@ const ReflexDuel: React.FC = () => {
   }, [actions, user]);
 
   const currentPlayer = mappedPlayers[user?.id || 0];
+  const opponent = useMemo(
+    () => Object.entries(mappedPlayers).map(([, p]) => p).find((p) => p.id !== user?.id),
+    [mappedPlayers, user],
+  );
 
   const onStartDuel = useCallback(() => {
     actions.startDuel();
@@ -60,12 +65,21 @@ const ReflexDuel: React.FC = () => {
 
   return (
     <div className="ReflexDuel">
-      <Start
-        players={mappedPlayers}
-        player={currentPlayer}
-        onChangeCharacter={onChangeCharacter}
-        onStartDuel={onStartDuel}
-      />
+      {!reflexDuelState.isStarted && (
+        <Start
+          countDownTime={1}
+          players={mappedPlayers}
+          player={currentPlayer}
+          onChangeCharacter={onChangeCharacter}
+          onStartDuel={onStartDuel}
+        />
+      )}
+      {reflexDuelState.isStarted && (
+        <Duel
+          opponent={opponent}
+          player={currentPlayer}
+        />
+      )}
     </div>
   );
 };

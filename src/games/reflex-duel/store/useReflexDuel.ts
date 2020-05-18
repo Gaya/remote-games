@@ -7,7 +7,7 @@ import middleware from './middleware';
 import listeners from './listeners';
 
 const defaultState: GameState = {
-  isStarted: false,
+  isStarted: true,
   players: {},
 };
 

@@ -30,6 +30,11 @@ function reducer(state: GameState, action: ReflexDuelAction): GameState {
           character: action.character,
         }),
       };
+    case ReflexDuelActionType.START_DUEL:
+      return {
+        ...state,
+        isStarted: true,
+      };
     default:
       return state;
   }

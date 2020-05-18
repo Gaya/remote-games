@@ -1,0 +1,30 @@
+.ReflexDuel__Duel {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.ReflexDuel__View {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    padding-bottom: 56.2%
+}
+
+.ReflexDuel__Duel__Player {
+    position: absolute;
+    bottom: 3%;
+    left: 13%;
+}
+
+.ReflexDuel__Duel__P2 {
+    right: 13%;
+    left: auto;
+}
