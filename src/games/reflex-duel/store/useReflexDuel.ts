@@ -5,6 +5,7 @@ import reducer from './reducer';
 import { ReflexDuelActionType } from './actions';
 import middleware from './middleware';
 import { randomCharacter } from '../utils';
+import listeners from './listeners';
 
 const defaultState: GameState = {
   players: {},
@@ -14,6 +15,7 @@ const reflexDuelStore = createStore(
   reducer,
   defaultState,
   middleware,
+  listeners,
 );
 
 interface DispatchActions {

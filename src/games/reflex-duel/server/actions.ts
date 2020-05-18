@@ -1,4 +1,4 @@
-import { Character } from '../types';
+import { Character, Player } from '../types';
 
 export enum WSReflexDuelActionTypes {
   'WS_REFLEX_DUEL_REGISTER_PLAYER' = 'WS_REFLEX_DUEL_REGISTER_PLAYER',
@@ -14,7 +14,7 @@ interface RegisterPlayer {
 
 interface RegisteredPlayer {
   type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_REGISTERED_PLAYER;
-  id: string;
+  player: Player;
 }
 
 interface ChangeCharacter {

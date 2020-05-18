@@ -5,6 +5,14 @@ import { createPlayer } from '../utils';
 
 function reducer(state: GameState, action: ReflexDuelAction): GameState {
   switch (action.type) {
+    case ReflexDuelActionType.REGISTERED_PLAYER:
+      return {
+        ...state,
+        players: {
+          ...state.players,
+          [action.player.id]: action.player,
+        },
+      };
     case ReflexDuelActionType.REGISTER_PLAYER:
       return {
         ...state,

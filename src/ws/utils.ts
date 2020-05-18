@@ -1,8 +1,8 @@
 import { MonoTypeOperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { WS_MESSAGE, WSActionTypes } from './actions';
+import { WS_MSG } from '../server/types';
 
-export function ofType(...types: WSActionTypes[]): MonoTypeOperatorFunction<WS_MESSAGE> {
-  return filter((msg: WS_MESSAGE) => types.includes(msg.type));
+export function ofType(...types: string[]): MonoTypeOperatorFunction<WS_MSG> {
+  return filter((msg: WS_MSG) => types.includes(msg.type));
 }
