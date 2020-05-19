@@ -6,6 +6,7 @@ export enum WSReflexDuelActionTypes {
   'WS_REFLEX_DUEL_CHANGE_CHARACTER' = 'WS_REFLEX_DUEL_CHANGE_CHARACTER',
   'WS_REFLEX_DUEL_CHANGED_CHARACTER' = 'WS_REFLEX_DUEL_CHANGED_CHARACTER',
   'WS_REFLEX_DUEL_START_DUEL' = 'WS_REFLEX_DUEL_START_DUEL',
+  'WS_REFLEX_DUEL_PLAYER_READY' = 'WS_REFLEX_DUEL_PLAYER_READY',
 }
 
 interface RegisterPlayer {
@@ -32,5 +33,9 @@ interface StartDuel {
   type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_START_DUEL;
 }
 
+interface PlayerReady {
+  type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_PLAYER_READY;
+}
+
 export type WS_REFLEXDUEL_MESSAGE = RegisterPlayer | RegisteredPlayer | ChangeCharacter
-  | ChangedCharacter | StartDuel;
+  | ChangedCharacter | StartDuel | PlayerReady;

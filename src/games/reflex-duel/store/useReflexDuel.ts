@@ -7,7 +7,7 @@ import middleware from './middleware';
 import listeners from './listeners';
 
 const defaultState: GameState = {
-  isStarted: true,
+  isStarted: false,
   players: {},
 };
 
@@ -22,6 +22,7 @@ interface DispatchActions {
   registerPlayer(id: string): void;
   changeCharacter(id: string, character: Character): void;
   startDuel(): void;
+  playerReady(): void;
 }
 
 function useReflexDuel(): [GameState, DispatchActions] {
@@ -44,9 +45,10 @@ function useReflexDuel(): [GameState, DispatchActions] {
       });
     },
     startDuel() {
-      dispatch({
-        type: ReflexDuelActionType.START_DUEL,
-      });
+      dispatch({ type: ReflexDuelActionType.START_DUEL });
+    },
+    playerReady() {
+      dispatch({ type: ReflexDuelActionType.PLAYER_READY });
     },
   };
 

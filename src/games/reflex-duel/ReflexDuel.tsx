@@ -76,8 +76,10 @@ const ReflexDuel: React.FC = () => {
       )}
       {reflexDuelState.isStarted && (
         <Duel
-          opponent={opponent}
-          player={currentPlayer}
+          userId={user.id}
+          P1={currentPlayer}
+          P2={opponent}
+          onPlayerReady={actions.playerReady}
         />
       )}
     </div>

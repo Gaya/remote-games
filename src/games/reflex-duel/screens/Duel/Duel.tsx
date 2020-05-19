@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import background from '../../assets/bg2.png';
@@ -8,8 +8,10 @@ import Player from '../../components/Player/Player';
 import './Duel.css';
 
 interface DuelProps {
-  player: MappedPlayer;
-  opponent?: MappedPlayer;
+  userId: string;
+  onPlayerReady(): void;
+  P1?: MappedPlayer;
+  P2?: MappedPlayer;
 }
 
 enum DuelState {
@@ -19,11 +21,21 @@ enum DuelState {
   TIE = 'TIE',
   P1WIN = 'P1WIN',
   P2WIN = 'P2WIN',
+  P1TIE = 'P1TIE',
+  P2TIE = 'P2TIE',
+}
+
+enum PlayerState {
+  WAITING = 'WAITING',
+  READY = 'READY',
+  INPUT = 'INPUT',
 }
 
 function stateToPose(state: DuelState, player: 1 | 2): Pose {
   const p1win = state === DuelState.P1WIN;
   const p2win = state === DuelState.P2WIN;
+  const p1tie = state === DuelState.P1TIE;
+  const p2tie = state === DuelState.P2TIE;
 
   if ((player === 1 && p1win) || (player === 2 && p2win)) {
     return Pose.WIN;
@@ -33,6 +45,10 @@ function stateToPose(state: DuelState, player: 1 | 2): Pose {
     return Pose.LOSE;
   }
 
+  if (p1tie || p2tie) {
+    return Pose.IDLE;
+  }
+
   if (state === DuelState.TIE) {
     return Pose.WIN;
   }
@@ -40,28 +56,58 @@ function stateToPose(state: DuelState, player: 1 | 2): Pose {
   return Pose.STANCE;
 }
 
-const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
-  const [state, setState] = useState<DuelState>(DuelState.WAIT);
+const Duel: React.FC<DuelProps> = ({
+  userId, onPlayerReady, P1, P2,
+}) => {
+  const [state, setState] = useState<DuelState>(DuelState.IDLE);
+  const [input, setInput] = useState<PlayerState>(PlayerState.WAITING);
+
+  const isPlaying = P1?.id === userId;
 
   const isIdle = state === DuelState.IDLE;
   const showStrike = state === DuelState.STRIKE;
   const isWaiting = state === DuelState.WAIT;
-  const duelEnded = [DuelState.TIE, DuelState.P1WIN, DuelState.P2WIN].includes(state);
+  const duelEnded = [
+    DuelState.TIE,
+    DuelState.P1WIN,
+    DuelState.P2WIN,
+    DuelState.P1TIE,
+    DuelState.P2TIE,
+  ].includes(state);
+  const hasConclusion = [
+    DuelState.TIE,
+    DuelState.P1WIN,
+    DuelState.P2WIN,
+  ].includes(state);
+
+  useEffect(() => {
+    if (isPlaying && state === DuelState.IDLE && input === PlayerState.WAITING) {
+      setInput(PlayerState.READY);
+      onPlayerReady();
+    }
+  }, [input, isPlaying, onPlayerReady, state]);
 
   return (
     <div className="ReflexDuel__Duel">
       <div className="ReflexDuel__View" style={{ backgroundImage: `url(${background})` }}>
+        <div className="ReflexDuel__Message">
+          {state === DuelState.TIE && 'TIE!'}
+          {state === DuelState.P1WIN && `${P1?.nickname || 'P1'} WINS!`}
+          {state === DuelState.P2WIN && `${P2?.nickname || 'P2'} WINS!`}
+          {state === DuelState.P1TIE && `${P1?.nickname || 'P1'} TOO EARLY!`}
+          {state === DuelState.P2TIE && `${P2?.nickname || 'P2'} TOO EARLY!`}
+        </div>
         <div className={classNames('ReflexDuel__Wait', { 'ReflexDuel__Wait--show': isWaiting })} />
         <div
           className={classNames(
             'ReflexDuel__Duel__Player ReflexDuel__Duel__P1', {
-              'ReflexDuel__Duel__Player--end': duelEnded,
+              'ReflexDuel__Duel__Player--end': hasConclusion,
               'ReflexDuel__Duel__Player--tied': state === DuelState.TIE,
             },
           )}
         >
           <Player
-            character={player.character || Character.A}
+            character={P1?.character || Character.A}
             pose={stateToPose(state, 1)}
           />
         </div>
@@ -69,18 +115,19 @@ const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
         <div
           className={classNames(
             'ReflexDuel__Duel__Player ReflexDuel__Duel__P2', {
-              'ReflexDuel__Duel__Player--end': duelEnded,
+              'ReflexDuel__Duel__Player--end': hasConclusion,
               'ReflexDuel__Duel__Player--tied': state === DuelState.TIE,
             },
           )}
         >
           <Player
-            character={opponent?.character || Character.B}
+            character={P2?.character || Character.B}
             pose={stateToPose(state, 2)}
             flipped
           />
         </div>
       </div>
+
       <button
         type="button"
         className={classNames(
@@ -90,6 +137,7 @@ const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
       >
         !!
       </button>
+
       <div className="ReflexDuel__Debug">
         {isIdle && (
           <button type="button" onClick={(): void => { setState(DuelState.STRIKE); }}>
@@ -111,6 +159,12 @@ const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
             </button>
             <button type="button" onClick={(): void => { setState(DuelState.P2WIN); }}>
               P2 Wins
+            </button>
+            <button type="button" onClick={(): void => { setState(DuelState.P1TIE); }}>
+              P1 Ties
+            </button>
+            <button type="button" onClick={(): void => { setState(DuelState.P2TIE); }}>
+              P2 Ties
             </button>
           </>
         )}

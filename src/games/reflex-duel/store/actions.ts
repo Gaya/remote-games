@@ -6,6 +6,7 @@ export enum ReflexDuelActionType {
   CHANGE_CHARACTER = 'CHANGE_CHARACTER',
   CHANGED_CHARACTER = 'CHANGED_CHARACTER',
   START_DUEL = 'START_DUEL',
+  PLAYER_READY = 'PLAYER_READY',
 }
 
 interface RegisterPlayer {
@@ -34,5 +35,9 @@ interface StartDuel {
   type: ReflexDuelActionType.START_DUEL;
 }
 
+interface PlayerReady {
+  type: ReflexDuelActionType.PLAYER_READY;
+}
+
 export type ReflexDuelAction = RegisterPlayer | RegisteredPlayer | ChangeCharacter
-  | ChangedCharacter | StartDuel;
+  | ChangedCharacter | StartDuel | PlayerReady;

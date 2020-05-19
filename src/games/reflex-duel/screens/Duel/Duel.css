@@ -71,10 +71,13 @@
     color: #F5F8FA;
     opacity: 0;
     cursor: pointer;
+    text-shadow: #DB3737 10px 10px 0;
+    transition: transform 0.1s ease;
 }
 
 .ReflexDuel__StrikeIndicator--strike {
     opacity: 1;
+    transform: scale(1.3);
 }
 
 .ReflexDuel__Debug {
@@ -98,4 +101,23 @@
 .ReflexDuel__Wait--show {
     opacity: 1;
     transition: opacity 0.1s ease;
+}
+
+.ReflexDuel__Message {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 12em;
+    font-style: italic;
+    font-weight: bold;
+    text-shadow: #7157D9 10px 10px 0;
+    padding: 0.5em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1em;
 }

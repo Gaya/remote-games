@@ -27,4 +27,18 @@ function onStartDuel(action: ReflexDuelAction): void {
   });
 }
 
-export default [createLogMiddleware('ReflexDuel'), onRegisterPlayer, onChangeCharacter, onStartDuel];
+function onPlayerReady(action: ReflexDuelAction): void {
+  if (action.type !== ReflexDuelActionType.PLAYER_READY) return;
+
+  sendWSMessage({
+    type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_PLAYER_READY,
+  });
+}
+
+export default [
+  createLogMiddleware('ReflexDuel'),
+  onRegisterPlayer,
+  onChangeCharacter,
+  onStartDuel,
+  onPlayerReady,
+];
