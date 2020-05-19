@@ -23,6 +23,7 @@ interface DispatchActions {
   changeCharacter(id: string, character: Character): void;
   startDuel(): void;
   playerReady(): void;
+  onStrikeInput(speed: number): void;
 }
 
 function useReflexDuel(): [GameState, DispatchActions] {
@@ -49,6 +50,12 @@ function useReflexDuel(): [GameState, DispatchActions] {
     },
     playerReady() {
       dispatch({ type: ReflexDuelActionType.PLAYER_READY });
+    },
+    onStrikeInput(speed: number) {
+      dispatch({
+        type: ReflexDuelActionType.STRIKE_INPUT,
+        speed,
+      });
     },
   };
 

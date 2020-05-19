@@ -80,6 +80,7 @@ const ReflexDuel: React.FC = () => {
           P1={currentPlayer}
           P2={opponent}
           onPlayerReady={actions.playerReady}
+          onStrikeInput={actions.onStrikeInput}
         />
       )}
     </div>

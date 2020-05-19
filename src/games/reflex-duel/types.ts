@@ -14,6 +14,23 @@ export enum Pose {
   LOSE = 'LOSE',
 }
 
+export enum DuelState {
+  IDLE = 'IDLE',
+  STRIKE = 'STRIKE',
+  WAIT = 'WAIT',
+  TIE = 'TIE',
+  P1WIN = 'P1WIN',
+  P2WIN = 'P2WIN',
+  P1TIE = 'P1TIE',
+  P2TIE = 'P2TIE',
+}
+
+export enum PlayerState {
+  WAITING = 'WAITING',
+  READY = 'READY',
+  INPUT = 'INPUT',
+}
+
 export interface PlayerSprite {
   sprite: string;
   [Pose.IDLE]: SpriteFrame;
@@ -44,5 +61,20 @@ export interface GameState {
   isStarted: boolean;
   players: {
     [id: string]: Player;
+  };
+}
+
+export interface ServerGameState extends GameState {
+  duel: {
+    state: DuelState;
+    participants: {
+      [id: string]: PlayerState;
+    };
+    results: {
+      [id: string]: number;
+    };
+    timeouts: {
+      [id: string]: ReturnType<typeof setTimeout>;
+    };
   };
 }

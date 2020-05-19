@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import classNames from 'classnames';
 
 import background from '../../assets/bg2.png';
-import { Character, MappedPlayer, Pose } from '../../types';
+import {
+  Character, DuelState, MappedPlayer, PlayerState, Pose,
+} from '../../types';
 import Player from '../../components/Player/Player';
 
 import './Duel.css';
+import { websocketMessages$ } from '../../../../ws/websockets';
+import { ofType } from '../../../../ws/utils';
+import { WSReflexDuelActionTypes } from '../../server/actions';
 
 interface DuelProps {
   userId: string;
   onPlayerReady(): void;
+  onStrikeInput(speed: number): void;
   P1?: MappedPlayer;
   P2?: MappedPlayer;
-}
-
-enum DuelState {
-  IDLE = 'IDLE',
-  STRIKE = 'STRIKE',
-  WAIT = 'WAIT',
-  TIE = 'TIE',
-  P1WIN = 'P1WIN',
-  P2WIN = 'P2WIN',
-  P1TIE = 'P1TIE',
-  P2TIE = 'P2TIE',
-}
-
-enum PlayerState {
-  WAITING = 'WAITING',
-  READY = 'READY',
-  INPUT = 'INPUT',
 }
 
 function stateToPose(state: DuelState, player: 1 | 2): Pose {
@@ -57,11 +48,13 @@ function stateToPose(state: DuelState, player: 1 | 2): Pose {
 }
 
 const Duel: React.FC<DuelProps> = ({
-  userId, onPlayerReady, P1, P2,
+  userId, onPlayerReady, onStrikeInput, P1, P2,
 }) => {
   const [state, setState] = useState<DuelState>(DuelState.IDLE);
   const [input, setInput] = useState<PlayerState>(PlayerState.WAITING);
+  const inputTimer = useRef<number>(+new Date());
 
+  const enableDebug = false;
   const isPlaying = P1?.id === userId;
 
   const isIdle = state === DuelState.IDLE;
@@ -80,12 +73,40 @@ const Duel: React.FC<DuelProps> = ({
     DuelState.P2WIN,
   ].includes(state);
 
+  // tell server player is ready
   useEffect(() => {
     if (isPlaying && state === DuelState.IDLE && input === PlayerState.WAITING) {
       setInput(PlayerState.READY);
       onPlayerReady();
     }
   }, [input, isPlaying, onPlayerReady, state]);
+
+  // listen to strike message from server
+  useEffect(() => {
+    const subscription = websocketMessages$.pipe(
+      ofType(WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW),
+    )
+      .subscribe((action) => {
+        if (action.type !== WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW) return;
+
+        setState(DuelState.STRIKE);
+
+        inputTimer.current = +new Date();
+      });
+
+    return (): void => subscription.unsubscribe();
+  }, []);
+
+  const onStrike = useCallback(() => {
+    const time = +new Date();
+    const speed = time - inputTimer.current;
+
+    if (input === PlayerState.READY) {
+      setInput(PlayerState.INPUT);
+      setState(DuelState.WAIT);
+      onStrikeInput(speed);
+    }
+  }, [input, onStrikeInput]);
 
   return (
     <div className="ReflexDuel__Duel">
@@ -130,6 +151,7 @@ const Duel: React.FC<DuelProps> = ({
 
       <button
         type="button"
+        onClick={onStrike}
         className={classNames(
           'ReflexDuel__StrikeIndicator',
           { 'ReflexDuel__StrikeIndicator--strike': state === DuelState.STRIKE },
@@ -138,42 +160,44 @@ const Duel: React.FC<DuelProps> = ({
         !!
       </button>
 
-      <div className="ReflexDuel__Debug">
-        {isIdle && (
-          <button type="button" onClick={(): void => { setState(DuelState.STRIKE); }}>
-            Strike!
-          </button>
-        )}
-        {showStrike && (
-          <button type="button" onClick={(): void => { setState(DuelState.WAIT); }}>
-            Wait
-          </button>
-        )}
-        {isWaiting && (
-          <>
-            <button type="button" onClick={(): void => { setState(DuelState.TIE); }}>
-              Tie
+      {enableDebug && (
+        <div className="ReflexDuel__Debug">
+          {isIdle && (
+            <button type="button" onClick={(): void => { setState(DuelState.STRIKE); }}>
+              Strike!
             </button>
-            <button type="button" onClick={(): void => { setState(DuelState.P1WIN); }}>
-              P1 Wins
+          )}
+          {showStrike && (
+            <button type="button" onClick={(): void => { setState(DuelState.WAIT); }}>
+              Wait
             </button>
-            <button type="button" onClick={(): void => { setState(DuelState.P2WIN); }}>
-              P2 Wins
+          )}
+          {isWaiting && (
+            <>
+              <button type="button" onClick={(): void => { setState(DuelState.TIE); }}>
+                Tie
+              </button>
+              <button type="button" onClick={(): void => { setState(DuelState.P1WIN); }}>
+                P1 Wins
+              </button>
+              <button type="button" onClick={(): void => { setState(DuelState.P2WIN); }}>
+                P2 Wins
+              </button>
+              <button type="button" onClick={(): void => { setState(DuelState.P1TIE); }}>
+                P1 Ties
+              </button>
+              <button type="button" onClick={(): void => { setState(DuelState.P2TIE); }}>
+                P2 Ties
+              </button>
+            </>
+          )}
+          {duelEnded && (
+            <button type="button" onClick={(): void => { setState(DuelState.IDLE); }}>
+              Reset
             </button>
-            <button type="button" onClick={(): void => { setState(DuelState.P1TIE); }}>
-              P1 Ties
-            </button>
-            <button type="button" onClick={(): void => { setState(DuelState.P2TIE); }}>
-              P2 Ties
-            </button>
-          </>
-        )}
-        {duelEnded && (
-          <button type="button" onClick={(): void => { setState(DuelState.IDLE); }}>
-            Reset
-          </button>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

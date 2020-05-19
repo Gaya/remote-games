@@ -35,10 +35,20 @@ function onPlayerReady(action: ReflexDuelAction): void {
   });
 }
 
+function onStrikeInput(action: ReflexDuelAction): void {
+  if (action.type !== ReflexDuelActionType.STRIKE_INPUT) return;
+
+  sendWSMessage({
+    type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_INPUT,
+    speed: action.speed,
+  });
+}
+
 export default [
   createLogMiddleware('ReflexDuel'),
   onRegisterPlayer,
   onChangeCharacter,
   onStartDuel,
   onPlayerReady,
+  onStrikeInput,
 ];
