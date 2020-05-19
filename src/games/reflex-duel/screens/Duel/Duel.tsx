@@ -15,6 +15,7 @@ interface DuelProps {
 enum DuelState {
   IDLE = 'IDLE',
   STRIKE = 'STRIKE',
+  WAIT = 'WAIT',
   TIE = 'TIE',
   P1WIN = 'P1WIN',
   P2WIN = 'P2WIN',
@@ -32,22 +33,30 @@ function stateToPose(state: DuelState, player: 1 | 2): Pose {
     return Pose.LOSE;
   }
 
+  if (state === DuelState.TIE) {
+    return Pose.WIN;
+  }
+
   return Pose.STANCE;
 }
 
 const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
-  const [state, setState] = useState<DuelState>(DuelState.P1WIN);
+  const [state, setState] = useState<DuelState>(DuelState.WAIT);
 
+  const isIdle = state === DuelState.IDLE;
   const showStrike = state === DuelState.STRIKE;
+  const isWaiting = state === DuelState.WAIT;
   const duelEnded = [DuelState.TIE, DuelState.P1WIN, DuelState.P2WIN].includes(state);
 
   return (
     <div className="ReflexDuel__Duel">
       <div className="ReflexDuel__View" style={{ backgroundImage: `url(${background})` }}>
+        <div className={classNames('ReflexDuel__Wait', { 'ReflexDuel__Wait--show': isWaiting })} />
         <div
           className={classNames(
             'ReflexDuel__Duel__Player ReflexDuel__Duel__P1', {
               'ReflexDuel__Duel__Player--end': duelEnded,
+              'ReflexDuel__Duel__Player--tied': state === DuelState.TIE,
             },
           )}
         >
@@ -61,6 +70,7 @@ const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
           className={classNames(
             'ReflexDuel__Duel__Player ReflexDuel__Duel__P2', {
               'ReflexDuel__Duel__Player--end': duelEnded,
+              'ReflexDuel__Duel__Player--tied': state === DuelState.TIE,
             },
           )}
         >
@@ -81,12 +91,17 @@ const Duel: React.FC<DuelProps> = ({ opponent, player }) => {
         !!
       </button>
       <div className="ReflexDuel__Debug">
-        {!showStrike && !duelEnded && (
+        {isIdle && (
           <button type="button" onClick={(): void => { setState(DuelState.STRIKE); }}>
             Strike!
           </button>
         )}
         {showStrike && (
+          <button type="button" onClick={(): void => { setState(DuelState.WAIT); }}>
+            Wait
+          </button>
+        )}
+        {isWaiting && (
           <>
             <button type="button" onClick={(): void => { setState(DuelState.TIE); }}>
               Tie

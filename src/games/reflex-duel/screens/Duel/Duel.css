@@ -40,6 +40,16 @@
     right: 51%;
 }
 
+.ReflexDuel__Duel__Player--tied.ReflexDuel__Duel__P1 {
+    right: 47%;
+    left: auto;
+}
+
+.ReflexDuel__Duel__Player--tied.ReflexDuel__Duel__P2 {
+    left: 47%;
+    right: auto;
+}
+
 .ReflexDuel__StrikeIndicator {
     font-size: 15em;
     font-style: italic;
@@ -71,4 +81,21 @@
     z-index: 11;
     position: absolute;
     top: 10%;
+}
+
+.ReflexDuel__Wait {
+    z-index: 9;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.ReflexDuel__Wait--show {
+    opacity: 1;
+    transition: opacity 0.1s ease;
 }
