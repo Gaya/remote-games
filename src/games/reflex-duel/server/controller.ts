@@ -83,9 +83,9 @@ const ReflexDuel = {
     const players = Object.values(currentGames[room].duel.participants);
 
     if (players.length === 1 && players.every((state) => state === PlayerState.READY)) {
-      const waitingTime = Math.floor(Math.random() * 5000) + 2000;
+      const waitingTime = Math.floor(Math.random() * 5000) + 2300;
 
-      setTimeout(() => {
+      currentGames[room].duel.timeouts.strikeTimer = setTimeout(() => {
         currentGames[room].duel.state = DuelState.STRIKE;
         roomUsers(room).forEach((u) => u.sendMessage({
           type: WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW,
@@ -147,14 +147,15 @@ const ReflexDuel = {
     } else {
       // set a timer for auto triggering when no input from other
       const otherPlayer = Object.keys(currentGames[room].duel.participants).find((k) => k !== userId) || '';
+      const waitingTime = 100;
 
       currentGames[room].duel.timeouts[userId] = setTimeout(() => {
         ReflexDuel.strikeInput(
           room,
           otherPlayer,
-          speed + 300,
+          speed + waitingTime,
         );
-      }, 300);
+      }, waitingTime);
     }
   },
 };

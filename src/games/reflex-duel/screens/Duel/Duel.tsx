@@ -52,6 +52,7 @@ const Duel: React.FC<DuelProps> = ({
 }) => {
   const [state, setState] = useState<DuelState>(DuelState.IDLE);
   const [input, setInput] = useState<PlayerState>(PlayerState.WAITING);
+  const [showFade, setShowFade] = useState<boolean>(false);
   const inputTimer = useRef<number>(+new Date());
 
   const enableDebug = false;
@@ -84,18 +85,64 @@ const Duel: React.FC<DuelProps> = ({
   // listen to strike message from server
   useEffect(() => {
     const subscription = websocketMessages$.pipe(
-      ofType(WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW),
+      ofType(
+        WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW,
+        WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_WINNER,
+        WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_TIE,
+      ),
     )
       .subscribe((action) => {
-        if (action.type !== WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW) return;
+        if (action.type === WSReflexDuelActionTypes.WS_REFLEX_DUEL_STRIKE_NOW) {
+          setState(DuelState.STRIKE);
+          inputTimer.current = +new Date();
+        }
 
-        setState(DuelState.STRIKE);
+        if (
+          action.type === WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_WINNER
+          || action.type === WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_TIE
+        ) {
+          setState(DuelState.WAIT);
 
-        inputTimer.current = +new Date();
+          setTimeout(() => {
+            if (action.type === WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_WINNER) {
+              if (action.id === P1?.id) {
+                setState(DuelState.P1WIN);
+              }
+
+              if (action.id === P2?.id) {
+                setState(DuelState.P2WIN);
+              }
+            }
+
+            if (action.type === WSReflexDuelActionTypes.WS_REFLEX_DUEL_CALL_TIE) {
+              if (!action.id) {
+                setState(DuelState.TIE);
+              }
+
+              if (action.id && action.id === P1?.id) {
+                setState(DuelState.P1TIE);
+              }
+
+              if (action.id && action.id === P2?.id) {
+                setState(DuelState.P2TIE);
+              }
+            }
+
+            setTimeout(() => {
+              setInput(PlayerState.WAITING);
+              setShowFade(true);
+
+              setTimeout(() => {
+                setState(DuelState.IDLE);
+                setShowFade(false);
+              }, 1050);
+            }, 3000);
+          }, 1000);
+        }
       });
 
     return (): void => subscription.unsubscribe();
-  }, []);
+  }, [P1, P2]);
 
   const onStrike = useCallback(() => {
     const time = +new Date();
@@ -118,7 +165,13 @@ const Duel: React.FC<DuelProps> = ({
           {state === DuelState.P1TIE && `${P1?.nickname || 'P1'} TOO EARLY!`}
           {state === DuelState.P2TIE && `${P2?.nickname || 'P2'} TOO EARLY!`}
         </div>
-        <div className={classNames('ReflexDuel__Wait', { 'ReflexDuel__Wait--show': isWaiting })} />
+        <div className={
+            classNames('ReflexDuel__Wait', {
+              'ReflexDuel__Wait--show': isWaiting,
+              'ReflexDuel__Wait--fade': showFade,
+            })
+          }
+        />
         <div
           className={classNames(
             'ReflexDuel__Duel__Player ReflexDuel__Duel__P1', {
@@ -151,7 +204,7 @@ const Duel: React.FC<DuelProps> = ({
 
       <button
         type="button"
-        onClick={onStrike}
+        onMouseDown={onStrike}
         className={classNames(
           'ReflexDuel__StrikeIndicator',
           { 'ReflexDuel__StrikeIndicator--strike': state === DuelState.STRIKE },
