@@ -9,7 +9,7 @@ import { createUser } from './entities/user';
 import { log } from './logging';
 import handleMessage from './controllers';
 
-const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '5000', 10) });
+const wss = new WebSocket.Server({ port: parseInt(process.env.WS_PORT || '4000', 10) });
 
 wss.on('connection', (ws) => {
   // create user for session
