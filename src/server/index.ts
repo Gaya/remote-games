@@ -1,5 +1,8 @@
 import WebSocket from 'ws';
+import serveStatic from 'serve-static';
+import express from 'express';
 
+import * as path from 'path';
 import { WSActionTypes } from '../ws/actions';
 
 import { createUser } from './entities/user';
@@ -39,5 +42,12 @@ wss.on('connection', (ws) => {
     handleMessage(data, user);
   });
 });
+
+const serve = serveStatic(path.join(__dirname, '../../build'));
+const app = express();
+
+app.use(serve);
+
+app.listen(parseInt(process.env.PORT || '5000', 10));
 
 log('Server started');
