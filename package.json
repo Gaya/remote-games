@@ -45,7 +45,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "tsc": "tsc",
     "server": "ts-node -r dotenv/config --project ./src/server/tsconfig.json ./src/server/index.ts",
-    "production": "npm run build && npm run server"
+    "production": "ENV=production npm run build && npm run server"
   },
   "eslintConfig": {
     "extends": [
