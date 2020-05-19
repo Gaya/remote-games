@@ -21,10 +21,54 @@
 .ReflexDuel__Duel__Player {
     position: absolute;
     bottom: 3%;
+}
+
+.ReflexDuel__Duel__P1 {
     left: 13%;
 }
 
 .ReflexDuel__Duel__P2 {
     right: 13%;
     left: auto;
+}
+
+.ReflexDuel__Duel__Player--end.ReflexDuel__Duel__P1 {
+    left: 51%;
+}
+
+.ReflexDuel__Duel__Player--end.ReflexDuel__Duel__P2 {
+    right: 51%;
+}
+
+.ReflexDuel__StrikeIndicator {
+    font-size: 15em;
+    font-style: italic;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    color: #F5F8FA;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ReflexDuel__StrikeIndicator--strike {
+    opacity: 1;
+}
+
+.ReflexDuel__Debug {
+    z-index: 11;
+    position: absolute;
+    top: 10%;
 }
