@@ -7,7 +7,7 @@ export default function createLogMiddleware(name: string, showState = false): (
 ) => void {
 /* eslint-enable @typescript-eslint/no-explicit-any */
   return (action, state, dispatch, nextState): void => {
-    if (process.env.NODE_ENV !== 'development') return;
+    if (!process.env.REACT_APP_LOG_ACTIONS) return;
 
     /* eslint-disable no-console */
     console.group(`ACTION '${action.type}' ON '${name}'`);

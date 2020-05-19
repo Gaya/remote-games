@@ -67,7 +67,6 @@ const ReflexDuel: React.FC = () => {
     <div className="ReflexDuel">
       {!reflexDuelState.isStarted && (
         <Start
-          countDownTime={1}
           players={mappedPlayers}
           player={currentPlayer}
           onChangeCharacter={onChangeCharacter}
